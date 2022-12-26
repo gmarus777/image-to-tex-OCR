@@ -128,6 +128,11 @@ def invert_vocabulary(vocabulary):
         inverse_vocabulary[idx] = letter
     return inverse_vocabulary
 
+def load_dic(filename):
+    with open(filename) as f:
+        dic = json.loads(f.read())
+    return dic
+
 # NOT USED
 def generate_character_tokenizer(vocabulary_path):
     with open(CHARACTER_VOCABULARY_PATH) as f:

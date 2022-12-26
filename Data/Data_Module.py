@@ -8,6 +8,15 @@ import pytorch_lightning as pl
 from Data.label_transforms import Label_Transforms
 from Data.image_transforms import train_transform, test_transform
 from Data.Data_Server import Data_Server
+from Data.Base_Dataset import Base_Dataset
+from Data.vocabulary_utils import load_dic, invert_vocabulary
+
+
+# Use the following path when Loading a Vocabulary
+VOCABULARY_PATH = 'lightning_logs/256_character_1.json'
+
+
+
 
 
 
@@ -23,11 +32,11 @@ class Data_Module(pl.LightningDataModule):
                  stage='fit',
 
                  set_max_label_length=256,
-                 number_png_images_to_use_in_dataset=120,
+                 number_png_images_to_use_in_dataset=200*1000,
                  labels_transform='default',
-                 image_transform_name='torchvision',  # or 'alb'
+                 image_transform_name='alb',  # or 'alb'
 
-                 load_tokenizer = False,
+                 load_vocabulary = False,
                  train_test_fraction = .01,
                  train_val_fraction=0.8,
 
@@ -39,7 +48,6 @@ class Data_Module(pl.LightningDataModule):
                  num_workers=10,
                  data_on_gpu=False,
 
-                 max_number_to_render=150,  # placeholder for now needs implementation
                  ):
 
 
@@ -50,7 +58,7 @@ class Data_Module(pl.LightningDataModule):
         :param number_png_images_to_use_in_dataset:
         :param labels_transform:
         :param image_transform_name:
-        :param load_tokenizer:
+        :param load_vocabulary:
         :param train_test_fraction:
         :param train_val_fraction:
         :param image_height:
@@ -59,7 +67,7 @@ class Data_Module(pl.LightningDataModule):
         :param batch_size:
         :param num_workers:
         :param data_on_gpu:
-        :param max_number_to_render:
+
         '''
 
         super().__init__()
@@ -71,7 +79,7 @@ class Data_Module(pl.LightningDataModule):
         self.number_png_images_to_use_in_dataset = number_png_images_to_use_in_dataset
         self.labels_transform = labels_transform
 
-        self.load_tokenizer = load_tokenizer
+        self.load_vocabulary = load_vocabulary
 
 
         self.image_transform_name = image_transform_name
@@ -90,6 +98,11 @@ class Data_Module(pl.LightningDataModule):
         self.on_gpu = data_on_gpu
         self.shuffle_train = True
 
+
+        if load_vocabulary == True:
+            self.load_tokenizer()
+
+
         # Data Loaders will load model-feeding data here
         self.data_train: Union[BaseDataset, ConcatDataset]
         self.data_val: Union[BaseDataset, ConcatDataset]
@@ -97,18 +110,43 @@ class Data_Module(pl.LightningDataModule):
 
 
 
+
     # Uses images 'Data/generated_png_images/', formulas 'Data/final_png_formulas.txt'
     # and image filenames 'Data/corresponding_png_images.txt'
     # to generate a pandas tokenized dataframe
-
     def prepare_dataframe(self, *args, **kwargs):
         self.data_server = Data_Server(data_module=self)
         self.df = self.data_server.tokenized_dataframe
         self.vocabulary = self.data_server.vocabulary
         self.inverse_vocabulary = self.data_server.inverse_vocabulary
         self.max_label_length = self.data_server.max_label_length
+        self.vocab_size = len(self.vocabulary)
+        self.tokenizer = Label_Transforms(vocabulary=self.vocabulary,
+                                          labels_transform_name=self.labels_transform,
+                                          max_label_length=self.max_label_length)
+
+        self.labels_transform_function = self.tokenizer.convert_strings_to_labels
 
 
+
+
+    def load_tokenizer(self, *args, **kwargs):
+        self.vocabulary = load_dic(VOCABULARY_PATH)
+        self.vocab_size = len(self.vocabulary)
+        self.inverse_vocabulary = invert_vocabulary(self.vocabulary)
+        self.max_label_length =
+        self.tokenizer = Label_Transforms(vocabulary = self.vocabulary,
+                                          labels_transform_name = self.labels_transform,
+                                          max_label_length = self.set_max_label_length+2)
+
+        self.labels_transform_function = self.tokenizer.convert_strings_to_labels
+
+
+
+
+    def setup_data(self, stage = self.stage):
+        if stage == "fit" or stage is None:
+            data_tranval = Base_Dataset(data_module = self)
 
 
 
