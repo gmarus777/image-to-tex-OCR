@@ -24,6 +24,8 @@ VOCABULARY_PATH = 'lightning_logs/256_character_1.json'
 
 Start, End, Pad tokens are set in vocabulary_utils.py
 
+IMAGE_HEIGHT and IMAGE_WIDTH are set in image_transforms.py (Note this will just resize the generated images)
+
 '''
 
 class Data_Module(pl.LightningDataModule):
@@ -37,12 +39,8 @@ class Data_Module(pl.LightningDataModule):
                  image_transform_name='alb',  # or 'alb'
 
                  load_vocabulary = False,
-                 train_test_fraction = .01,
-                 train_val_fraction=0.8,
+                 train_val_fraction=0.9,
 
-                 image_height=64,
-                 image_width=512,
-                 augment_images=False,
 
                  batch_size=64,
                  num_workers=10,
@@ -61,8 +59,6 @@ class Data_Module(pl.LightningDataModule):
         :param load_vocabulary:
         :param train_test_fraction:
         :param train_val_fraction:
-        :param image_height:
-        :param image_width:
         :param augment_images:
         :param batch_size:
         :param num_workers:
@@ -81,15 +77,9 @@ class Data_Module(pl.LightningDataModule):
 
         self.load_vocabulary = load_vocabulary
 
-
         self.image_transform_name = image_transform_name
         self.image_transform_alb = train_transform
         self.image_transform_test = test_transform
-
-
-        self.image_height = image_height
-        self.image_width = image_width
-
 
         self.batch_size = batch_size
         self.num_workers = num_workers
@@ -153,6 +143,51 @@ class Data_Module(pl.LightningDataModule):
 
 
 
+    def train_dataloader(self, *args, **kwargs) -> DataLoader:
+        """
+        construct a dataloader for training data
+        data is shuffled !
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        return DataLoader(
+            self.data_train,
+            shuffle=self.shuffle_train,
+            batch_size=self.batch_size,
+            num_workers=self.num_workers,
+            pin_memory=self.on_gpu
+        )
+
+    def val_dataloader(self, *args, **kwargs):
+        """
+
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        return DataLoader(
+            self.data_val,
+            shuffle=False,
+            batch_size=self.batch_size,
+            num_workers=self.num_workers,
+            pin_memory=self.on_gpu
+        )
+
+    def test_dataloader(self, *args, **kwargs):
+        """
+
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        return DataLoader(
+            self.data_test,
+            shuffle=False,
+            batch_size=self.batch_size,
+            num_workers=self.num_workers,
+            pin_memory=self.on_gpu
+        )
 
 
 
