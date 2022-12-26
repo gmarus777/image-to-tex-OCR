@@ -5,6 +5,10 @@ import torch
 import json
 from torch.utils.data import ConcatDataset, DataLoader
 import pytorch_lightning as pl
+from Data.label_transforms import Label_Transforms
+from Data.image_transforms import train_transform, test_transform
+from Data.Data_Server import Data_Server
+
 
 
 '''
@@ -92,5 +96,16 @@ class Data_Module(pl.LightningDataModule):
 
 
 
+    # Uses images 'Data/generated_png_images/', formulas 'Data/final_png_formulas.txt'
+    # and image filenames 'Data/corresponding_png_images.txt'
+    # to generate a pandas tokenized dataframe
+
+    def prepare_data(self, *args, **kwargs):
+        self.data_server = Data_Server(datamodule=self)
+        self.raw_df = self.data_server.raw_dataframe
+
+
+        # self.dataframe = self.data_server.tokenized_dataframe
+        # self.max_label_length = self.data_server.max_label_length
 
 
