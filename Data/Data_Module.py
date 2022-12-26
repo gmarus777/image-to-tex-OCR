@@ -101,7 +101,7 @@ class Data_Module(pl.LightningDataModule):
     # and image filenames 'Data/corresponding_png_images.txt'
     # to generate a pandas tokenized dataframe
 
-    def prepare_data(self, *args, **kwargs):
+    def prepare_dataframe(self, *args, **kwargs):
         self.data_server = Data_Server(data_module=self)
         self.df = self.data_server.tokenized_dataframe
         self.vocabulary = self.data_server.vocabulary
