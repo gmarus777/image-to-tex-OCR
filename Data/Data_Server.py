@@ -8,45 +8,46 @@ import os
 import re
 import cv2
 from Data.configs import PrintedLatexDataConfig
+from Data.vocabulary_utils import create_vocabulary_dictionary_from_dataframe, make_vocabulary, invert_vocabulary
 
 
 
 
 class Data_Server:
     def __init__(self,
-                 datamodule = None,
-                 image_transform: str = 'to_tensor',
-                 labels_transform='BPE',
-                 BPE_set_vocab_size = 8000,
-                 train_val_fraction = 0.8,
-                 max_label_length = 128,
-                 max_number_to_render = 150,
-                 image_height = 64,
-                 image_width = 512,
-                 augment_images = False,
-                 number_tex_formulas_to_generate = 150,
-                 generate_tex_formulas = True,
-                 generate_svg_images_from_tex = True,
-                 generate_png_from_svg = True,
-                 download_tex_dataset = True,
-                 number_png_images_to_use_in_dataset = 120
+                 data_module = None,
                  ):
 
+        self.data_module = data_module
 
         # Non-tokenized dataframe
         self.raw_dataframe = self.get_statistics()
 
+        # tokenize and create the vocabulary
+        self.vocabulary_dataframe, tokenized_dataframe_no_max_label_length = self.run_tokenizer()
+
+        # pass the max_label_length
+        self.pretokenized_dataframe = tokenized_dataframe_no_max_label_length[tokenized_dataframe_no_max_label_length['tokenized_len'] < data_module.set_max_label_length]
+        self.tokenized_dataframe = self.pretokenized_dataframe[0:data_module.number_png_images_to_use_in_dataset]
+
+        self.max_label_length = max(self.tokenized_dataframe['tokenized_len']) + 2 # accounting for the Start and End Tokens
+        self.vocabulary = create_vocabulary_dictionary_from_dataframe(self.vocabulary_dataframe)
+
+        self.inverse_vocabulary = invert_vocabulary(self.vocabulary)
 
 
-
-
-########## Methods to generate Pandas DataFrame #########
+    ########## Methods to generate Pandas DataFrame, create a vocabulary and Tokenize #########
 
     def get_statistics(self):
         # get dataframe
         formulas_df = _get_dataframe()
 
         return _get_stats(formulas_df)
+
+
+    # creates a vocabulary of tokes used for further processing
+    def run_tokenizer(self):
+        return make_vocabulary(self.get_statistics())
 
 
 

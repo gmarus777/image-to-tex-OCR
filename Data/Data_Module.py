@@ -13,6 +13,7 @@ from Data.Data_Server import Data_Server
 
 '''
 
+Start, End, Pad tokens are set in vocabulary_utils.py
 
 '''
 
@@ -21,7 +22,7 @@ class Data_Module(pl.LightningDataModule):
     def __init__(self,
                  stage='fit',
 
-                 max_label_length=128,
+                 set_max_label_length=256,
                  number_png_images_to_use_in_dataset=120,
                  labels_transform='default',
                  image_transform_name='torchvision',  # or 'alb'
@@ -66,7 +67,7 @@ class Data_Module(pl.LightningDataModule):
         # Various input parameters
         self.stage = stage
 
-        self.max_output_label_length = max_label_length
+        self.set_max_label_length = set_max_label_length
         self.number_png_images_to_use_in_dataset = number_png_images_to_use_in_dataset
         self.labels_transform = labels_transform
 
@@ -101,8 +102,9 @@ class Data_Module(pl.LightningDataModule):
     # to generate a pandas tokenized dataframe
 
     def prepare_data(self, *args, **kwargs):
-        self.data_server = Data_Server(datamodule=self)
-        self.raw_df = self.data_server.raw_dataframe
+        self.data_server = Data_Server(data_module=self)
+
+
 
 
         # self.dataframe = self.data_server.tokenized_dataframe
