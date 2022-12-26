@@ -105,7 +105,9 @@ class Data_Module(pl.LightningDataModule):
         self.data_server = Data_Server(data_module=self)
         self.df = self.data_server.tokenized_dataframe
         self.vocabulary = self.data_server.vocabulary
+        self.inverse_vocabulary = self.data_server.inverse_vocabulary
         self.max_label_length = self.data_server.max_label_length
+
 
 
 
