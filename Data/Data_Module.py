@@ -8,7 +8,7 @@ import pytorch_lightning as pl
 from Data.label_transforms import Label_Transforms
 from Data.image_transforms import train_transform, test_transform
 from Data.Data_Server import Data_Server
-from Data.Base_Dataset import Base_Dataset
+from Data.Base_Dataset import Base_Dataset, split_dataset
 from Data.vocabulary_utils import load_dic, invert_vocabulary
 
 
@@ -94,7 +94,6 @@ class Data_Module(pl.LightningDataModule):
         self.batch_size = batch_size
         self.num_workers = num_workers
         self.train_val_fraction = train_val_fraction
-        self.max_number_to_render = max_number_to_render
         self.on_gpu = data_on_gpu
         self.shuffle_train = True
 
@@ -125,6 +124,7 @@ class Data_Module(pl.LightningDataModule):
                                           labels_transform_name=self.labels_transform,
                                           max_label_length=self.max_label_length)
 
+        # funciton to turn strings into labels via a tokenizer
         self.labels_transform_function = self.tokenizer.convert_strings_to_labels
 
 
@@ -134,23 +134,26 @@ class Data_Module(pl.LightningDataModule):
         self.vocabulary = load_dic(VOCABULARY_PATH)
         self.vocab_size = len(self.vocabulary)
         self.inverse_vocabulary = invert_vocabulary(self.vocabulary)
-        self.max_label_length =
         self.tokenizer = Label_Transforms(vocabulary = self.vocabulary,
                                           labels_transform_name = self.labels_transform,
                                           max_label_length = self.set_max_label_length+2)
 
+        # funciton to turn strings into labels via a tokenizer
         self.labels_transform_function = self.tokenizer.convert_strings_to_labels
 
 
 
 
-    def setup_data(self, stage = self.stage):
+    def setup_data(self):
+        stage = self.stage
+
         if stage == "fit" or stage is None:
-            data_tranval = Base_Dataset(data_module = self)
+            data_trainval = Base_Dataset(data_module = self)
+            self.data_train, self.data_val = split_dataset(base_dataset = data_trainval, fraction = self.train_val_fraction)
 
 
 
-        # self.dataframe = self.data_server.tokenized_dataframe
-        # self.max_label_length = self.data_server.max_label_length
+
+
 
 
