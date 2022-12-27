@@ -8,16 +8,15 @@ from torch import Tensor
 from Models.positional_encoding import PositionalEncoding1D, PositionalEncoding2D
 
 
-TF_DIM = 128 # Mbedding dimension change it to bigger
-TF_FC_DIM = 256
-TF_DROPOUT = 0.3
-TF_LAYERS = 4
-TF_NHEAD = 8
+
+TF_DIM = 128    # embedding_dim
+TF_FC_DIM = 256 # decoder fully connected dim
+TF_DROPOUT = 0.2 # decoder_dropout
+TF_LAYERS = 4   # decoder_layers
+TF_NHEAD = 8    # decoder_heads
 RESNET_DIM = 512  # hard-coded
 
 
-IMAGE_HEIGHT = 64
-IMAGE_WIDTH = 512
 
 # TODO: Pass parameters from the dataset
 
@@ -26,23 +25,34 @@ IMAGE_WIDTH = 512
 # dim_feedforward = TF_FC_DIM
 
 
+'''
+Image to Tex OCR:
+Resnet18 encoder with the first three layers and Transformer Decoder.
 
+'''
 class ResNetTransformer(nn.Module):
     def __init__(
         self,
         dataset = None,
         max_label_length = None,
         num_classes = None,
+        embedding_dim = TF_DIM,
+        decoder_heads = TF_NHEAD,
+        decoder_layers = TF_LAYERS,
+        decoder_dropout = TF_DROPOUT,
+        decoder_fc = TF_FC_DIM,
     ) -> None:
+
         super().__init__()
-        self.d_model = TF_DIM
-        self.max_output_len = max_label_length
-        self.sos_index = int(0) #int(dataset.vocabulary['<S>'])
-        self.eos_index =  int(1) #int(dataset.vocabulary['<E>'])
-        self.pad_index = int(2) # int(dataset.vocabulary['<P>'])
+        self.embedding_dim = embedding_dim
+        self.max_output_len = dataset.max_label_length
+        self.sos_index = int(dataset.vocabulary['<S>'])
+        self.eos_index =  int(dataset.vocabulary['<E>'])
+        self.pad_index =  int(dataset.vocabulary['<P>'])
         self.num_classes =int(len(dataset.vocabulary))
 
-        # Encoder
+
+        ### Encoder ###
         resnet = torchvision.models.resnet18(pretrained=False)
         self.backbone = nn.Sequential(
             resnet.conv1,
@@ -53,20 +63,22 @@ class ResNetTransformer(nn.Module):
             resnet.layer2,
             resnet.layer3,
         )
-        self.bottleneck = nn.Conv2d(256, self.d_model, 1) # in channels, out channels, stride
-        self.image_positional_encoder = PositionalEncoding2D(self.d_model)
+        self.bottleneck = nn.Conv2d(256, self.embedding_dim, 1) # in channels, out channels, stride
+        self.image_positional_encoder = PositionalEncoding2D(self.embedding_dim)
 
-        # Decoder- side
-        self.embedding = nn.Embedding(self.num_classes, self.d_model)
+        ### Decoder ###
+        self.embedding = nn.Embedding(self.num_classes, self.embedding_dim)
         self.y_mask = generate_square_subsequent_mask(self.max_output_len)
-        self.word_positional_encoder = PositionalEncoding1D(self.d_model, max_len=self.max_output_len)
-        transformer_decoder_layer = nn.TransformerDecoderLayer(self.d_model, TF_NHEAD, TF_FC_DIM, TF_DROPOUT)
-        self.transformer_decoder = nn.TransformerDecoder(transformer_decoder_layer, TF_LAYERS)
-        self.fc = nn.Linear(self.d_model, self.num_classes)
+        self.word_positional_encoder = PositionalEncoding1D(self.embedding_dim, max_len=self.max_output_len)
+        transformer_decoder_layer = nn.TransformerDecoderLayer(self.embedding_dim, decoder_heads, decoder_fc, decoder_dropout)
+        self.transformer_decoder = nn.TransformerDecoder(transformer_decoder_layer, decoder_layers)
+        self.fc = nn.Linear(self.embedding_dim, self.num_classes)
+
 
         # It is empirically important to initialize weights properly
         if self.training:
             self._init_weights()
+
 
     def _init_weights(self) -> None:
         """Initialize weights."""
@@ -85,6 +97,7 @@ class ResNetTransformer(nn.Module):
             _, fan_out = nn.init._calculate_fan_in_and_fan_out(self.bottleneck.weight.data)
             bound = 1 / math.sqrt(fan_out)
             nn.init.normal_(self.bottleneck.bias, -bound, bound)
+
 
     def forward(self, x: Tensor, y: Tensor) -> Tensor:
         """Forward pass.
@@ -131,7 +144,7 @@ class ResNetTransformer(nn.Module):
             (Sy, B, num_classes) logits
         """
         y = y.permute(1, 0)  # (Sy, B)
-        y = self.embedding(y) * math.sqrt(self.d_model)  # (Sy, B, E)
+        y = self.embedding(y) * math.sqrt(self.embedding_dim)  # (Sy, B, E)
         y = self.word_positional_encoder(y)  # (Sy, B, E)
         Sy = y.shape[0]
         y_mask = self.y_mask[:Sy, :Sy].type_as(encoded_x)  # (Sy, Sy)
