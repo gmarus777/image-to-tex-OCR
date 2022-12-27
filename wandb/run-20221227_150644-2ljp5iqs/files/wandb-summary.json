@@ -1,1 +1,0 @@
-{"validation/loss": 5.694451808929443, "_runtime": 41, "_timestamp": 1672171649, "_step": 2, "validation/cer": 0.9923580884933472, "train/loss": 5.579362392425537, "_wandb": {"runtime": 323}}
