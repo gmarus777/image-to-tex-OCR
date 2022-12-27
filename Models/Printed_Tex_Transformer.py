@@ -25,6 +25,8 @@ IMAGE_WIDTH = 512
 # self.max_output_len = dataset.max_label_length
 # dim_feedforward = TF_FC_DIM
 
+
+
 class ResNetTransformer(nn.Module):
     def __init__(
         self,
