@@ -1,0 +1,24 @@
+{
+    "os": "macOS-12.5.1-arm64-arm-64bit",
+    "python": "3.9.7",
+    "heartbeatAt": "2022-12-27T20:06:32.475441",
+    "startedAt": "2022-12-27T20:06:30.344809",
+    "docker": null,
+    "cpu_count": 10,
+    "cuda": null,
+    "args": [
+        "-f",
+        "/Users/gregory/Library/Jupyter/runtime/kernel-c8827028-d25a-4f29-b10d-b23d25bcad04.json"
+    ],
+    "state": "running",
+    "program": "PROJECT_AMINE/image-to-tex-OCR/Jupyter_Notebooks/LOCAL ResNet Transformer testing.ipynb",
+    "root": "/Users/gregory/PROJECT_ML/PROJECT_AMINE/image-to-tex-OCR",
+    "git": {
+        "remote": "git@github.com:gmarus777/image-to-tex-OCR.git",
+        "commit": "3fba14990d9227b7bf5970b78ddc80709ba8724a"
+    },
+    "email": "txe16@psu.edu",
+    "host": "MacBook-Pro-M1.local",
+    "username": "gregory",
+    "executable": "/Users/gregory/miniforge3/bin/python3.9"
+}
