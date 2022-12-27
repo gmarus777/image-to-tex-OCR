@@ -44,6 +44,7 @@ class ResNetTransformer(nn.Module):
     ) -> None:
 
         super().__init__()
+
         self.embedding_dim = embedding_dim
         self.max_output_len = dataset.max_label_length
         self.sos_index = int(dataset.vocabulary['<S>'])
