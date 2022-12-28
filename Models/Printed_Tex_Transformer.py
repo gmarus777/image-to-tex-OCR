@@ -11,7 +11,7 @@ from Models.positional_encoding import PositionalEncoding1D, PositionalEncoding2
 
 TF_DIM = 128    # embedding_dim
 TF_FC_DIM = 256 # decoder fully connected dim
-TF_DROPOUT = 0.2 # decoder_dropout
+TF_DROPOUT = 0.3 # decoder_dropout
 TF_LAYERS = 4   # decoder_layers
 TF_NHEAD = 8    # decoder_heads
 RESNET_DIM = 512  # hard-coded
@@ -48,14 +48,15 @@ class ResNetTransformer(nn.Module):
         self.embedding_dim = embedding_dim
 
         # Set maximum label length manually of from a dataset
-        if max_label_length is not None:
-            self.max_output_len = max_label_length
-        else:
-            self.max_output_len = dataset.max_label_length
+        # if max_label_length is not None:
+            # self.max_output_len = max_label_length
+        # else:
 
-        self.sos_index = int(dataset.vocabulary['<S>'])
-        self.eos_index =  int(dataset.vocabulary['<E>'])
-        self.pad_index =  int(dataset.vocabulary['<P>'])
+        self.max_output_len = dataset.max_label_length
+
+        self.sos_index = int(0) # int(dataset.vocabulary['<S>'])
+        self.eos_index =  int(1) # int(dataset.vocabulary['<E>'])
+        self.pad_index =  int(2) # int(dataset.vocabulary['<P>'])
         self.num_classes =int(len(dataset.vocabulary))
 
 
