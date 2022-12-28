@@ -134,8 +134,8 @@ class Data_Module(pl.LightningDataModule):
 
 
 
-    def setup(self):
-        stage = self.stage
+    def setup(self, stage = self.stage):
+        stage = stage
 
         if stage == "fit" or stage is None:
             data_trainval = Base_Dataset(data_module = self)
