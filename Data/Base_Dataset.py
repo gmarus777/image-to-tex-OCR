@@ -22,7 +22,7 @@ class Base_Dataset(Dataset):
         self.datamodule = data_module
         self.tokenizer = data_module.tokenizer
         self.dataframe = data_module.df
-
+        self.stage = data_module.stage
 
         # image filenames and corresponding tex formulas
         self.image_filenames = self.dataframe['image_name'].tolist()
