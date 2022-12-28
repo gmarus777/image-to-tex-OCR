@@ -31,7 +31,6 @@ IMAGE_HEIGHT and IMAGE_WIDTH are set in image_transforms.py (Note this will just
 class Data_Module(pl.LightningDataModule):
 
     def __init__(self,
-                 stage='fit',
 
                  set_max_label_length=256,
                  number_png_images_to_use_in_dataset=200*1000,
@@ -51,7 +50,6 @@ class Data_Module(pl.LightningDataModule):
 
         '''
 
-        :param stage:
         :param max_label_length:
         :param number_png_images_to_use_in_dataset:
         :param labels_transform:
@@ -69,7 +67,7 @@ class Data_Module(pl.LightningDataModule):
         super().__init__()
 
         # Various input parameters
-        self.stage = stage
+
 
         self.set_max_label_length = set_max_label_length
         self.number_png_images_to_use_in_dataset = number_png_images_to_use_in_dataset
@@ -134,8 +132,7 @@ class Data_Module(pl.LightningDataModule):
 
 
 
-    def setup(self, stage = self.stage):
-        stage = stage
+    def setup(self, stage = None):
 
         if stage == "fit" or stage is None:
             data_trainval = Base_Dataset(data_module = self)
