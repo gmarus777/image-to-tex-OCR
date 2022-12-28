@@ -30,7 +30,7 @@ class Data_Server:
         self.pretokenized_dataframe = tokenized_dataframe_no_max_label_length[tokenized_dataframe_no_max_label_length['tokenized_len'] < data_module.set_max_label_length]
         self.tokenized_dataframe = self.pretokenized_dataframe[0:data_module.number_png_images_to_use_in_dataset]
 
-        self.max_label_length = max(self.tokenized_dataframe['tokenized_len']) + 2 # accounting for the Start and End Tokens
+        self.max_label_length =  data_module.set_max_label_length + 2 # accounting for the Start and End Tokens
         self.vocabulary = create_vocabulary_dictionary_from_dataframe(self.vocabulary_dataframe)
 
         self.inverse_vocabulary = invert_vocabulary(self.vocabulary)
