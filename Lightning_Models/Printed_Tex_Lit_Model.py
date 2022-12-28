@@ -3,7 +3,8 @@ from typing import List
 
 import torch
 import torch.nn as nn
-from pytorch_lightning import LightningModule
+import pytorch_lightning as pl
+
 from Lightning_Models.metrics import CharacterErrorRate
 
 
@@ -12,7 +13,7 @@ try:
 except ModuleNotFoundError:
     pass
 
-class LitResNetTransformer(LightningModule):
+class LitResNetTransformer(pl.LightningModule):
     def __init__(
         self,
         model,

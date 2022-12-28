@@ -134,12 +134,16 @@ class Data_Module(pl.LightningDataModule):
 
 
 
-    def setup_data(self):
+    def setup(self):
         stage = self.stage
 
         if stage == "fit" or stage is None:
             data_trainval = Base_Dataset(data_module = self)
             self.data_train, self.data_val = split_dataset(base_dataset = data_trainval, fraction = self.train_val_fraction)
+            print('Train/Val Data is ready for Model loading.')
+
+        if stage == 'test':
+            self.data_test = self.data_server.serve_test_dataset()
 
 
 
