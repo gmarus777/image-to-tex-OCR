@@ -6,7 +6,7 @@ from Data.configs import PrintedLatexDataConfig
 import json
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Tuple, Union
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, ConcatDataset
 import PIL
 import smart_open
 from PIL import Image
