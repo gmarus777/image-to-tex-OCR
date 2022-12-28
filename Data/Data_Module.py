@@ -126,7 +126,7 @@ class Data_Module(pl.LightningDataModule):
         self.inverse_vocabulary = invert_vocabulary(self.vocabulary)
         self.tokenizer = Label_Transforms(vocabulary = self.vocabulary,
                                           labels_transform_name = self.labels_transform,
-                                          max_label_length = self.set_max_label_length+2)
+                                          max_label_length = int(self.set_max_label_length)+int(2))
 
         # funciton to turn strings into labels via a tokenizer
         self.labels_transform_function = self.tokenizer.convert_strings_to_labels

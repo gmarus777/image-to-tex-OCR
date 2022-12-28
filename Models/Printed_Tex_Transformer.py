@@ -46,7 +46,13 @@ class ResNetTransformer(nn.Module):
         super().__init__()
 
         self.embedding_dim = embedding_dim
-        self.max_output_len = dataset.max_label_length
+
+        # Set maximum label length manually of from a dataset
+        if max_label_length is not None:
+            self.max_output_len = max_label_length
+        else:
+            self.max_output_len = dataset.max_label_length
+
         self.sos_index = int(dataset.vocabulary['<S>'])
         self.eos_index =  int(dataset.vocabulary['<E>'])
         self.pad_index =  int(dataset.vocabulary['<P>'])
