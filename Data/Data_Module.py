@@ -103,7 +103,7 @@ class Data_Module(pl.LightningDataModule):
     # Uses images 'Data/generated_png_images/', formulas 'Data/final_png_formulas.txt'
     # and image filenames 'Data/corresponding_png_images.txt'
     # to generate a pandas tokenized dataframe
-    def prepare_dataframe(self, *args, **kwargs):
+    def prepare_data(self, *args, **kwargs):
         self.data_server = Data_Server(data_module=self)
         self.df = self.data_server.tokenized_dataframe
         self.vocabulary = self.data_server.vocabulary
@@ -142,7 +142,7 @@ class Data_Module(pl.LightningDataModule):
             print('Train/Val Data is ready for Model loading.')
 
         if stage == 'test':
-            self.data_test = self.data_server.serve_test_dataset()
+            self.data_test = [0]
 
 
 
