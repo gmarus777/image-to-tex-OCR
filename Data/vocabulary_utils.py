@@ -131,7 +131,8 @@ def invert_vocabulary(vocabulary):
 def load_dic(filename):
     with open(filename) as f:
         dic = json.loads(f.read())
-    return dic
+        dic_new = dict((k, int(v)) for k, v in dic.items())
+    return dic_new
 
 # NOT USED
 def generate_character_tokenizer(vocabulary_path):
