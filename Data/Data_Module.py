@@ -39,6 +39,8 @@ class Data_Module(pl.LightningDataModule):
                  image_transform_name='alb',  # or 'alb'
 
                  load_vocabulary = False,
+                 vocabulary_path = None,
+
                  train_val_fraction=0.9,
 
 
@@ -76,6 +78,7 @@ class Data_Module(pl.LightningDataModule):
         self.labels_transform = labels_transform
 
         self.load_vocabulary = load_vocabulary
+        self.vocabulary_path = vocabulary_path
 
         self.image_transform_name = image_transform_name
         self.image_transform_alb = train_transform
@@ -121,7 +124,7 @@ class Data_Module(pl.LightningDataModule):
 
 
     def load_tokenizer(self, *args, **kwargs):
-        self.vocabulary = load_dic(VOCABULARY_PATH)
+        self.vocabulary = load_dic(self.vocabulary_path)
         self.vocab_size = len(self.vocabulary)
         self.inverse_vocabulary = invert_vocabulary(self.vocabulary)
         self.tokenizer = Label_Transforms(vocabulary = self.vocabulary,
@@ -130,6 +133,7 @@ class Data_Module(pl.LightningDataModule):
 
         # funciton to turn strings into labels via a tokenizer
         self.labels_transform_function = self.tokenizer.convert_strings_to_labels
+        self.max_label_length = int(self.set_max_label_length)+int(2)
 
 
 
