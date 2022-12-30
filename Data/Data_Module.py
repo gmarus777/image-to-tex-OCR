@@ -23,7 +23,14 @@ Start, End, Pad tokens are set in vocabulary_utils.py
 
 IMAGE_HEIGHT and IMAGE_WIDTH are set in image_transforms.py (Note this will just resize the generated images)
 
+
+
+
+
 '''
+
+
+# TODO: Add Image padding to Image processing, so that big images are not compressed
 
 class Data_Module(pl.LightningDataModule):
 
