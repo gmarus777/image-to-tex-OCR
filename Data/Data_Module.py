@@ -6,14 +6,11 @@ import json
 from torch.utils.data import ConcatDataset, DataLoader
 import pytorch_lightning as pl
 from Data.label_transforms import Label_Transforms
-from Data.image_transforms import train_transform, test_transform
+from Data.image_transforms import train_transform, test_transform, Image_Transforms
 from Data.Data_Server import Data_Server
 from Data.Base_Dataset import Base_Dataset, split_dataset
 from Data.vocabulary_utils import load_dic, invert_vocabulary
 
-
-# Use the following path when Loading a Vocabulary
-VOCABULARY_PATH = 'lightning_logs/256_character_1.json'
 
 
 
@@ -32,6 +29,9 @@ class Data_Module(pl.LightningDataModule):
 
     def __init__(self,
                  stage='fit',
+                 path_to_formulas = None,
+                 path_to_image_names = None,
+
 
                  set_max_label_length=256,
                  number_png_images_to_use_in_dataset=200*1000,
@@ -72,6 +72,8 @@ class Data_Module(pl.LightningDataModule):
 
         # Various input parameters
         self.stage = stage
+        self.path_to_formulas = path_to_formulas,
+        self.path_to_image_names = path_to_image_names,
 
         self.set_max_label_length = set_max_label_length
         self.number_png_images_to_use_in_dataset = number_png_images_to_use_in_dataset
@@ -81,8 +83,8 @@ class Data_Module(pl.LightningDataModule):
         self.vocabulary_path = vocabulary_path
 
         self.image_transform_name = image_transform_name
-        self.image_transform_alb = train_transform
-        self.image_transform_test = test_transform
+        self.image_transform_alb = Image_Transforms.train_transform
+        self.image_transform_test = Image_Transforms.test_transform
 
         self.batch_size = batch_size
         self.num_workers = num_workers
@@ -127,13 +129,14 @@ class Data_Module(pl.LightningDataModule):
         self.vocabulary = load_dic(self.vocabulary_path)
         self.vocab_size = len(self.vocabulary)
         self.inverse_vocabulary = invert_vocabulary(self.vocabulary)
+        self.max_label_length = int(self.set_max_label_length) + int(2)
         self.tokenizer = Label_Transforms(vocabulary = self.vocabulary,
                                           labels_transform_name = self.labels_transform,
-                                          max_label_length = int(self.set_max_label_length)+int(2))
+                                          max_label_length = int(self.max_label_length))
 
         # funciton to turn strings into labels via a tokenizer
         self.labels_transform_function = self.tokenizer.convert_strings_to_labels
-        self.max_label_length = int(self.set_max_label_length)+int(2)
+
 
 
 

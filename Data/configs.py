@@ -14,6 +14,12 @@ class PrintedLatexDataConfig:
     GENERATED_PNG_DIR_NAME = DATA_BANK_DIRNAME / "generated_png_images"
 
 
+    # Handwritten
+
+    HANDWRITTEN_FORMULAS = DATA_BANK_DIRNAME /'images'
+    HANDWRITTEN_IMAGES = DATA_BANK_DIRNAME / 'formulas.lst'
+
+
 
 
 

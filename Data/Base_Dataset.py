@@ -12,30 +12,7 @@ import smart_open
 from PIL import Image
 
 
-# processing images for data generation.
-class ImageProcessor:
-    @staticmethod
-    def process_latex_image(file_name):
-        image = ImageProcessor.read_image_pil(file_name)
-        image = PIL.ImageOps.grayscale(image)
-        image = PIL.ImageOps.invert(image)
-        return image
 
-    @staticmethod
-    def read_image_pil(image_uri, grayscale=False) -> PIL.Image:
-        #print(os.getcwd())
-        with smart_open.open(image_uri, "rb") as image_file:
-            return ImageProcessor.read_image_pil_file(image_file, grayscale)
-
-    @staticmethod
-    def read_image_pil_file(image_file, grayscale=False) -> PIL.Image:
-        with Image.open(image_file) as image:
-            if grayscale:
-                image = image.convert(mode="L")
-            else:
-                image = image.convert(mode=image.mode)
-
-            return image
 
 
 
@@ -135,3 +112,27 @@ def split_dataset(base_dataset: Base_Dataset, fraction: float):
 
 
 
+# processing images for data generation.
+class ImageProcessor:
+    @staticmethod
+    def process_latex_image(file_name):
+        image = ImageProcessor.read_image_pil(file_name)
+        image = PIL.ImageOps.grayscale(image)
+        image = PIL.ImageOps.invert(image)
+        return image
+
+    @staticmethod
+    def read_image_pil(image_uri, grayscale=False) -> PIL.Image:
+        #print(os.getcwd())
+        with smart_open.open(image_uri, "rb") as image_file:
+            return ImageProcessor.read_image_pil_file(image_file, grayscale)
+
+    @staticmethod
+    def read_image_pil_file(image_file, grayscale=False) -> PIL.Image:
+        with Image.open(image_file) as image:
+            if grayscale:
+                image = image.convert(mode="L")
+            else:
+                image = image.convert(mode=image.mode)
+
+            return image
