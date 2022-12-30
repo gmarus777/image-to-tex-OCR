@@ -16,8 +16,10 @@ class PrintedLatexDataConfig:
 
     # Handwritten
 
-    HANDWRITTEN_FORMULAS = DATA_BANK_DIRNAME /'images'
-    HANDWRITTEN_IMAGES = DATA_BANK_DIRNAME / 'formulas.lst'
+    HANDWRITTEN_TRAIN = DATA_BANK_DIRNAME /'train.lst'
+    HANDWRITTEN_VAL =  DATA_BANK_DIRNAME /'val.lst'
+    HANDWRITTEN_FORMULAS = DATA_BANK_DIRNAME / 'formulas.norm.lst'
+    HANDWRITTEN_IMAGES_FOLDER = DATA_BANK_DIRNAME/'images'
 
 
 
