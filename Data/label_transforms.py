@@ -80,7 +80,7 @@ class Label_Transforms:
                 if token == "\operatorname*":
                     labels[i] = self.vocabulary["\mathrm"]
 
-                if token == "\\Delta"
+                if token == "\\Delta":
                     labels[i] = self.vocabulary["\\delta"]
 
                 if token == "\hspace":
