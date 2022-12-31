@@ -63,7 +63,19 @@ class Label_Transforms:
             try:
                 labels[i] = self.vocabulary[token]
             except:
+                print(token)
+                labels[i] = self.vocabulary["?"]
 
+
+
+
+        return labels
+
+
+
+
+
+'''
                 if token == "\Delta":
 
                     labels[i] = self.vocabulary["\\delta"]
@@ -95,18 +107,6 @@ class Label_Transforms:
                 if token == "\boldmath":
                     labels[i] = self.vocabulary['\pmb']
 
-
-
-                else:
-                    print(token)
-                    labels[i] = self.vocabulary["?"]
-
-        return labels
-
-
-
-
-
-
+'''
 
 
