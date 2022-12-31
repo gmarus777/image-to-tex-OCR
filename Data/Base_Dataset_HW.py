@@ -29,7 +29,10 @@ class Base_Dataset(Dataset):
 
         # image filenames and corresponding tex formulas
         self.image_filenames = self.dataframe['image_name'].tolist()
-        self.labels = self.dataframe['latex_tokenized'].tolist()
+        self.labels_bad = self.dataframe['latex_tokenized'].tolist()
+        self.labels = self.clean_tokens()
+
+
 
         self.image_transform_name = data_module.image_transform_name
         self.image_transform_alb = data_module.image_transform_alb
@@ -87,7 +90,45 @@ class Base_Dataset(Dataset):
         return image, formula
 
 
+    def clean_tokens(self):
+        labels = self.labels_bad
+        for i, n in enumerate(labels):
 
+            if "\\Delta" in n:
+                print(i, n.index('\\Delta'))
+                self.labels[i][n.index('\\Delta')] = "\delta"
+
+            if "\operatorname" in n:
+                print(i, n.index("\operatorname"))
+                self.labels[i][n.index("\operatorname")] = "\mathrm"
+
+            if "\operatorname\operatorname\operatorname" in n:
+                print(i, n.index("\operatorname\operatorname\operatorname"))
+                self.labels[i][n.index("\operatorname\operatorname\operatorname")] = "\mathrm"
+
+            if "\operatorname*" in n:
+                print(i, n.index("\operatorname*"))
+                self.labels[i][n.index("\operatorname*")] = "\mathrm"
+
+            x = "\operatorname*\operatorname"
+            if x in n:
+                print(i, n.index(x))
+                self.labels[i][n.index(x)] = "\mathrm"
+
+            x = "\operatorname\operatorname*"
+            if x in n:
+                print(i, n.index(x))
+                self.labels[i][n.index(x)] = "\mathrm"
+
+            x = "\Delta\Delta"
+            if x in n:
+                print(i, n.index(x))
+                self.labels[i][n.index(x)] = "\delta"
+
+            x = "\hspace"
+            if x in n:
+                print(i, n.index(x))
+                self.labels[i][n.index(x)] = "\mathrm"
 
 
 
