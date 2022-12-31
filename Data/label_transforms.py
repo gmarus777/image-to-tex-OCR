@@ -71,12 +71,24 @@ class Label_Transforms:
                 if token == '\\operatorname':
                     labels[i] = self.vocabulary["\mathrm"]
 
+                if token == '\operatorname':
+                    labels[i] = self.vocabulary["\mathrm"]
+
                 if token == '\\operatorname*':
+                    labels[i] = self.vocabulary["\mathrm"]
+
+                if token == '\operatorname*':
                     labels[i] = self.vocabulary["\mathrm"]
 
                 if token == "\\Delta":
                     print('two delta')
                     labels[i] = self.vocabulary["\\delta"]
+
+                if token == '\hspace':
+                    labels[i] = self.vocabulary["\mathrm"]
+
+                if token == '\\hspace':
+                    labels[i] = self.vocabulary["\mathrm"]
 
                 else:
                     print(token)
