@@ -68,26 +68,25 @@ class Label_Transforms:
 
                     labels[i] = self.vocabulary["\\delta"]
 
-                if token == '\\operatorname':
+                if token == "\\operatorname":
                     labels[i] = self.vocabulary["\mathrm"]
 
-                if token == '\operatorname':
+                if token == "\operatorname":
                     labels[i] = self.vocabulary["\mathrm"]
 
-                if token == '\\operatorname*':
+                if token == "\\operatorname*":
                     labels[i] = self.vocabulary["\mathrm"]
 
-                if token == '\operatorname*':
+                if token == "\operatorname*":
                     labels[i] = self.vocabulary["\mathrm"]
 
-                if token == "\\Delta":
-
+                if token == "\\Delta"
                     labels[i] = self.vocabulary["\\delta"]
 
-                if token == '\hspace':
+                if token == "\hspace":
                     labels[i] = self.vocabulary["\mathrm"]
 
-                if token == '\\hspace':
+                if token == "\\hspace":
                     labels[i] = self.vocabulary["\mathrm"]
 
                 if token == "\\boldmath":
