@@ -6,7 +6,7 @@ import json
 from torch.utils.data import ConcatDataset, DataLoader
 import pytorch_lightning as pl
 from Data.label_transforms import Label_Transforms
-from Data.image_transforms import train_transform, test_transform,
+from Data.image_transforms import train_transform, test_transform
 from Data.Data_Server import Data_Server
 from Data.Base_Dataset import Base_Dataset, split_dataset
 from Data.vocabulary_utils import load_dic, invert_vocabulary

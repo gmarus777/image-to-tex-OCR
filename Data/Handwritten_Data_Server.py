@@ -70,11 +70,10 @@ def _get_dataframe():
     # get png image names nad formula line location
     path_to_formulas = PrintedLatexDataConfig.HANDWRITTEN_FORMULAS
 
-    formulas_df = readlines_to_df(path_to_list=path_to_val ,
-                                    path =path_to_formulas,
-                                  colname='formula',
-                                  colname_im = 'image_name')
-
+    # formulas_df = readlines_to_df(path_to_list=path_to_val ,path =path_to_formulas, colname='formula', colname_im = 'image_name')
+    images_df, formula_locations = readlines_to_df_images_and_list( path_to_list= path_to_val)
+    formulas_df = readlines_to_df_formulas(formula_locations = formula_locations, path = path_to_formulas)
+    formulas_df['image_name'] = images_df
 
     return formulas_df
 
@@ -100,6 +99,12 @@ def _get_stats(datasetDF):
     dataset['formula_length'] = formula_lens
 
     return dataset
+
+
+
+
+
+
 
 
 # converts formulas txt to pandas dataframe
@@ -129,6 +134,43 @@ def readlines_to_df(path_to_list, path, colname, colname_im):
     formulas_df = pd.DataFrame({colname: rows_formulas}, dtype=np.str_)
     images_df = pd.DataFrame({colname_im: rows_images}, dtype=np.str_)
     formulas_df['image_name'] = images_df
+
+    return formulas_df
+
+
+def readlines_to_df_images_and_list(path_to_list):
+    formula_locations = []
+    rows_images = []
+
+    n = 0
+    with open(path_to_list, 'r') as file_train_list:
+        for line in file_train_list.readlines():
+            line.strip()
+            l = line.split(' ')
+            formula_line = int(l[0])
+            image_name = l[1] + '.png'
+            rows_images.append(image_name)
+            formula_locations.append(formula_line)
+
+    images_df = pd.DataFrame({'image_name': rows_images}, dtype=np.str_)
+
+    return images_df, formula_locations
+
+
+def readlines_to_df_formulas(formula_locations, path, ):
+    rows_formulas = []
+
+    # obtain the corresponding formula
+
+    formulas = open(path).read().split('\n')
+
+    for formula_id in formula_locations:
+
+        formula = formulas[formula_id]
+
+        rows_formulas.append(formula)
+
+    formulas_df = pd.DataFrame({'formula': rows_formulas}, dtype=np.str_)
 
     return formulas_df
 
