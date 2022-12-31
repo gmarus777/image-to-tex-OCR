@@ -102,9 +102,9 @@ class Base_Dataset(Dataset):
                 print('FOUND Delta')
                 labels[i][n.index('\Delta')] = "\delta"
 
-            if "\operatorname" in n:
+            if x = "\\operatorname" in n:
 
-                labels[i][n.index("\operatorname")] = "\mathrm"
+                labels[i][n.index(x)] = "\mathrm"
 
             if "\operatorname\operatorname\operatorname" in n:
 
