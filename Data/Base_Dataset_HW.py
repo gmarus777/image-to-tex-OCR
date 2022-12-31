@@ -29,8 +29,8 @@ class Base_Dataset(Dataset):
 
         # image filenames and corresponding tex formulas
         self.image_filenames = self.dataframe['image_name'].tolist()
-        self.labels_bad = self.dataframe['latex_tokenized'].tolist()
-        self.labels = self.clean_tokens()
+        self.labels = self.dataframe['latex_tokenized'].tolist()
+        # self.labels = self.clean_tokens()
 
 
 
