@@ -60,6 +60,7 @@ class Label_Transforms:
         for i, token in enumerate(tokens):
             # token.encode("utf-8")
             # token = token.decode("utf-8")
+            token = token.decode('string-escape')
             labels[i] = self.vocabulary[token]
 
         return labels
