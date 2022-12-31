@@ -63,7 +63,7 @@ class Label_Transforms:
             try:
                 labels[i] = self.vocabulary[token]
             except:
-                print(token)
+                #print(token)
                 labels[i] = self.vocabulary["?"]
 
 
