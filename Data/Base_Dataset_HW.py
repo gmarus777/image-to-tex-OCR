@@ -95,41 +95,41 @@ class Base_Dataset(Dataset):
         for i, n in enumerate(labels):
 
             if "\\Delta" in n:
-                print(i, n.index('\\Delta'))
-                self.labels[i][n.index('\\Delta')] = "\delta"
+
+                labels[i][n.index('\\Delta')] = "\delta"
 
             if "\operatorname" in n:
-                print(i, n.index("\operatorname"))
-                self.labels[i][n.index("\operatorname")] = "\mathrm"
+
+                labels[i][n.index("\operatorname")] = "\mathrm"
 
             if "\operatorname\operatorname\operatorname" in n:
-                print(i, n.index("\operatorname\operatorname\operatorname"))
-                self.labels[i][n.index("\operatorname\operatorname\operatorname")] = "\mathrm"
+
+                labels[i][n.index("\operatorname\operatorname\operatorname")] = "\mathrm"
 
             if "\operatorname*" in n:
-                print(i, n.index("\operatorname*"))
-                self.labels[i][n.index("\operatorname*")] = "\mathrm"
+
+                labels[i][n.index("\operatorname*")] = "\mathrm"
 
             x = "\operatorname*\operatorname"
             if x in n:
-                print(i, n.index(x))
-                self.labels[i][n.index(x)] = "\mathrm"
+
+                labels[i][n.index(x)] = "\mathrm"
 
             x = "\operatorname\operatorname*"
             if x in n:
-                print(i, n.index(x))
-                self.labels[i][n.index(x)] = "\mathrm"
+
+                labels[i][n.index(x)] = "\mathrm"
 
             x = "\Delta\Delta"
             if x in n:
-                print(i, n.index(x))
-                self.labels[i][n.index(x)] = "\delta"
+
+                labels[i][n.index(x)] = "\delta"
 
             x = "\hspace"
             if x in n:
-                print(i, n.index(x))
-                self.labels[i][n.index(x)] = "\mathrm"
 
+                labels[i][n.index(x)] = "\mathrm"
+        return labels
 
 
 
