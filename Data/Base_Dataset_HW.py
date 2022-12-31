@@ -95,7 +95,7 @@ class Base_Dataset(Dataset):
         for i, n in enumerate(labels):
 
             if "\\Delta" in n:
-
+                print('FOUND Delta')
                 labels[i][n.index('\\Delta')] = "\delta"
 
             if "\operatorname" in n:
