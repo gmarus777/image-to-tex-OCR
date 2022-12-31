@@ -39,6 +39,7 @@ class Label_Transforms:
         tokens = ["<S>", *tokens, "<E>"]
 
         for i, token in enumerate(tokens):
+            token.encode("utf-8")
             token = token.decode("utf-8")
             labels[i] = self.vocabulary[token]
 
