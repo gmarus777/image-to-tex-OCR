@@ -30,7 +30,7 @@ IMAGE_HEIGHT and IMAGE_WIDTH are set in image_transforms.py (Note this will just
 '''
 
 
-# TODO: Add Image padding to Image processing, so that big images are not compressed
+# TODO: Add Image padding to Image processing, so that big images are not compressed use Luka's dataset of varying size
 
 class Data_Module(pl.LightningDataModule):
 
