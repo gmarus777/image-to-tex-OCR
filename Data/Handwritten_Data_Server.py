@@ -71,7 +71,7 @@ def _get_dataframe():
     path_to_formulas = PrintedLatexDataConfig.HANDWRITTEN_FORMULAS
 
     # formulas_df = readlines_to_df(path_to_list=path_to_val ,path =path_to_formulas, colname='formula', colname_im = 'image_name')
-    images_df, formula_locations = readlines_to_df_images_and_list( path_to_list= path_to_val)
+    images_df, formula_locations = readlines_to_df_images_and_list( path_to_list= path_to_train)
     formulas_df = readlines_to_df_formulas(formula_locations = formula_locations, path = path_to_formulas)
     formulas_df['image_name'] = images_df
 
