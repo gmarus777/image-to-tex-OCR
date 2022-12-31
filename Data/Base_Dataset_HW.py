@@ -104,11 +104,11 @@ class Base_Dataset(Dataset):
 
             x = "\operatorname"
             if x in n:
-                labels[i][n.index("\operatorname")] = "\mathrm"
+                labels[i][n.index(x)] = "\mathrm"
 
             x = "\operatorname*"
             if x in n:
-                labels[i][n.index("\operatorname")] = "\mathrm"
+                labels[i][n.index(x)] = "\mathrm"
 
 
             if "\operatorname\operatorname\operatorname" in n:
