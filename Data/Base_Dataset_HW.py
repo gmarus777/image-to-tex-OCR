@@ -95,18 +95,18 @@ class Base_Dataset(Dataset):
         for i, n in enumerate(labels):
 
             if "\\Delta" in n:
-                print('FOUND Delta')
+
                 labels[i][n.index('\\Delta')] = "\delta"
 
             if "\Delta" in n:
-                print('FOUND Delta')
+
                 labels[i][n.index('\Delta')] = "\delta"
 
-            x = "\operatorname"
+            x = "\\operatorname"
             if x in n:
                 labels[i][n.index(x)] = "\mathrm"
 
-            x = "\operatorname*"
+            x = "\\operatorname*"
             if x in n:
                 labels[i][n.index(x)] = "\mathrm"
 
