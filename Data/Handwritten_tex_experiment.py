@@ -8,7 +8,7 @@ import pytorch_lightning as pl
 from Data.label_transforms import Label_Transforms
 from Data.image_transforms import train_transform, test_transform, Image_Transforms
 from Data.Handwritten_Data_Server import Handwritten_Data_Server
-from Data.Base_Dataset import Base_Dataset, split_dataset
+from Data.Base_Dataset_HW  import Base_Dataset, split_dataset
 from Data.vocabulary_utils import load_dic, invert_vocabulary
 
 
