@@ -168,7 +168,7 @@ def readlines_to_df_formulas(formula_locations, path, ):
     # obtain the corresponding formula
 
     formulas = open(path).read().split('\n')
-    print(len(formulas))
+
 
     for formula_id in formula_locations:
 
