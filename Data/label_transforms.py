@@ -60,8 +60,11 @@ class Label_Transforms:
         for i, token in enumerate(tokens):
             # token.encode("utf-8")
             # token = token.decode("utf-8")
-            token = token.decode('string-escape')
-            labels[i] = self.vocabulary[token]
+            try:
+                labels[i] = self.vocabulary[token]
+            except:
+                print(token)
+                labels[i] = self.vocabulary["\\delta"]
 
         return labels
 
