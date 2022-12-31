@@ -178,7 +178,7 @@ def readlines_to_df_formulas(formula_locations, path, ):
 
         rows_formulas.append(formula)
 
-    formulas_df = pd.DataFrame({'formula': rows_formulas}, ) #dtype=np.str_
+    formulas_df = pd.DataFrame({'formula': rows_formulas},dtype=str) #dtype=np.str_
 
 
     return formulas_df
