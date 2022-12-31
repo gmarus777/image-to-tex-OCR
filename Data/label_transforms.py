@@ -40,6 +40,8 @@ class Label_Transforms:
 
         for i, token in enumerate(tokens):
             token = token.encode('ascii')
+            if token == "b'<S>'":
+                token == '<S>'
             labels[i] = self.vocabulary[token]
 
         return labels
