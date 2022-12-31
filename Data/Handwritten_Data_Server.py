@@ -75,6 +75,7 @@ def _get_dataframe():
     formulas_df = readlines_to_df_formulas(formula_locations = formula_locations, path = path_to_formulas)
     formulas_df['image_name'] = images_df
 
+
     return formulas_df
 
 
@@ -87,7 +88,7 @@ def _get_stats(datasetDF):
     dataset = datasetDF
     for _, row in datasetDF.iterrows():
         image_name = row.image_name
-        # print(image_name)
+
         im = Image.open(os.path.join(PrintedLatexDataConfig.HANDWRITTEN_IMAGES_FOLDER, image_name))
         widths.append(im.size[0])
         heights.append(im.size[1])
@@ -97,6 +98,7 @@ def _get_stats(datasetDF):
     dataset['height'] = heights
     dataset['width'] = widths
     dataset['formula_length'] = formula_lens
+
 
     return dataset
 
@@ -135,6 +137,7 @@ def readlines_to_df(path_to_list, path, colname, colname_im):
     images_df = pd.DataFrame({colname_im: rows_images}, dtype=np.str_)
     formulas_df['image_name'] = images_df
 
+
     return formulas_df
 
 
@@ -146,7 +149,9 @@ def readlines_to_df_images_and_list(path_to_list):
     with open(path_to_list, 'r') as file_train_list:
         for line in file_train_list.readlines():
             line.strip()
+
             l = line.split(' ')
+
             formula_line = int(l[0])
             image_name = l[1] + '.png'
             rows_images.append(image_name)
@@ -168,9 +173,12 @@ def readlines_to_df_formulas(formula_locations, path, ):
 
         formula = formulas[formula_id]
 
+
+
         rows_formulas.append(formula)
 
     formulas_df = pd.DataFrame({'formula': rows_formulas}, dtype=np.str_)
+
 
     return formulas_df
 
