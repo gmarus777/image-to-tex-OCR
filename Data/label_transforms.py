@@ -65,14 +65,21 @@ class Label_Transforms:
             except:
 
                 if token == "\Delta":
-                    print("one Delta")
+                    print('one delta')
                     labels[i] = self.vocabulary["\\delta"]
 
                 if token == '\\operatorname':
-                    print('double \\ operator ')
                     labels[i] = self.vocabulary["\mathrm"]
 
+                if token == '\\operatorname*':
+                    labels[i] = self.vocabulary["\mathrm"]
+
+                if token == "\\Delta":
+                    print('two delta')
+                    labels[i] = self.vocabulary["\\delta"]
+
                 else:
+                    print(token)
                     labels[i] = self.vocabulary["?"]
 
         return labels
