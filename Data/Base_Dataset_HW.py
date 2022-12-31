@@ -67,7 +67,7 @@ class Base_Dataset(Dataset):
         image = ImageProcessor.read_image_pil('images/' + image_filename, grayscale=True)
 
 
-        print(formula)
+
         if self.stage.lower() =="fit":
            #image =  self.image_transform_train(image)
            image = self.image_transform_alb(image=np.array(image))['image']

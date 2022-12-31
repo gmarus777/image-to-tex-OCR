@@ -135,7 +135,7 @@ class Handwritten_Data_Module(pl.LightningDataModule):
                                           max_label_length = int(self.max_label_length))
 
         # funciton to turn strings into labels via a tokenizer
-        self.labels_transform_function = self.tokenizer.convert_strings_to_labels
+        self.labels_transform_function = self.tokenizer.convert_strings_to_labels_HW
 
 
 

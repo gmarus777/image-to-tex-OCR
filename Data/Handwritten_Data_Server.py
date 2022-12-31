@@ -195,7 +195,7 @@ def make_vocabulary(df_):
 
     ## Assume that the latex formula strings are already tokenized into string-tokens separated by whitespace
     ## Hence we just need to split the string by whitespace.
-    sr_token = df_.formula.apply(str).str.split('  ')
+    sr_token = df_.formula.apply(str).str.split(' ')
 
     sr_tokenized_len = sr_token.str.len()
     df_tokenized = df_.assign(latex_tokenized=sr_token, tokenized_len=sr_tokenized_len)
