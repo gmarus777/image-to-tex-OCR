@@ -19,7 +19,6 @@ from Data.image_transforms import yield_image_transforms_train, yield_image_tran
 
 class Base_Dataset(Dataset):
 
-
     def __init__(self,
                  data_module,
                  ):
