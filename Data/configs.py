@@ -14,6 +14,7 @@ class PrintedLatexDataConfig:
     GENERATED_PNG_DIR_NAME = DATA_BANK_DIRNAME / "generated_png_images"
 
 
+
     # Handwritten
 
     HANDWRITTEN_TRAIN = DATA_BANK_DIRNAME /'train.lst'

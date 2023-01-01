@@ -38,7 +38,7 @@ class Handwritten_Data_Server:
         self.tokenized_dataframe = self.pretokenized_dataframe[0:data_module.number_png_images_to_use_in_dataset]
 
         self.max_label_length =  data_module.set_max_label_length + 2 # accounting for the Start and End Tokens
-        self.vocabulary = load_dic('Data/Data_Bank/258_Test_run_HW.json')
+        self.vocabulary = load_dic("Data/Data_Bank/258_Test_run_HW.json")
 
         self.inverse_vocabulary = invert_vocabulary(self.vocabulary)
 
