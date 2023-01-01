@@ -21,6 +21,8 @@ PADDING_TOKEN = "<P>"
 
 
 class Handwritten_Data_Server:
+
+
     def __init__(self,
                  data_module = None,
                  ):
