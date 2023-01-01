@@ -10,7 +10,8 @@ from torch.utils.data import Dataset, ConcatDataset
 import PIL
 import smart_open
 from PIL import Image
-
+import dill
+from Data.image_transforms import yield_image_transforms_train, yield_image_transforms_test
 
 
 
@@ -23,7 +24,7 @@ class Base_Dataset(Dataset):
                  ):
 
         self.datamodule = data_module
-        self.tokenizer = data_module.tokenizer
+        # self.tokenizer = data_module.tokenizer
         self.dataframe = data_module.df
         self.stage = data_module.stage
 
@@ -34,9 +35,9 @@ class Base_Dataset(Dataset):
 
 
 
-        self.image_transform_name = data_module.image_transform_name
-        self.image_transform_alb = data_module.image_transform_alb
-        self.image_transform_test = data_module.image_transform_test
+        # self.image_transform_name = data_module.image_transform_name
+        self.image_transform_alb = yield_image_transforms_train() #data_module.image_transform_alb
+        self.image_transform_test = yield_image_transforms_test() # data_module.image_transform_test
 
         # funciton to turn strings into labels via a tokenizer
         self.labels_transform_function = data_module.labels_transform_function
@@ -68,8 +69,8 @@ class Base_Dataset(Dataset):
         oldcwd = os.getcwd()
         os.chdir(PrintedLatexDataConfig.DATA_BANK_DIRNAME)  # "Data/Data_Bank"
 
-        # image = pil_loader('generated_png_images/' + image_filename, mode="L")
-        image = ImageProcessor.read_image_pil('images/' + image_filename, grayscale=True)
+        image = pil_loader('images/' + image_filename, mode="L")
+        # image = ImageProcessor.read_image_pil('images/' + image_filename, grayscale=True)
 
 
 

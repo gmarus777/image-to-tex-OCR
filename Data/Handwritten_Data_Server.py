@@ -11,6 +11,7 @@ from Data.configs import PrintedLatexDataConfig
 from Data.vocabulary_utils import create_vocabulary_dictionary_from_dataframe, invert_vocabulary
 import pandas as pd
 import json
+import dill
 
 
 

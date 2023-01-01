@@ -129,6 +129,8 @@ def invert_vocabulary(vocabulary):
     return inverse_vocabulary
 
 def load_dic(filename):
+
+
     with open(filename) as f:
         dic = json.loads(f.read())
         dic_new = dict((k, int(v)) for k, v in dic.items())

@@ -33,6 +33,18 @@ test_transform = alb.Compose(
     ]
 )
 
+
+
+
+def yield_image_transforms_train():
+    return train_transform
+
+def yield_image_transforms_test():
+    return test_transform
+
+
+
+
 class Image_Transforms:
 
     train_transform =alb.Compose(

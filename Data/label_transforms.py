@@ -1,8 +1,33 @@
 import torch
-
-
+import dill
+from Data.vocabulary_utils import load_dic
 
 SPECIAL_TOKENS= ["<S>", "<E>", "<P>"]
+MAX_LABEL_LENGTH =258
+
+def convert_strings_to_labels_HW_out(string) -> torch.Tensor:
+    """
+    Converts a string to a ( length) ndarray, with each string wrapped with <S> and <E> tokens,
+    and padded with the <P> token.
+    """
+
+    # first create a (1, length) tensor of padding
+    vocabulary = load_dic('258_Test_run_HW.json')
+    labels = torch.ones((MAX_LABEL_LENGTH), dtype=torch.long) * vocabulary["<P>"]
+    tokens = list(string)
+    tokens = ["<S>", *tokens, "<E>"]
+
+    for i, token in enumerate(tokens):
+        # token.encode("utf-8")
+        # token = token.decode("utf-8")
+        try:
+            labels[i] = vocabulary[token]
+        except:
+            # print(token)
+            labels[i] = vocabulary["?"]
+
+    return labels
+
 
 
 
