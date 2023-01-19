@@ -35,7 +35,7 @@ class Handwritten_Data_Module(pl.LightningDataModule):
 
 
                  set_max_label_length=256,
-                 number_png_images_to_use_in_dataset=200*1000,
+                 number_png_images_to_use_in_dataset=300*1000,
                  labels_transform='default',
                  image_transform_name='alb',  # or 'alb'
 
