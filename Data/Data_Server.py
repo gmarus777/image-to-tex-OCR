@@ -30,7 +30,7 @@ class Data_Server:
         # pass the max_label_length
         self.pretokenized_dataframe = tokenized_dataframe_no_max_label_length[tokenized_dataframe_no_max_label_length['tokenized_len'] < data_module.set_max_label_length]
         self.tokenized_dataframe_pre_resize = self.pretokenized_dataframe[0:data_module.number_png_images_to_use_in_dataset]
-        self.tokenized_dataframe = self.tokenized_dataframe_pre_resize
+        self.tokenized_dataframe = self.tokenized_dataframe_pre_resize[(self.tokenized_dataframe_pre_resize['width']<WIDTH) & (self.tokenized_dataframe_pre_resize['height']<HEIGHT)]
 
         self.max_label_length =  data_module.set_max_label_length + 2 # accounting for the Start and End Tokens
         self.vocabulary = create_vocabulary_dictionary_from_dataframe(self.vocabulary_dataframe)
@@ -85,7 +85,7 @@ def _get_dataframe():
 
     final_formulas = pd.concat([formulas_df,formulas_df_hw], ignore_index=True)
 
-    final_formulas = final_formulas[(final_formulas['width']<WIDTH) & (final_formulas['height']<HEIGHT)]
+
 
 
 
