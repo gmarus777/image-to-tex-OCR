@@ -10,7 +10,8 @@ import cv2
 from Data.configs import PrintedLatexDataConfig
 from Data.vocabulary_utils import create_vocabulary_dictionary_from_dataframe, make_vocabulary, invert_vocabulary
 
-
+WIDTH = 1024
+HEIGHT = 128
 
 
 class Data_Server:
@@ -84,7 +85,7 @@ def _get_dataframe():
 
     final_formulas = pd.concat([formulas_df,formulas_df_hw], ignore_index=True)
 
-
+    final_formulas = final_formulas[(final_formulas['width']<WIDTH) & (final_formulas['height']<HEIGHT)]
 
 
 
