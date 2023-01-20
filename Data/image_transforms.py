@@ -28,7 +28,7 @@ train_transform =alb.Compose(
 
 
 test_transform = alb.Compose(
-    [   alb.augmentations.geometric.resize.Resize(height=IMAGE_HEIGHT, width= IMAGE_WIDTH, p=1),
+    [   alb.PadIfNeeded(min_height=256, min_width=1024, border_mode=cv2.BORDER_CONSTANT, value=255),
         alb.ToGray(always_apply=True),
         # alb.Sharpen(),
         ToTensorV2(),
