@@ -28,7 +28,8 @@ class Data_Server:
 
         # pass the max_label_length
         self.pretokenized_dataframe = tokenized_dataframe_no_max_label_length[tokenized_dataframe_no_max_label_length['tokenized_len'] < data_module.set_max_label_length]
-        self.tokenized_dataframe = self.pretokenized_dataframe[0:data_module.number_png_images_to_use_in_dataset]
+        self.tokenized_dataframe_pre_resize = self.pretokenized_dataframe[0:data_module.number_png_images_to_use_in_dataset]
+        self.tokenized_dataframe = self.tokenized_dataframe_pre_resize
 
         self.max_label_length =  data_module.set_max_label_length + 2 # accounting for the Start and End Tokens
         self.vocabulary = create_vocabulary_dictionary_from_dataframe(self.vocabulary_dataframe)
@@ -57,16 +58,39 @@ class Data_Server:
 
 def _get_dataframe():
     # take final formula list
+
+    # PRINTED
     path_to_formulas = PrintedLatexDataConfig.PNG_FINAL_FORMULAS
     formulas_df = readlines_to_df(path_to_formulas, 'formula')
 
-    # get png image names
+
+    # get printed png image names
     image_names_path = PrintedLatexDataConfig.PNG_IMAGES_NAMES_FILE
     image_names_df = readlines_to_df(image_names_path, 'image_name')
 
     formulas_df['image_name'] = image_names_df
 
-    return formulas_df
+
+    # HANDWRITTEN
+
+    path_to_hw_formulas = PrintedLatexDataConfig.HANDWRITTEN_TRAIN
+
+
+    path_to_formulas_hw = PrintedLatexDataConfig.HANDWRITTEN_FORMULAS
+
+    images_df_hw, formula_locations_hw = readlines_to_df_images_and_list( path_to_list= path_to_hw_formulas)
+    formulas_df_hw = readlines_to_df_formulas(formula_locations = formula_locations_hw, path = path_to_formulas_hw)
+    formulas_df_hw['image_name'] = images_df_hw
+
+    final_formulas = pd.concat([formulas_df,formulas_df_hw], ignore_index=True)
+
+
+
+
+
+
+
+    return final_formulas
 
 
 # outputs formula length, image height and width.
@@ -108,3 +132,43 @@ def readlines_to_df(path, colname):
     return pd.DataFrame({colname: rows}, dtype=np.str_)
 
 
+def readlines_to_df_images_and_list(path_to_list):
+    formula_locations = []
+    rows_images = []
+
+    n = 0
+    with open(path_to_list, 'r') as file_train_list:
+        for line in file_train_list.readlines():
+            line.strip()
+
+            l = line.split(' ')
+
+            formula_line = int(l[0])
+            image_name = l[1] + '.png'
+            rows_images.append(image_name)
+            formula_locations.append(formula_line)
+
+    images_df = pd.DataFrame({'image_name': rows_images}, dtype=np.str_)
+
+    return images_df, formula_locations
+
+def readlines_to_df_formulas(formula_locations, path, ):
+    rows_formulas = []
+
+    # obtain the corresponding formula
+
+    formulas = open(path).read().split('\n')
+
+
+    for formula_id in formula_locations:
+
+        formula = formulas[formula_id]
+
+
+
+        rows_formulas.append(formula)
+
+    formulas_df = pd.DataFrame({'formula': rows_formulas},dtype=str) #dtype=np.str_
+
+
+    return formulas_df

@@ -8,7 +8,7 @@ import pytorch_lightning as pl
 from Data.label_transforms import Label_Transforms
 from Data.image_transforms import train_transform, test_transform
 from Data.Data_Server import Data_Server
-from Data.Handwritten_Data_module import Handwritten_Data_Module
+
 from Data.Base_Dataset import Base_Dataset, split_dataset
 from Data.vocabulary_utils import load_dic, invert_vocabulary
 
@@ -40,6 +40,7 @@ class Data_Module(pl.LightningDataModule):
                  stage='fit',
                  path_to_formulas = None,
                  path_to_image_names = None,
+                 handwritten = False,
 
 
 
@@ -84,6 +85,8 @@ class Data_Module(pl.LightningDataModule):
         self.stage = stage
         self.path_to_formulas = path_to_formulas,
         self.path_to_image_names = path_to_image_names,
+
+        self.handwritten = handwritten
 
         self.set_max_label_length = set_max_label_length
         self.number_png_images_to_use_in_dataset = number_png_images_to_use_in_dataset
