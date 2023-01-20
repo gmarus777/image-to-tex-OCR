@@ -8,6 +8,7 @@ import pytorch_lightning as pl
 from Data.label_transforms import Label_Transforms
 from Data.image_transforms import train_transform, test_transform
 from Data.Data_Server import Data_Server
+
 from Data.Base_Dataset import Base_Dataset, split_dataset
 from Data.vocabulary_utils import load_dic, invert_vocabulary
 
@@ -39,6 +40,8 @@ class Data_Module(pl.LightningDataModule):
                  stage='fit',
                  path_to_formulas = None,
                  path_to_image_names = None,
+                 handwritten = False,
+
 
 
                  set_max_label_length=256,
@@ -83,6 +86,8 @@ class Data_Module(pl.LightningDataModule):
         self.path_to_formulas = path_to_formulas,
         self.path_to_image_names = path_to_image_names,
 
+        self.handwritten = handwritten
+
         self.set_max_label_length = set_max_label_length
         self.number_png_images_to_use_in_dataset = number_png_images_to_use_in_dataset
         self.labels_transform = labels_transform
@@ -99,6 +104,8 @@ class Data_Module(pl.LightningDataModule):
         self.train_val_fraction = train_val_fraction
         self.on_gpu = data_on_gpu
         self.shuffle_train = True
+
+
 
 
         if load_vocabulary == True:
