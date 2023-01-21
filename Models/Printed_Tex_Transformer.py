@@ -9,7 +9,7 @@ from Models.positional_encoding import PositionalEncoding1D, PositionalEncoding2
 
 
 
-TF_DIM = 128    # embedding_dim
+TF_DIM = 256    # embedding_dim change to 128 for 3 layers and 256 for 4
 TF_FC_DIM = 256 # decoder fully connected dim
 TF_DROPOUT = 0.3 # decoder_dropout
 TF_LAYERS = 4   # decoder_layers
@@ -65,7 +65,7 @@ class ResNetTransformer(nn.Module):
         resnet = torchvision.models.resnet18(pretrained=False)
         # self.backbone_old = torch.nn.Sequential(*(list(resnet.children())[:-2]))
 
-        #
+        # add or remove the last layer resnet.layer4
         self.backbone = nn.Sequential(
             resnet.conv1,
             resnet.bn1,
