@@ -9,12 +9,12 @@ from Models.positional_encoding import PositionalEncoding1D, PositionalEncoding2
 
 
 
-TF_DIM = 256    # embedding_dim change to 128 for 3 layers and 256 for 4
+TF_DIM = 128    # embedding_dim change to 128 for 3 layers and 256 for 4
 TF_FC_DIM = 256 # decoder fully connected dim
 TF_DROPOUT = 0.3 # decoder_dropout
 TF_LAYERS = 4   # decoder_layers
 TF_NHEAD = 8    # decoder_heads
-RESNET_DIM = 512  # hard-coded change to 256 if using RESNET18 3 layers. (512 for 4 layers)
+RESNET_DIM = 256  # hard-coded change to 256 if using RESNET18 3 layers. (512 for 4 layers)
 
 
 
@@ -74,7 +74,7 @@ class ResNetTransformer(nn.Module):
             resnet.layer1,
             resnet.layer2,
             resnet.layer3,
-            resnet.layer4,
+
         )
         self.bottleneck = nn.Conv2d(RESNET_DIM, self.embedding_dim, 1) # in channels, out channels, stride
         self.image_positional_encoder = PositionalEncoding2D(self.embedding_dim)
