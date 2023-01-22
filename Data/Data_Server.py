@@ -83,9 +83,9 @@ def _get_dataframe():
     formulas_df_hw = readlines_to_df_formulas(formula_locations = formula_locations_hw, path = path_to_formulas_hw)
     formulas_df_hw['image_name'] = images_df_hw
 
-    final_formulas = pd.concat([formulas_df,formulas_df_hw], ignore_index=True)
+    # final_formulas = pd.concat([formulas_df,formulas_df_hw], ignore_index=True)
 
-
+    final_formulas = formulas_df
 
 
 
