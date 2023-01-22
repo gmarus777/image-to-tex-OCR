@@ -10,8 +10,8 @@ import cv2
 from Data.configs import PrintedLatexDataConfig
 from Data.vocabulary_utils import create_vocabulary_dictionary_from_dataframe, make_vocabulary, invert_vocabulary
 
-WIDTH = 1024
-HEIGHT = 256
+WIDTH = 2048
+HEIGHT = 1024
 
 
 class Data_Server:
