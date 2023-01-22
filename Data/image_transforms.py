@@ -4,7 +4,7 @@ import cv2
 
 
 
-train_transform_=alb.Compose(
+train_transform=alb.Compose(
                     [
 
                         alb.Affine(scale=(0.6, 1.0), rotate=(-1, 1), cval=255, p=0.5),
