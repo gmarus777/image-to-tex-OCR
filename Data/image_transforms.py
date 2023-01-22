@@ -4,11 +4,23 @@ import cv2
 
 
 
+train_transform_=alb.Compose(
+                    [
+
+                        alb.Affine(scale=(0.6, 1.0), rotate=(-1, 1), cval=255, p=0.5),
+                        alb.GaussNoise(var_limit=(10.0, 50.0), p=0.5),
+                        alb.GaussianBlur(blur_limit=(1, 1), p=0.5),
+                        ToTensorV2(),
+
+                    ]
+    )
+
+
 
 
 #  alb.PadIfNeeded(min_height=128, min_width=1024, border_mode=cv2.BORDER_CONSTANT, value=255),
 
-train_transform =alb.Compose(
+train_transform_old =alb.Compose(
                     [
 
                         alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.15, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[255, 255, 255], p=1),
@@ -29,7 +41,7 @@ train_transform =alb.Compose(
 #  alb.PadIfNeeded(min_height=256, min_width=1024, border_mode=cv2.BORDER_CONSTANT, value=255),
 test_transform = alb.Compose(
     [
-        alb.ToGray(always_apply=True),
+
         # alb.Sharpen(),
         ToTensorV2(),
     ]
