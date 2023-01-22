@@ -11,7 +11,7 @@ from Data.configs import PrintedLatexDataConfig
 from Data.vocabulary_utils import create_vocabulary_dictionary_from_dataframe, make_vocabulary, invert_vocabulary
 
 WIDTH = 1024
-HEIGHT = 128
+HEIGHT = 256
 
 
 class Data_Server:
@@ -30,6 +30,9 @@ class Data_Server:
         # pass the max_label_length
         self.pretokenized_dataframe = tokenized_dataframe_no_max_label_length[tokenized_dataframe_no_max_label_length['tokenized_len'] < data_module.set_max_label_length]
         self.tokenized_dataframe_pre_resize = self.pretokenized_dataframe[0:data_module.number_png_images_to_use_in_dataset]
+
+        # to cut longer formulas remove next line and add the following
+        # self.tokenized_dataframe = self.tokenized_dataframe_pre_resize
         self.tokenized_dataframe = self.tokenized_dataframe_pre_resize[(self.tokenized_dataframe_pre_resize['width']<WIDTH) & (self.tokenized_dataframe_pre_resize['height']<HEIGHT)]
 
         self.max_label_length =  data_module.set_max_label_length + 2 # accounting for the Start and End Tokens

@@ -139,8 +139,10 @@ class ResNetTransformer(nn.Module):
         # Resnet expects 3 channels but training images are in gray scale
         if x.shape[1] == 1:
             x = x.repeat(1, 3, 1, 1)
+
         x = self.backbone(x.float())  # (B, RESNET_DIM, H, W); H = _H // 32, W = _W // 32
         x = self.bottleneck(x)  # (B, E, H, W)
+
         x = self.image_positional_encoder(x)  # (B, E, H, W)
         x = x.flatten(start_dim=2)  # (B, E, H * W)
         x = x.permute(2, 0, 1)  # (Sx, B, E); Sx = H * W
