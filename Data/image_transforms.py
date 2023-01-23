@@ -24,9 +24,9 @@ train_transform_original=alb.Compose(
 
 train_transform =alb.Compose(
                     [
-                        alb.augmentations.geometric.resize.LongestMaxSize (max_size=1024, interpolation=1, p=1),
-                        alb.augmentations.geometric.resize.SmallestMaxSize (max_size=512, interpolation=1, p=1),
-                        alb.augmentations.geometric.resize.Resize (512, 1024, interpolation=1,  p=1),
+                        alb.augmentations.geometric.resize.LongestMaxSize(max_size=512, interpolation=1, p=1),
+                        alb.augmentations.geometric.resize.SmallestMaxSize(max_size=128, interpolation=1, p=1),
+                        alb.augmentations.geometric.resize.Resize(128, 512, interpolation=1, p=1),
                         alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.15, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[255, 255, 255], p=1),
                         alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=255, p=0.5),
                         alb.GridDistortion(distort_limit=0.2, border_mode=0, interpolation=3, value=[255, 255, 255], p=.5),
@@ -45,9 +45,9 @@ train_transform =alb.Compose(
 #  alb.PadIfNeeded(min_height=256, min_width=1024, border_mode=cv2.BORDER_CONSTANT, value=255),
 test_transform = alb.Compose(
     [
-        alb.augmentations.geometric.resize.LongestMaxSize (max_size=256, interpolation=1, p=1),
-        alb.augmentations.geometric.resize.SmallestMaxSize (max_size=64, interpolation=1, p=1),
-        alb.augmentations.geometric.resize.Resize (64, 256, interpolation=1,  p=1),
+        alb.augmentations.geometric.resize.LongestMaxSize (max_size=512, interpolation=1, p=1),
+        alb.augmentations.geometric.resize.SmallestMaxSize (max_size=128, interpolation=1, p=1),
+        alb.augmentations.geometric.resize.Resize (128, 512, interpolation=1,  p=1),
         # alb.Sharpen(),
         ToTensorV2(),
     ]
