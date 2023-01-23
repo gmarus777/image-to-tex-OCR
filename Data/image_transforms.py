@@ -45,9 +45,9 @@ train_transform =alb.Compose(
 #  alb.PadIfNeeded(min_height=256, min_width=1024, border_mode=cv2.BORDER_CONSTANT, value=255),
 test_transform = alb.Compose(
     [
-        alb.augmentations.geometric.resize.LongestMaxSize (max_size=1024, interpolation=1, p=1),
-        alb.augmentations.geometric.resize.SmallestMaxSize (max_size=512, interpolation=1, p=1),
-        alb.augmentations.geometric.resize.Resize (512, 1024, interpolation=1,  p=1),
+        alb.augmentations.geometric.resize.LongestMaxSize (max_size=512, interpolation=1, p=1),
+        alb.augmentations.geometric.resize.SmallestMaxSize (max_size=128, interpolation=1, p=1),
+        alb.augmentations.geometric.resize.Resize (128, 512, interpolation=1,  p=1),
         # alb.Sharpen(),
         ToTensorV2(),
     ]
