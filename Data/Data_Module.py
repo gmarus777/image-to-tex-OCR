@@ -37,7 +37,7 @@ class Data_Module(pl.LightningDataModule):
                  number_png_images_to_use_in_dataset=200*1000,
                  labels_transform='default',
                  image_transform_name='alb',  # or 'alb'
-
+                max_width = 512,
                  load_vocabulary = False,
                  vocabulary_path = None,
 
@@ -82,9 +82,12 @@ class Data_Module(pl.LightningDataModule):
         self.load_vocabulary = load_vocabulary
         self.vocabulary_path = vocabulary_path
 
+
         self.image_transform_name = image_transform_name
         self.image_transform_alb = Image_Transforms.train_transform
         self.image_transform_test = Image_Transforms.test_transform
+
+        self.max_width = max_width
 
         self.batch_size = batch_size
         self.num_workers = num_workers

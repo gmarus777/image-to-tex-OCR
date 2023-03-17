@@ -27,8 +27,11 @@ class Data_Server:
         self.vocabulary_dataframe, tokenized_dataframe_no_max_label_length = self.run_tokenizer()
 
         # pass the max_label_length
-        self.pretokenized_dataframe = tokenized_dataframe_no_max_label_length[tokenized_dataframe_no_max_label_length['tokenized_len'] < data_module.set_max_label_length]
+        self.pretokenized_dataframe = tokenized_dataframe_no_max_label_length[tokenized_dataframe_no_max_label_length['tokenized_len'] < self.data_module.set_max_label_length]
         self.tokenized_dataframe = self.pretokenized_dataframe[0:data_module.number_png_images_to_use_in_dataset]
+
+        # pass the max width:
+        self.tokenized_dataframe = self.tokenized_dataframe[self.tokenized_dataframe['width'] < self.data_module.max_width]
 
         self.max_label_length =  data_module.set_max_label_length + 2 # accounting for the Start and End Tokens
         self.vocabulary = create_vocabulary_dictionary_from_dataframe(self.vocabulary_dataframe)
