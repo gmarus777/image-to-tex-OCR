@@ -3,7 +3,6 @@ import argparse
 from typing import Dict, Tuple, Collection, Union, Optional
 import torch
 import json
-import cv2
 from torch.utils.data import ConcatDataset, DataLoader
 import pytorch_lightning as pl
 from Data.label_transforms import Label_Transforms

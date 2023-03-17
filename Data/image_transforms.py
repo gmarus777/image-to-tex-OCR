@@ -1,5 +1,6 @@
 import albumentations as alb
 from albumentations.pytorch import ToTensorV2
+import cv2
 
 IMAGE_HEIGHT = 64
 IMAGE_WIDTH = 512
