@@ -87,6 +87,9 @@ class Data_Module(pl.LightningDataModule):
         self.image_transform_alb = Image_Transforms.train_transform
         self.image_transform_test = Image_Transforms.test_transform
 
+        self.image_transform_alb_padded = Image_Transforms.train_transform_with_padding
+        self.image_transform_test_padded = Image_Transforms.test_transform_with_padding
+
         self.max_width = max_width
 
         self.batch_size = batch_size
