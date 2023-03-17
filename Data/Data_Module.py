@@ -38,6 +38,7 @@ class Data_Module(pl.LightningDataModule):
                  labels_transform='default',
                  image_transform_name='alb',  # or 'alb'
                 max_width = 512,
+                 image_padding = False,
                  load_vocabulary = False,
                  vocabulary_path = None,
 
@@ -84,11 +85,16 @@ class Data_Module(pl.LightningDataModule):
 
 
         self.image_transform_name = image_transform_name
-        self.image_transform_alb = Image_Transforms.train_transform
-        self.image_transform_test = Image_Transforms.test_transform
 
-        self.image_transform_alb_padded = Image_Transforms.train_transform_with_padding
-        self.image_transform_test_padded = Image_Transforms.test_transform_with_padding
+        self.image_padding = image_padding
+        if self.image_padding:
+            self.image_transform_alb = Image_Transforms.train_transform_with_padding
+            self.image_transform_test = Image_Transforms.test_transform_with_padding
+        else:
+            self.image_transform_alb = Image_Transforms.train_transform
+            self.image_transform_test = Image_Transforms.test_transform
+
+
 
         self.max_width = max_width
 
