@@ -78,7 +78,7 @@ class Image_Transforms:
 
     test_transform_with_padding = alb.Compose(
         [alb.PadIfNeeded(min_height=177, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=255),
-         alb.ToGray(always_apply=True),
+         #alb.ToGray(always_apply=True),
          # alb.Sharpen(),
          ToTensorV2(),
          ]
