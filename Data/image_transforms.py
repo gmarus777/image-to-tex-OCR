@@ -55,18 +55,17 @@ class Image_Transforms:
                     [
                         alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.15, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[255, 255, 255], p=1),
                         alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=255, p=0.5),
-                        alb.GridDistortion(distort_limit=0.1, border_mode=0, interpolation=3, value=[255, 255, 255], p=.5),
-                        alb.GaussNoise(var_limit=(10.0, 50.0), p=0.5),
+                        alb.GridDistortion(distort_limit=0.1, border_mode=0, interpolation=3, value=[255, 255, 255], p=.15),
+                        alb.GaussNoise(var_limit=(10.0, 50.0), p=0.2),
                         alb.GaussianBlur(blur_limit=(1, 1), p=0.5),
-                        alb.RandomBrightnessContrast(.5, (-.5, .5), True, p=0.3),
+                        alb.RandomBrightnessContrast(.05, (-.2, .5), True, p=0.3),
                         alb.ImageCompression(95, p=.3),
                         alb.ToGray(always_apply=True),
-                        alb.augmentations.geometric.resize.LongestMaxSize(max_size=256, interpolation=cv2.INTER_LINEAR,
-                                                                          always_apply=False, p=1),
-                        alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_LINEAR,
-                                                                           always_apply=False, p=1),
-                        alb.PadIfNeeded(always_apply=True, min_height=177, min_width=512,
-                                        border_mode=cv2.BORDER_CONSTANT, value=255),
+                        alb.augmentations.geometric.resize.LongestMaxSize(max_size=512, interpolation=cv2.INTER_LINEAR,
+                                                                          always_apply=True, p=1),
+                        alb.augmentations.geometric.resize.SmallestMaxSize(max_size=177, interpolation=cv2.INTER_LINEAR,
+                                                                           always_apply=True, p=1),
+                        #alb.PadIfNeeded(always_apply=True, min_height=177, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=255),
 
 
                         ToTensorV2(),
@@ -87,10 +86,10 @@ class Image_Transforms:
 
     test_transform_with_padding = alb.Compose(
 
-        [ alb.augmentations.geometric.resize.LongestMaxSize (max_size=256, interpolation=cv2.INTER_LINEAR, always_apply=False, p=1),
-          alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation= cv2.INTER_LINEAR ,always_apply=False, p=1),
+        [ alb.augmentations.geometric.resize.LongestMaxSize (max_size=512, interpolation=cv2.INTER_LINEAR, always_apply=False, p=1),
+          alb.augmentations.geometric.resize.SmallestMaxSize(max_size=177, interpolation= cv2.INTER_LINEAR ,always_apply=False, p=1),
             #alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
-            alb.PadIfNeeded(always_apply=True, min_height=177, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=255),
+            #alb.PadIfNeeded(always_apply=True, min_height=177, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=255),
          alb.ToGray(always_apply=True),
          # alb.Sharpen(),
          ToTensorV2(),
