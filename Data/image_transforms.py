@@ -51,7 +51,7 @@ class Image_Transforms:
     )
 
     train_transform_with_padding = alb.Compose(
-                    [   alb.PadIfNeeded(always_apply=True, min_height=177, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=255),
+                    [   alb.PadIfNeeded(always_apply=True, min_height=177, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=0),
                         alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.15, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[255, 255, 255], p=1),
                         alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=255, p=0.5),
                         alb.GridDistortion(distort_limit=0.1, border_mode=0, interpolation=3, value=[255, 255, 255], p=.5),
@@ -77,7 +77,7 @@ class Image_Transforms:
     )
 
     test_transform_with_padding = alb.Compose(
-        [alb.PadIfNeeded(always_apply=True, min_height=177, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=255),
+        [alb.PadIfNeeded(always_apply=True, min_height=177, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=0),
          alb.ToGray(always_apply=True),
          # alb.Sharpen(),
          ToTensorV2(),
