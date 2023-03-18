@@ -31,6 +31,7 @@ class LitResNetTransformer(pl.LightningModule):
         # self.save_hyperparameters()  # save parameters
 
         self.lr = lr
+        self.learning_rate = lr
         self.weight_decay = weight_decay
         self.milestones = milestones
         self.gamma = gamma
