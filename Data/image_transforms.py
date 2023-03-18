@@ -63,7 +63,7 @@ class Image_Transforms:
                         alb.RandomBrightnessContrast(.5, (-.5, .5), True, p=0.3),
                         alb.ImageCompression(95, p=.3),
                         alb.ToGray(always_apply=True),
-                        alb.Normalize((0.7931, 0.7931, 0.7931), (0.1738, 0.1738, 0.1738)),
+
 
                         ToTensorV2(),
                     ]
