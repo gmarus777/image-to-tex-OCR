@@ -60,11 +60,11 @@ class Image_Transforms:
                         alb.GaussianBlur(blur_limit=(1, 1), p=0.5),
                         alb.RandomBrightnessContrast(.05, (-.2, .5), True, p=0.3),
                         alb.ImageCompression(95, p=.3),
-                        alb.ToGray(always_apply=True),
-                        alb.augmentations.geometric.resize.LongestMaxSize(max_size=256, interpolation=cv2.INTER_CUBIC,
+                        #alb.ToGray(always_apply=True),
+                        alb.augmentations.geometric.resize.LongestMaxSize(max_size=350, interpolation=cv2.INTER_CUBIC,
                                                                           always_apply=True, p=1),
                         # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
-                        alb.PadIfNeeded(always_apply=True, min_height=256, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=255),
+                        alb.PadIfNeeded(always_apply=True, min_height=256, min_width=380, border_mode=cv2.BORDER_CONSTANT, value=255),
 
 
                         ToTensorV2(),
@@ -85,10 +85,10 @@ class Image_Transforms:
 
     test_transform_with_padding = alb.Compose(
 
-        [ alb.augmentations.geometric.resize.LongestMaxSize (max_size=350, interpolation=cv2.INTER_CUBIC, always_apply=False, p=1),
+        [ alb.augmentations.geometric.resize.LongestMaxSize (max_size=350, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
           #alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation= cv2.INTER_CUBIC ,always_apply=False, p=1),
             #alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
-            #alb.PadIfNeeded(always_apply=True, min_height=256, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=255),
+            alb.PadIfNeeded(always_apply=True, min_height=256, min_width=380, border_mode=cv2.BORDER_CONSTANT, value=255),
          #alb.ToGray(always_apply=True),
          alb.Sharpen(),
          ToTensorV2(),
