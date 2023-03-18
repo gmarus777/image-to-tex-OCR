@@ -46,6 +46,7 @@ class Image_Transforms:
                         alb.RandomBrightnessContrast(.5, (-.5, .5), True, p=0.3),
                         alb.ImageCompression(95, p=.3),
 
+
                         ToTensorV2(),
                     ]
     )
@@ -61,6 +62,8 @@ class Image_Transforms:
                         alb.GaussianBlur(blur_limit=(1, 1), p=0.5),
                         alb.RandomBrightnessContrast(.5, (-.5, .5), True, p=0.3),
                         alb.ImageCompression(95, p=.3),
+                        alb.ToGray(always_apply=True),
+                        alb.Normalize((0.7931, 0.7931, 0.7931), (0.1738, 0.1738, 0.1738)),
 
                         ToTensorV2(),
                     ]
@@ -84,7 +87,7 @@ class Image_Transforms:
           alb.augmentations.geometric.resize.SmallestMaxSize(max_size=32, interpolation= cv2.INTER_LINEAR ,always_apply=False, p=1),
             #alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
             alb.PadIfNeeded(always_apply=True, min_height=177, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=1),
-         # alb.ToGray(always_apply=True),
+         alb.ToGray(always_apply=True),
          # alb.Sharpen(),
          ToTensorV2(),
          ]
