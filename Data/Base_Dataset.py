@@ -73,7 +73,7 @@ class Base_Dataset(Dataset):
 
         if self.stage.lower() =="fit":
            #image =  self.image_transform_train(image)
-           image = self.image_transform_alb(image=np.array(image))['image']
+           image = self.image_transform_alb(image=np.array(image))['image'][:1]
 
            formula = self.labels_transform_function(formula)
 
