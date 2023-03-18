@@ -64,7 +64,7 @@ class Base_Dataset(Dataset):
         os.chdir(PrintedLatexDataConfig.DATA_BANK_DIRNAME)  # "Data/Data_Bank"
 
         # image = pil_loader('generated_png_images/' + image_filename, mode="L")
-        image = ImageProcessor.read_image_pil('generated_png_images/' + image_filename, grayscale=False)
+        image = ImageProcessor.read_image_pil('generated_png_images/' + image_filename, grayscale=True)
 
         # added inversion
         image = PIL.ImageOps.invert(image)

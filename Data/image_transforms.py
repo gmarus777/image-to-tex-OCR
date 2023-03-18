@@ -53,7 +53,7 @@ class Image_Transforms:
 
     train_transform_with_padding = alb.Compose(
                     [   alb.augmentations.geometric.resize.LongestMaxSize (max_size=256, interpolation=cv2.INTER_LINEAR, always_apply=False, p=1),
-                         alb.augmentations.geometric.resize.SmallestMaxSize(max_size=32, interpolation= cv2.INTER_LINEAR ,always_apply=False, p=1),
+                         alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation= cv2.INTER_LINEAR ,always_apply=False, p=1),
                         alb.PadIfNeeded(always_apply=True, min_height=177, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=1),
                         alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.15, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[255, 255, 255], p=1),
                         alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=255, p=0.5),
@@ -84,7 +84,7 @@ class Image_Transforms:
     test_transform_with_padding = alb.Compose(
 
         [ alb.augmentations.geometric.resize.LongestMaxSize (max_size=256, interpolation=cv2.INTER_LINEAR, always_apply=False, p=1),
-          alb.augmentations.geometric.resize.SmallestMaxSize(max_size=32, interpolation= cv2.INTER_LINEAR ,always_apply=False, p=1),
+          alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation= cv2.INTER_LINEAR ,always_apply=False, p=1),
             #alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
             alb.PadIfNeeded(always_apply=True, min_height=177, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=1),
          alb.ToGray(always_apply=True),
