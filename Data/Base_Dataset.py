@@ -67,13 +67,13 @@ class Base_Dataset(Dataset):
         image = ImageProcessor.read_image_pil('generated_png_images/' + image_filename, grayscale=True)
 
         # added inversion
-        image = PIL.ImageOps.invert(image)
+        # image = PIL.ImageOps.invert(image)
 
 
 
         if self.stage.lower() =="fit":
            #image =  self.image_transform_train(image)
-           image = self.image_transform_alb(image=np.array(image))['image'][:1]
+           image = self.image_transform_alb(image=np.array(image))['image']# [:1]
 
            formula = self.labels_transform_function(formula)
 
