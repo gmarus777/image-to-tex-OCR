@@ -66,6 +66,9 @@ class Base_Dataset(Dataset):
         # image = pil_loader('generated_png_images/' + image_filename, mode="L")
         image = ImageProcessor.read_image_pil('generated_png_images/' + image_filename, grayscale=True)
 
+        # added inversion
+        image = PIL.ImageOps.invert(image)
+
 
 
         if self.stage.lower() =="fit":
