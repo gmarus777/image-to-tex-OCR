@@ -90,7 +90,7 @@ class Image_Transforms:
             #alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
             #alb.PadIfNeeded(always_apply=True, min_height=256, min_width=512, border_mode=cv2.BORDER_CONSTANT, value=255),
          #alb.ToGray(always_apply=True),
-         #alb.Sharpen(),
+         alb.Sharpen(),
          ToTensorV2(),
          ]
     )
