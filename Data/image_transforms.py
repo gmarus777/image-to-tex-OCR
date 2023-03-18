@@ -64,7 +64,7 @@ class Image_Transforms:
                         alb.augmentations.geometric.resize.LongestMaxSize(max_size=350, interpolation=cv2.INTER_CUBIC,
                                                                           always_apply=True, p=1),
                         # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
-                        alb.PadIfNeeded(always_apply=True, min_height=256, min_width=380, border_mode=cv2.BORDER_CONSTANT, value=255),
+                        alb.PadIfNeeded(always_apply=True, min_height=350, min_width=380, border_mode=cv2.BORDER_CONSTANT, value=255),
 
 
                         ToTensorV2(),
