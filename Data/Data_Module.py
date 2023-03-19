@@ -231,7 +231,7 @@ def collate_fn(batch):
 
     # Stack the padded images and labels into a batch tensor
     images = torch.stack([item[0] for item in padded_batch])
-    labels =[item[1] for item in padded_batch]
+    labels =torch.stack([item[1] for item in padded_batch])
     return images, labels
 
 
