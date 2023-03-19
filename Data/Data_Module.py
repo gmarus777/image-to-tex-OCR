@@ -218,21 +218,21 @@ class Data_Module(pl.LightningDataModule):
 def collate_fn(batch):
     # Get the maximum height of images in the batch
 
-    max_height = max([item[0].size(0) for item in batch])
+    max_height = max([item.size(1) for item in batch[0]])
 
     # Pad images to the maximum height using zero-padding
-    padded_batch = []
-    for item in batch:
-        image = item[0]
-        label = item[1]
-        padding_height = max_height - image.size(0)
-        padding = transforms.Pad((0, padding_height, 0, 0), fill=0)
+    padded_images = []
+    labels = batch[1]
+    for image in batch[0]:
+
+        padding_height = max_height - image.size(1)
+        padding = transforms.Pad((0, padding_height, 0), fill=0)
         padded_image = padding(image)
         padded_batch.append((padded_image, label))
 
     # Stack the padded images and labels into a batch tensor
-    images = torch.stack([item[0] for item in padded_batch])
-    labels =torch.stack([item[1] for item in padded_batch])
+    images = torch.stack(padded_images)
+    #labels =torch.stack([item[1] for item in padded_batch])
     return images, labels
 
 
