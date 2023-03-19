@@ -5,6 +5,7 @@ import torch
 import json
 from torch.utils.data import ConcatDataset, DataLoader
 import pytorch_lightning as pl
+from torchvision import transforms
 from Data.label_transforms import Label_Transforms
 from Data.image_transforms import train_transform, test_transform, Image_Transforms
 from Data.Data_Server import Data_Server
@@ -178,7 +179,8 @@ class Data_Module(pl.LightningDataModule):
             shuffle=self.shuffle_train,
             batch_size=self.batch_size,
             num_workers=self.num_workers,
-            pin_memory=self.on_gpu
+            pin_memory=self.on_gpu,
+            collate_fn=collate_fn
         )
 
     def val_dataloader(self, *args, **kwargs):
@@ -193,7 +195,8 @@ class Data_Module(pl.LightningDataModule):
             shuffle=False,
             batch_size=self.batch_size,
             num_workers=self.num_workers,
-            pin_memory=self.on_gpu
+            pin_memory=self.on_gpu,
+            collate_fn=collate_fn
         )
 
     def test_dataloader(self, *args, **kwargs):
@@ -208,9 +211,27 @@ class Data_Module(pl.LightningDataModule):
             shuffle=False,
             batch_size=self.batch_size,
             num_workers=self.num_workers,
-            pin_memory=self.on_gpu
+            pin_memory=self.on_gpu,
+            collate_fn = collate_fn
         )
 
+def collate_fn(batch):
+    # Get the maximum height of images in the batch
+    max_height = max([item[0].size(1) for item in batch])
 
+    # Pad images to the maximum height using zero-padding
+    padded_batch = []
+    for item in batch:
+        image = item[0]
+        label = item[1]
+        padding_height = max_height - image.size(1)
+        padding = transforms.Pad((0, padding_height, 0, 0), fill=0)
+        padded_image = padding(image)
+        padded_batch.append((padded_image, label))
+
+    # Stack the padded images and labels into a batch tensor
+    images = torch.stack([item[0] for item in padded_batch])
+    labels =[item[1] for item in padded_batch]
+    return images, labels
 
 
