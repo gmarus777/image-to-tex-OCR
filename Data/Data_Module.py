@@ -180,7 +180,7 @@ class Data_Module(pl.LightningDataModule):
             batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=self.on_gpu,
-            collate_fn=collate_fn
+
         )
 
     def val_dataloader(self, *args, **kwargs):
@@ -196,7 +196,7 @@ class Data_Module(pl.LightningDataModule):
             batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=self.on_gpu,
-            collate_fn=collate_fn
+
         )
 
     def test_dataloader(self, *args, **kwargs):
@@ -212,7 +212,7 @@ class Data_Module(pl.LightningDataModule):
             batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=self.on_gpu,
-            collate_fn = collate_fn
+
         )
 
 
