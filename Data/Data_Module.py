@@ -233,9 +233,9 @@ def collate_fn(batch):
         padded_batch.append((padded_image, label))
 
     # Stack the padded images and labels into a batch tensor
-    images = torch.stack([item[0] for item in padded_batch])
-    labels = torch.stack([item[1] for item in padded_batch])
-    return images, labels
+    images = [item[0] for item in padded_batch]
+    labels = [item[1] for item in padded_batch]
+    return [images, labels]
 
 def collate_fn_old(batch):
     # Get the maximum height of images in the batch
