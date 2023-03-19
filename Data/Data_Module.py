@@ -212,7 +212,6 @@ class Data_Module(pl.LightningDataModule):
             batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=self.on_gpu,
-
         )
 
 
