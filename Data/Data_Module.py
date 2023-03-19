@@ -219,6 +219,7 @@ def collate_fn(batch):
     # Get the maximum height of images in the batch
 
     max_height = max([item.size(1) for item in batch[0]])
+    print(batch[0].shape)
 
     # Pad images to the maximum height using zero-padding
     padded_images = []
