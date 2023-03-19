@@ -217,6 +217,7 @@ class Data_Module(pl.LightningDataModule):
 
 def collate_fn(batch):
     # Get the maximum height of images in the batch
+    batch = batch[0]
     max_height = max([item[0].size(0) for item in batch])
 
     # Pad images to the maximum height using zero-padding
