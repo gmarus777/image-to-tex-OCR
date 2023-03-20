@@ -33,7 +33,10 @@ class Base_Dataset(Dataset):
 
         self.image_transform_name = data_module.image_transform_name
         self.image_transform_alb = data_module.image_transform_alb
+        self.image_transform_alb_small = data_module.image_transform_alb_small
+
         self.image_transform_test = data_module.image_transform_test
+        self.image_transform_test_small = data_module.image_transform_test_small
 
         # funciton to turn strings into labels via a tokenizer
         self.labels_transform_function = data_module.labels_transform_function
@@ -74,12 +77,15 @@ class Base_Dataset(Dataset):
         # image = PIL.ImageOps.invert(image)
 
 
-
+        h,w, c = image.shape
         if self.stage.lower() =="fit":
            #image =  self.image_transform_train(image)
-           image = self.image_transform_alb(image=np.array(image))['image'][:1]
+            if w <231:
+                image = self.image_transform_alb_small(image=np.array(image))['image'][:1]
+            else:
+                image = self.image_transform_alb(image=np.array(image))['image'][:1]
 
-           formula = self.labels_transform_function(formula)
+            formula = self.labels_transform_function(formula)
 
         if self.stage == 'test':
             image =  self.image_transform_test(image)
