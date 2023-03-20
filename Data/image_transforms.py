@@ -91,7 +91,7 @@ class Image_Transforms:
          alb.GaussNoise(10, p=0.2),
          # alb.GaussianBlur(blur_limit=(1, 1), p=0.2),
          alb.RandomBrightnessContrast(.05, (-.2, 0), True, p=0.2),
-         alb.ImageCompression(95, p=.3),
+         #alb.ImageCompression(95, p=.3),
          alb.ToGray(always_apply=True),
          alb.Sharpen(always_apply=True),
          # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
