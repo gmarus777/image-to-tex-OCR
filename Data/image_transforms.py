@@ -62,7 +62,7 @@ class Image_Transforms:
                         alb.GridDistortion(distort_limit=0.1, border_mode=0, interpolation=3, value=[0, 0, 0], p=.15),
                         alb.GaussNoise(10, p=0.2),
                         #alb.GaussianBlur(blur_limit=(1, 1), p=0.2),
-                        alb.RandomBrightnessContrast(.05, (-.2, .2), True, p=0.3),
+                        alb.RandomBrightnessContrast(.05, (-.2, 0), True, p=0.3),
                         alb.ImageCompression(95, p=.3),
                         alb.ToGray(always_apply=True),
 
