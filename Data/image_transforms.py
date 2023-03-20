@@ -60,9 +60,9 @@ class Image_Transforms:
                         alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.15, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[0, 0, 0], p=1),
                         alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
                         alb.GridDistortion(distort_limit=0.1, border_mode=0, interpolation=3, value=[0, 0, 0], p=.15),
-                        alb.GaussNoise(var_limit=(10.0, 50.0), p=0.2),
-                        alb.GaussianBlur(blur_limit=(1, 1), p=0.5),
-                        alb.RandomBrightnessContrast(.05, (-.2, .5), True, p=0.3),
+                        alb.GaussNoise(10, p=0.2),
+                        #alb.GaussianBlur(blur_limit=(1, 1), p=0.2),
+                        alb.RandomBrightnessContrast(.05, (-.2, .2), True, p=0.3),
                         alb.ImageCompression(95, p=.3),
                         alb.ToGray(always_apply=True),
 
