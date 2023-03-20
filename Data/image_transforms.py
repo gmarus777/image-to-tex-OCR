@@ -136,6 +136,7 @@ class Image_Transforms:
          alb.PadIfNeeded(always_apply=True, min_height=420, min_width=420, border_mode=cv2.BORDER_CONSTANT, value=1),
          alb.augmentations.crops.transforms.CenterCrop(250, 420, always_apply=True, p=1.0),
 
+         #albaugmentations.transforms.Downscale(scale_min=0.25, scale_max=0.25, interpolation=None, always_apply=False, p=0.5)
          # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
          alb.ToGray(always_apply=True),
           alb.Sharpen(),
