@@ -10,8 +10,8 @@ from Models.positional_encoding import PositionalEncoding1D, PositionalEncoding2
 
 
 TF_DIM = 256    # embedding_dim
-TF_FC_DIM = 1024 # decoder fully connected dim
-TF_DROPOUT = 0.4 # decoder_dropout
+TF_FC_DIM = 512 # decoder fully connected dim
+TF_DROPOUT = 0.3 # decoder_dropout
 TF_LAYERS = 4   # decoder_layers
 TF_NHEAD = 8    # decoder_heads
 RESNET_DIM = 512  # hard-coded
@@ -63,17 +63,16 @@ class ResNetTransformer(nn.Module):
 
         ### Encoder ###
         resnet = torchvision.models.resnet18(pretrained=False)
-        #self.backbone = nn.Sequential(
-            #resnet.conv1,
-            #resnet.bn1,
-            #resnet.relu,
-            #resnet.maxpool,
-            #resnet.layer1,
-            #resnet.layer2,
-            #resnet.layer3,
-        #)
-        #change Resnetdim to 256 for 3 layers
-        self.backbone = torch.nn.Sequential(*(list(resnet.children())[:-2]))
+        self.backbone = nn.Sequential(
+            resnet.conv1,
+            resnet.bn1,
+            resnet.relu,
+            resnet.maxpool,
+            resnet.layer1,
+            resnet.layer2,
+            resnet.layer3,
+            resnet.layer4
+        )
         self.bottleneck = nn.Conv2d(RESNET_DIM, self.embedding_dim, 1) # in channels, out channels, stride
         self.image_positional_encoder = PositionalEncoding2D(self.embedding_dim)
 

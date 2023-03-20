@@ -123,7 +123,7 @@ class Image_Transforms:
           #alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
           #alb.ImageCompression(95, p=.3),
          alb.ToGray(always_apply=True),
-         #alb.Sharpen(always_apply=True  ),
+         alb.Sharpen(always_apply=True  ),
          ToTensorV2(),
          ]
     )
@@ -139,7 +139,7 @@ class Image_Transforms:
          #albaugmentations.transforms.Downscale(scale_min=0.25, scale_max=0.25, interpolation=None, always_apply=False, p=0.5)
          # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
          alb.ToGray(always_apply=True),
-          #alb.Sharpen(),
+          alb.Sharpen(),
          ToTensorV2(),
          ]
     )
