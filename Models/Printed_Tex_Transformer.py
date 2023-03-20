@@ -9,9 +9,9 @@ from Models.positional_encoding import PositionalEncoding1D, PositionalEncoding2
 
 
 
-TF_DIM = 256    # embedding_dim
-TF_FC_DIM = 512 # decoder fully connected dim
-TF_DROPOUT = 0.3 # decoder_dropout
+TF_DIM = 128    # embedding_dim 128
+TF_FC_DIM = 256 # decoder fully connected dim 256
+TF_DROPOUT = 0.4 # decoder_dropout 0.4
 TF_LAYERS = 4   # decoder_layers
 TF_NHEAD = 8    # decoder_heads
 RESNET_DIM = 512  # hard-coded
