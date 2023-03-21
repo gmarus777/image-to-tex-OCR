@@ -172,7 +172,7 @@ class Image_Transforms:
          ]
     )
 
-    test_transform_with_padding_medium = alb.Compose(
+    test_transform_with_padding_med = alb.Compose(
 
         [alb.augmentations.geometric.resize.LongestMaxSize(max_size=200, interpolation=cv2.INTER_CUBIC,
                                                            always_apply=True, p=1),
