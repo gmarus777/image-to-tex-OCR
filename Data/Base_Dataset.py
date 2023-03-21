@@ -89,7 +89,7 @@ class Base_Dataset(Dataset):
            #image =  self.image_transform_train(image)
             if w<100:
                image = self.image_transform_alb_xs(image=np.array(image))['image'][:1]
-            if w <231:
+            elif w <231:
                 image = self.image_transform_alb_small(image=np.array(image))['image'][:1]
             else:
                 image = self.image_transform_alb(image=np.array(image))['image'][:1]
