@@ -93,7 +93,7 @@ class Image_Transforms:
          alb.RandomBrightnessContrast(.05, (-.2, 0), True, p=0.2),
          #alb.ImageCompression(95, p=.3),
          alb.ToGray(always_apply=True),
-         alb.Sharpen(always_apply=True),
+         #alb.Sharpen(always_apply=True),
          # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
 
          ToTensorV2(),
