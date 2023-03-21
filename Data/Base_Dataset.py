@@ -34,7 +34,7 @@ class Base_Dataset(Dataset):
         self.image_transform_name = data_module.image_transform_name
         self.image_transform_alb = data_module.image_transform_alb
         self.image_transform_alb_small = data_module.image_transform_alb_small
-        elf.image_transform_alb_xs = data_module.image_transform_alb_xs
+        self.image_transform_alb_xs = data_module.image_transform_alb_xs
 
         self.image_transform_test = data_module.image_transform_test
         self.image_transform_test_small = data_module.image_transform_test_small
