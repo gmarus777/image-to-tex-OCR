@@ -14,7 +14,7 @@ class PositionalEncoding2D(nn.Module):
     https://github.com/full-stack-deep-learning/fsdl-text-recognizer-2021-labs/blob/main/lab9/text_recognizer/models/transformer_util.py
     """
     # original  max_h: int = 2000, max_w: int = 2000
-    def __init__(self, d_model: int, max_h: int = 250, max_w: int = 420) -> None:
+    def __init__(self, d_model: int, max_h: int = 400, max_w: int = 600) -> None:
         super().__init__()
         self.d_model = d_model
         assert d_model % 2 == 0, f"Embedding depth {d_model} is not even"

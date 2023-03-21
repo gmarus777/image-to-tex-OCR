@@ -86,7 +86,9 @@ class Base_Dataset(Dataset):
         h,w, c = image.shape
         if self.stage.lower() =="fit":
            #image =  self.image_transform_train(image)
-            if w <231:
+            if w<80:
+                image = self.image_transform_alb_xs(image=np.array(image))['image'][:1]
+            elif w <231:
                 image = self.image_transform_alb_small(image=np.array(image))['image'][:1]
             else:
                 image = self.image_transform_alb(image=np.array(image))['image'][:1]
