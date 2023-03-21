@@ -90,8 +90,14 @@ class Data_Module(pl.LightningDataModule):
         if self.image_padding:
             self.image_transform_alb = Image_Transforms.train_transform_with_padding
             self.image_transform_alb_small = Image_Transforms.train_transform_with_padding_small
+            self.image_transform_alb_medium = Image_Transforms.train_transform_with_padding_medium
+
+
             self.image_transform_test = Image_Transforms.test_transform_with_padding
             self.image_transform_test_small = Image_Transforms.test_transform_with_padding_small
+            self.image_transform_test_medium = Image_Transforms.test_transform_with_padding_medium
+            self.image_transform_test_xl = Image_Transforms.test_transform_with_padding_xl
+            self.image_transform_test_xs =Image_Transforms.test_transform_with_padding_xs
 
         else:
             self.image_transform_alb = Image_Transforms.train_transform

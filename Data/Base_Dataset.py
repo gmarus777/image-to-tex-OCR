@@ -72,9 +72,15 @@ class Base_Dataset(Dataset):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = cv2.bitwise_not(image)
 
-
+        #image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        #image = cv2.threshold(image, 0, 255,cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+        #dist = cv2.distanceTransform(image, cv2.DIST_L2, 5)
+        #dist = cv2.normalize(dist, dist, 0, 1.0, cv2.NORM_MINMAX)
+        #dist = (dist * 255).astype("uint8")
+        #image = cv2.threshold(dist, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
         # added inversion
         # image = PIL.ImageOps.invert(image)
+        #h, w = image.shape
 
 
         h,w, c = image.shape
