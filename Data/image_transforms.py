@@ -102,7 +102,7 @@ class Image_Transforms:
 
     train_transform_with_padding_xs = alb.Compose(
 
-        [alb.augmentations.geometric.resize.LongestMaxSize(max_size=200, interpolation=cv2.INTER_CUBIC,
+        [alb.augmentations.geometric.resize.LongestMaxSize(max_size=250, interpolation=cv2.INTER_CUBIC,
                                                            always_apply=True, p=1),
          alb.PadIfNeeded(always_apply=True, min_height=600, min_width=600, border_mode=cv2.BORDER_CONSTANT, value=0),
          alb.augmentations.crops.transforms.CenterCrop(350, 600, always_apply=True, p=1.0),
