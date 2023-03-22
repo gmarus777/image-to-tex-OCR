@@ -140,7 +140,7 @@ class Image_Transforms:
     # after padd to certain size
     test_transform_with_padding = alb.Compose(
 
-        [ alb.augmentations.geometric.resize.LongestMaxSize (max_size=600, interpolation= cv2.INTER_CUBIC, always_apply=True, p=1),
+        [ alb.augmentations.geometric.resize.LongestMaxSize (max_size=450, interpolation= cv2.INTER_CUBIC, always_apply=True, p=1),
           #alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation= cv2.INTER_CUBIC ,always_apply=False, p=1),
             #alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
             alb.PadIfNeeded(always_apply=True, min_height=600, min_width=600, border_mode=cv2.BORDER_CONSTANT, value=0),
@@ -156,7 +156,7 @@ class Image_Transforms:
 
     test_transform_with_padding_small = alb.Compose(
 
-        [alb.augmentations.geometric.resize.LongestMaxSize(max_size=200, interpolation=cv2.INTER_CUBIC,always_apply=True, p=1),
+        [alb.augmentations.geometric.resize.LongestMaxSize(max_size=350, interpolation=cv2.INTER_CUBIC,always_apply=True, p=1),
          # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation= cv2.INTER_CUBIC ,always_apply=False, p=1),
          # alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
          alb.PadIfNeeded(always_apply=True, min_height=600, min_width=600, border_mode=cv2.BORDER_CONSTANT, value=0),
@@ -170,22 +170,6 @@ class Image_Transforms:
          ]
     )
 
-    test_transform_with_padding_med = alb.Compose(
-
-        [alb.augmentations.geometric.resize.LongestMaxSize(max_size=200, interpolation=cv2.INTER_CUBIC,
-                                                           always_apply=True, p=1),
-         # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation= cv2.INTER_CUBIC ,always_apply=False, p=1),
-         # alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
-         alb.PadIfNeeded(always_apply=True, min_height=600, min_width=600, border_mode=cv2.BORDER_CONSTANT, value=0),
-         alb.augmentations.crops.transforms.CenterCrop(350, 600, always_apply=True, p=1.0),
-
-         # alb.transforms.Downscale(scale_min=0.25, scale_max=0.25, interpolation=None, always_apply=False, p=0.5)
-         # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
-         alb.ToGray(always_apply=True),
-         # alb.Sharpen(),
-         ToTensorV2(),
-         ]
-    )
 
     test_transform_with_padding_medium = alb.Compose(
 
@@ -206,12 +190,12 @@ class Image_Transforms:
     # 1 width is 0.6
     test_transform_with_padding_xl = alb.Compose(
 
-        [alb.augmentations.geometric.resize.LongestMaxSize(max_size=650, interpolation=cv2.INTER_CUBIC,
+        [alb.augmentations.geometric.resize.LongestMaxSize(max_size=400, interpolation=cv2.INTER_AREA,
                                                            always_apply=True, p=1),
          # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation= cv2.INTER_CUBIC ,always_apply=False, p=1),
          # alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
-         alb.PadIfNeeded(always_apply=True, min_height=650, min_width=650, border_mode=cv2.BORDER_CONSTANT, value=0),
-         alb.augmentations.crops.transforms.CenterCrop(360, 610, always_apply=True, p=1.0),
+         alb.PadIfNeeded(always_apply=True, min_height=600, min_width=600, border_mode=cv2.BORDER_CONSTANT, value=0),
+         alb.augmentations.crops.transforms.CenterCrop(350, 600, always_apply=True, p=1.0),
 
          # alb.transforms.Downscale(scale_min=0.25, scale_max=0.25, interpolation=None, always_apply=False, p=0.5)
          # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
@@ -223,7 +207,7 @@ class Image_Transforms:
 
     test_transform_with_padding_xs = alb.Compose(
 
-        [alb.augmentations.geometric.resize.LongestMaxSize(max_size=120, interpolation=cv2.INTER_CUBIC,
+        [alb.augmentations.geometric.resize.LongestMaxSize(max_size=300, interpolation=cv2.INTER_CUBIC,
                                                            always_apply=True, p=1),
          # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation= cv2.INTER_CUBIC ,always_apply=False, p=1),
          # alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
