@@ -93,7 +93,32 @@ class Base_Dataset(Dataset):
 
 
         h,w, c = image.shape
+        aspect = h / w
+        positions = np.nonzero(image)
+        top = positions[0].min()
+        bottom = positions[0].max()
+        left = positions[1].min()
+        right = positions[1].max()
+        image = cv2.rectangle(image, (left - 2, top - 2), (right + 2, bottom + 2), (0, 0, 0), 0)
+        new_w = 500
+        new_h = int(new_w * aspect)
+        if w > 500:
+            image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
+        else:
+            image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_CUBIC)
+
+
+
+
         if self.stage.lower() =="fit":
+
+
+            image = self.image_transform_alb(image=np.array(image))['image'][:1]
+
+            formula = self.labels_transform_function(formula)
+
+
+        if self.stage.lower() =="old":
 
             if w<200:
                 image = self.image_transform_alb_xs(image=np.array(image))['image'][:1]
