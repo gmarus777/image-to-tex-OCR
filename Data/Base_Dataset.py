@@ -83,13 +83,21 @@ class Base_Dataset(Dataset):
         # image = PIL.ImageOps.invert(image)
         #h, w = image.shape
 
+        #positions = np.nonzero(image)
+        #top = positions[0].min()
+        #bottom = positions[0].max()
+        #left = positions[1].min()
+        #right = positions[1].max()
+
+        #image = cv2.rectangle(image, (left, top), (right, bottom), (0, 0, 0), 0)
+
 
         h,w, c = image.shape
         if self.stage.lower() =="fit":
 
-            #if w<100:
-               #image = self.image_transform_alb_xs(image=np.array(image))['image'][:1]
-            if w <231:
+            if w<200:
+                image = self.image_transform_alb_xs(image=np.array(image))['image'][:1]
+            elif w < 350:
                 image = self.image_transform_alb_small(image=np.array(image))['image'][:1]
             else:
                 image = self.image_transform_alb(image=np.array(image))['image'][:1]
