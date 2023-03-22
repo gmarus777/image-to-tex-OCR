@@ -17,6 +17,7 @@ class LitResNetTransformer(pl.LightningModule):
     def __init__(
         self,
         model,
+        WandB = True,
         lr: float = 0.001,
         weight_decay: float = 0.0001,
         milestones: List[int] = [10],
@@ -25,11 +26,12 @@ class LitResNetTransformer(pl.LightningModule):
         super().__init__()
 
 
-        wandb.init() # initiare wieghts and biases
 
         # TODO: implement saving parameters
         # self.save_hyperparameters()  # save parameters
-
+        self.WandB =WandB
+        if self.WandB:
+            wandb.init() # initiare wieghts and biases
         self.lr = lr
         self.learning_rate = lr
         self.weight_decay = weight_decay
@@ -48,6 +50,8 @@ class LitResNetTransformer(pl.LightningModule):
         self.val_cer = CharacterErrorRate(self.ignore_tokens)
         self.test_cer = CharacterErrorRate(self.ignore_tokens)
 
+    def forward(self, x):
+        return self.model.predict(x)
 
     def training_step(self, batch, batch_idx):
         imgs, targets = batch

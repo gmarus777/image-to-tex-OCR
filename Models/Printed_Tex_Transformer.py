@@ -52,13 +52,20 @@ class ResNetTransformer(nn.Module):
         # if max_label_length is not None:
             # self.max_output_len = max_label_length
         # else:
+        if dataset:
+            self.max_output_len = dataset.max_label_length
+        else:
+            self.max_output_len = max_label_length
 
-        self.max_output_len = dataset.max_label_length
 
         self.sos_index = int(0) # int(dataset.vocabulary['<S>'])
         self.eos_index =  int(1) # int(dataset.vocabulary['<E>'])
         self.pad_index =  int(2) # int(dataset.vocabulary['<P>'])
-        self.num_classes =int(len(dataset.vocabulary))
+        if dataset:
+            self.num_classes =int(len(dataset.vocabulary))
+        else:
+            self.num_classes = num_classes
+
 
 
         ### Encoder ###
@@ -178,14 +185,15 @@ class ResNetTransformer(nn.Module):
 
         output_indices = torch.full(size=(B, S), fill_value=self.pad_index).type_as(x).long()
         output_indices[:, 0] = self.sos_index
-        has_ended = torch.full((B,), False)
+        has_ended = torch.full((B,), 0)
+        has_ended.to(torch.bool)
 
         for Sy in range(1, S):
             y = output_indices[:, :Sy]  # (B, Sy)
             logits = self.decode(y, encoded_x)  # (Sy, B, num_classes)
             # Select the token with the highest conditional probability
             output = torch.argmax(logits, dim=-1)  # (Sy, B)
-            output_indices[:, Sy] = output[-1:]  # Set the last output token
+            output_indices[:, Sy:Sy+1] = output[-1:]  # Set the last output token
 
             # Early stopping of prediction loop to speed up prediction
             has_ended |= (output_indices[:, Sy] == self.eos_index).type_as(has_ended)
