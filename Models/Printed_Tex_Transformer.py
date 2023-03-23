@@ -193,7 +193,10 @@ class ResNetTransformer(nn.Module):
             logits = self.decode(y, encoded_x)  # (Sy, B, num_classes)
             # Select the token with the highest conditional probability
             output = torch.argmax(logits, dim=-1)  # (Sy, B)
-            output_indices[:, Sy] = output[-1:]  # Set the last output token
+            if B ==1:
+                output_indices[:, Sy:Sy+1] = output[-1:]
+            else:
+                output_indices[:, Sy] = output[-1:]  # Set the last output token
 
             # Early stopping of prediction loop to speed up prediction
             has_ended |= (output_indices[:, Sy] == self.eos_index).type_as(has_ended)
