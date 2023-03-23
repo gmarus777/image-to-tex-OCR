@@ -10,8 +10,12 @@ from torch.utils.data import Dataset, ConcatDataset
 import PIL
 import smart_open
 from PIL import Image
+import torch
+import torch.nn.functional as F
 
-
+MAX_RATIO = 25
+MAX_WIDTH= 1600
+MAX_HEIGHT = 64
 
 
 
@@ -68,10 +72,9 @@ class Base_Dataset(Dataset):
         os.chdir(PrintedLatexDataConfig.DATA_BANK_DIRNAME)  # "Data/Data_Bank"
 
         # image = pil_loader('generated_png_images/' + image_filename, mode="L")
-        #image = ImageProcessor.read_image_pil('generated_png_images/' + image_filename, grayscale=True)
-        image = cv2.imread('generated_png_images/' + image_filename)
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image = cv2.bitwise_not(image)
+        #image = ImageProcessor.read_image_pil('generated_png_images/' + image_filename, grayscale=True)        #image = cv2.imread('generated_png_images/' + image_filename)
+        #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        #image = cv2.bitwise_not(image)
 
         #image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         #image = cv2.threshold(image, 0, 255,cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
@@ -83,29 +86,31 @@ class Base_Dataset(Dataset):
         # image = PIL.ImageOps.invert(image)
         #h, w = image.shape
 
-        #positions = np.nonzero(image)
-        #top = positions[0].min()
-        #bottom = positions[0].max()
-        #left = positions[1].min()
-        #right = positions[1].max()
+        image = Image.open('generated_png_images/' + image_filename).convert('RGB')
+        image = np.asarray(image)
 
-        #image = cv2.rectangle(image, (left, top), (right, bottom), (0, 0, 0), 0)
-
-
-        h,w, c = image.shape
-        aspect = h / w
         positions = np.nonzero(image)
         top = positions[0].min()
         bottom = positions[0].max()
         left = positions[1].min()
         right = positions[1].max()
         image = cv2.rectangle(image, (left - 2, top - 2), (right + 2, bottom + 2), (0, 0, 0), 0)
-        new_w = 500
-        new_h = int(new_w * aspect)
-        if w > 500:
+
+        h, w, c = image.shape
+        ratio =(w / h)
+        if ratio == 0:
+            ratio = 1
+        if ratio > MAX_RATIO:
+            ratio = MAX_RATIO
+
+
+        new_h = 64
+        new_w = int(new_h * ratio)
+        if h >64:
             image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
         else:
             image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_CUBIC)
+
 
 
 
@@ -133,7 +138,8 @@ class Base_Dataset(Dataset):
             image =  self.image_transform_test(image)
             formula = self.labels_transform_function(formula)
 
-
+        # try PADDING on the right?
+        #image = F.pad(image, (0, MAX_WIDTH - new_w, 0, MAX_HEIGHT - new_h), value=1)
         # change path back
         os.chdir(oldcwd)
 

@@ -1,6 +1,7 @@
 import albumentations as alb
 from albumentations.pytorch import ToTensorV2
 import cv2
+from albumentations import *
 
 IMAGE_HEIGHT = 64
 IMAGE_WIDTH = 512
@@ -53,9 +54,11 @@ class Image_Transforms:
 
     train_transform_with_padding = alb.Compose(
 
-                    [ #alb.augmentations.geometric.resize.LongestMaxSize(max_size=600, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
-                      alb.PadIfNeeded(always_apply=True, min_height=600, min_width=600, border_mode=cv2.BORDER_CONSTANT, value=0),
-                      alb.augmentations.crops.transforms.CenterCrop(350, 600, always_apply=True, p=1.0),
+                    [ #alb.augmentations.geometric.resize.LongestMaxSize(max_size=608, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
+                      #alb.PadIfNeeded(always_apply=True, min_height=640, min_width=640, border_mode=cv2.BORDER_CONSTANT, value=0),
+                      #alb.augmentations.crops.transforms.CenterCrop(384, 640, always_apply=True, p=1.0),
+                      # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
+                      alb.PadIfNeeded(always_apply=True, min_height=64, min_width=1600, border_mode=cv2.BORDER_CONSTANT, position= alb.PadIfNeeded.PositionType.TOP_LEFT, value=0),
 
                         alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.15, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[0, 0, 0], p=.3),
                         #alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
