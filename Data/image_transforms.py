@@ -220,3 +220,20 @@ class Image_Transforms:
          ToTensorV2(),
          ]
     )
+
+    test_transform_with_padding_xss = alb.Compose(
+
+        [
+            alb.augmentations.geometric.resize.LongestMaxSize(max_size=300, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
+            # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation= cv2.INTER_CUBIC ,always_apply=False, p=1),
+            # alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
+            alb.PadIfNeeded(always_apply=True, min_height=600, min_width=600, border_mode=cv2.BORDER_CONSTANT, value=0),
+            alb.augmentations.crops.transforms.CenterCrop(350, 600, always_apply=True, p=1.0),
+
+            # alb.transforms.Downscale(scale_min=0.25, scale_max=0.25, interpolation=None, always_apply=False, p=0.5)
+            # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
+            alb.ToGray(always_apply=True),
+            # alb.Sharpen(),
+            ToTensorV2(),
+        ]
+    )
