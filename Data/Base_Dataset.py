@@ -88,7 +88,7 @@ class Base_Dataset(Dataset):
 
         image = Image.open('generated_png_images/' + image_filename).convert('RGB')
         image = np.asarray(image)
-        image = findPositions(image)
+        #image = findPositions(image)
         #positions = np.nonzero(image)
         #top = positions[0].min()
         #bottom = positions[0].max()
@@ -97,8 +97,6 @@ class Base_Dataset(Dataset):
         #image = cv2.rectangle(image, (left - 3, top - 3), (right + 3, bottom + 3), (0, 0, 0), 0)
 
         h, w, c = image.shape
-        if h==0:
-            h = 1
         ratio =int(w / h)
         if ratio == 0:
             ratio = 1
