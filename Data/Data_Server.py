@@ -32,6 +32,7 @@ class Data_Server:
 
         # pass the max width:
         self.tokenized_dataframe = self.tokenized_dataframe[self.tokenized_dataframe['width'] <= self.data_module.max_width]
+        self.tokenized_dataframe = self.tokenized_dataframe[(self.tokenized_dataframe['width'] >0 ) & (self.tokenized_dataframe['height'] >0 )]
 
         self.max_label_length =  data_module.set_max_label_length + 2 # accounting for the Start and End Tokens
         self.vocabulary = create_vocabulary_dictionary_from_dataframe(self.vocabulary_dataframe)
