@@ -200,7 +200,7 @@ class ImageProcessor:
 
 
 def findPositions(image):
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     gray = 255 * (gray < 50).astype(np.uint8)  # To invert the text to white
     gray = cv2.morphologyEx(gray, cv2.MORPH_OPEN, np.ones((2, 2), dtype=np.uint8))  # Perform noise filtering
     coords = cv2.findNonZero(gray)  # Find all non-zero points (text)
