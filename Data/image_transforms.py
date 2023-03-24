@@ -58,9 +58,9 @@ class Image_Transforms:
                       #alb.PadIfNeeded(always_apply=True, min_height=640, min_width=640, border_mode=cv2.BORDER_CONSTANT, value=0),
                       #alb.augmentations.crops.transforms.CenterCrop(384, 640, always_apply=True, p=1.0),
                       # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
-                      alb.PadIfNeeded(always_apply=True, min_height=96, min_width=2400, border_mode=cv2.BORDER_CONSTANT, position= alb.PadIfNeeded.PositionType.TOP_LEFT, value=0),
+                      alb.PadIfNeeded(always_apply=True, min_height=64, min_width=1600, border_mode=cv2.BORDER_CONSTANT, position= alb.PadIfNeeded.PositionType.TOP_LEFT, value=0),
 
-                        alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.05, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[0, 0, 0], p=.15),
+                        alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.10, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[0, 0, 0], p=.15),
                         #alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
                         # alb.InvertImg(p=.15),
                         alb.GridDistortion(distort_limit=0.1, border_mode=0, interpolation=3, value=[0, 0, 0], p=.15, normalized=True),
@@ -71,7 +71,7 @@ class Image_Transforms:
                         #alb.ImageCompression(95, p=.3),
                         alb.ToGray(always_apply=True),
                         #[0.485,0.456,0.406], [0.229,0.224,0.225]
-                        #alb.Normalize((0.485,0.456,0.406), (0.229,0.224,0.225)),
+                        alb.Normalize((0.7931, 0.7931, 0.7931), (0.1738, 0.1738, 0.1738)),
                         #alb.Sharpen(always_apply=True),
                         # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
 
@@ -171,6 +171,7 @@ class Image_Transforms:
          #alb.transforms.Downscale(scale_min=0.25, scale_max=0.25, interpolation=None, always_apply=False, p=0.5)
          # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
          alb.ToGray(always_apply=True),
+         alb.Normalize((0.7931, 0.7931, 0.7931), (0.1738, 0.1738, 0.1738)),
           #alb.Sharpen(),
          ToTensorV2(),
          ]
