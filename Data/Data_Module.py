@@ -33,11 +33,11 @@ class Data_Module(pl.LightningDataModule):
                  path_to_image_names = None,
 
 
-                 set_max_label_length=256,
-                 number_png_images_to_use_in_dataset=200*1000,
+                 set_max_label_length=128,
+                 number_png_images_to_use_in_dataset=300*1000,
                  labels_transform='default',
                  image_transform_name='alb',  # or 'alb'
-                max_width = 512,
+                max_width = 700,
                  image_padding = False,
                  load_vocabulary = False,
                  vocabulary_path = None,

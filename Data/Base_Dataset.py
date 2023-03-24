@@ -13,9 +13,9 @@ from PIL import Image
 import torch
 import torch.nn.functional as F
 
-MAX_RATIO = 25
-MAX_WIDTH= 1600
-MAX_HEIGHT = 64
+MAX_RATIO = 15
+MAX_WIDTH= 1920
+MAX_HEIGHT = 128
 
 
 
@@ -88,25 +88,25 @@ class Base_Dataset(Dataset):
 
         image = Image.open('generated_png_images/' + image_filename).convert('RGB')
         image = np.asarray(image)
-
-        positions = np.nonzero(image)
-        top = positions[0].min()
-        bottom = positions[0].max()
-        left = positions[1].min()
-        right = positions[1].max()
-        image = cv2.rectangle(image, (left - 3, top - 3), (right + 3, bottom + 3), (0, 0, 0), 0)
+        image = findPositions(image)
+        #positions = np.nonzero(image)
+        #top = positions[0].min()
+        #bottom = positions[0].max()
+        #left = positions[1].min()
+        #right = positions[1].max()
+        #image = cv2.rectangle(image, (left - 3, top - 3), (right + 3, bottom + 3), (0, 0, 0), 0)
 
         h, w, c = image.shape
-        ratio =(w / h)
+        ratio =int(w / h)
         if ratio == 0:
             ratio = 1
         if ratio > MAX_RATIO:
             ratio = MAX_RATIO
 
 
-        new_h = 64
+        new_h = 128
         new_w = int(new_h * ratio)
-        if h >64:
+        if h >128:
             image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
         else:
             image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_CUBIC)
@@ -197,3 +197,15 @@ class ImageProcessor:
                 image = image.convert(mode=image.mode)
 
             return image
+
+
+def findPositions(image):
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    gray = 255 * (gray < 50).astype(np.uint8)  # To invert the text to white
+    gray = cv2.morphologyEx(gray, cv2.MORPH_OPEN, np.ones((2, 2), dtype=np.uint8))  # Perform noise filtering
+    coords = cv2.findNonZero(gray)  # Find all non-zero points (text)
+    x, y, w, h = cv2.boundingRect(coords)  # Find minimum spanning bounding box
+    # Crop the image - note we do this on the original image
+    cropped_image = image[y - 10:y + h + 10, x - 10:x + w + 10]
+
+    return cropped_image
