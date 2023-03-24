@@ -94,7 +94,7 @@ class Base_Dataset(Dataset):
         bottom = positions[0].max()
         left = positions[1].min()
         right = positions[1].max()
-        image = cv2.rectangle(image, (left - 2, top - 2), (right + 2, bottom + 2), (0, 0, 0), 0)
+        image = cv2.rectangle(image, (left - 3, top - 3), (right + 3, bottom + 3), (0, 0, 0), 0)
 
         h, w, c = image.shape
         ratio =(w / h)
@@ -104,9 +104,9 @@ class Base_Dataset(Dataset):
             ratio = MAX_RATIO
 
 
-        new_h = 64
+        new_h = 96
         new_w = int(new_h * ratio)
-        if h >64:
+        if h >96:
             image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
         else:
             image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_CUBIC)
