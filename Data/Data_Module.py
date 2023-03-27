@@ -3,6 +3,7 @@ import argparse
 from typing import Dict, Tuple, Collection, Union, Optional
 import torch
 import json
+import random
 from torch.utils.data import ConcatDataset, DataLoader
 import pytorch_lightning as pl
 from Data.label_transforms import Label_Transforms
@@ -188,7 +189,8 @@ class Data_Module(pl.LightningDataModule):
             shuffle=self.shuffle_train,
             batch_size=self.batch_size,
             num_workers=self.num_workers,
-            pin_memory=self.on_gpu
+            pin_memory=self.on_gpu,
+            collate_fn=collate_function,
         )
 
     def val_dataloader(self, *args, **kwargs):
@@ -203,7 +205,8 @@ class Data_Module(pl.LightningDataModule):
             shuffle=False,
             batch_size=self.batch_size,
             num_workers=self.num_workers,
-            pin_memory=self.on_gpu
+            pin_memory=self.on_gpu,
+            collate_fn=collate_function
         )
 
     def test_dataloader(self, *args, **kwargs):
@@ -218,9 +221,25 @@ class Data_Module(pl.LightningDataModule):
             shuffle=False,
             batch_size=self.batch_size,
             num_workers=self.num_workers,
-            pin_memory=self.on_gpu
+            pin_memory=self.on_gpu,
+            collate_fn=collate_function,
         )
 
 
+def collate_function( batch):
+    images, formulas = zip(*batch)
+    B = len(images)
+    max_H = max(image.shape[1] for image in images)
+    max_W = max(image.shape[2] for image in images)
+    max_length = max(len(formula) for formula in formulas)
+    padded_images = torch.zeros((B, 1, max_H, max_W))
+    batched_indices = torch.zeros((B, max_length + 2), dtype=torch.long)
+    for i in range(B):
+        H, W = images[i].shape[1], images[i].shape[2]
+        y, x = random.randint(0, max_H - H), random.randint(0, max_W - W)
+        padded_images[i, :, y : y + H, x : x + W] = images[i]
+        #indices = self.tokenizer.encode(formulas[i])
+        #batched_indices[i, : len(indices)] = torch.tensor(indices, dtype=torch.long)
+    return padded_images, formulas
 
 
