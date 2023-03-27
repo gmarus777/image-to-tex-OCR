@@ -116,23 +116,10 @@ class Base_Dataset(Dataset):
 
 
         if self.stage.lower() =="fit":
-
-
             image = self.image_transform_alb(image=np.array(image))['image'][:1]
-
             formula = self.labels_transform_function(formula)
 
 
-        if self.stage.lower() =="old":
-
-            if w<200:
-                image = self.image_transform_alb_xs(image=np.array(image))['image'][:1]
-            elif w < 350:
-                image = self.image_transform_alb_small(image=np.array(image))['image'][:1]
-            else:
-                image = self.image_transform_alb(image=np.array(image))['image'][:1]
-
-            formula = self.labels_transform_function(formula)
 
         if self.stage == 'test':
             image =  self.image_transform_test(image)
