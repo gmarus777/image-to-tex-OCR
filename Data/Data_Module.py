@@ -233,7 +233,7 @@ def collate_function( batch):
     max_W = max(image.shape[2] for image in images)
     max_length = max(len(formula) for formula in formulas)
     padded_images = torch.zeros((B, 1, max_H, max_W))
-    batched_indices = torch.zeros((B, max_length + 2), dtype=torch.long)
+    batched_indices = torch.zeros((B, max_length ), dtype=torch.long)
     for i in range(B):
         H, W = images[i].shape[1], images[i].shape[2]
         y, x = random.randint(0, max_H - H), random.randint(0, max_W - W)
