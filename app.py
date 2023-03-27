@@ -9,17 +9,18 @@ from torchvision import transforms
 import torch
 import json
 
-
-
+MAX_RATIO =15
 
 def findPositions(image):
-    positions = np.nonzero(image)
-    top = positions[0].min()
-    bottom = positions[0].max()
-    left = positions[1].min()
-    right = positions[1].max()
-    image = cv2.rectangle(image, (left, top), (right, bottom), (0, 0, 0), 0)
-    return image
+    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+    gray = 255*(gray < 50).astype(np.uint8)  # To invert the text to white
+    gray = cv2.morphologyEx(gray, cv2.MORPH_OPEN, np.ones((2, 2), dtype=np.uint8))  # Perform noise filtering
+    coords = cv2.findNonZero(gray)  # Find all non-zero points (text)
+    x, y, w, h = cv2.boundingRect(coords)  # Find minimum spanning bounding box
+    # Crop the image - note we do this on the original image
+    cropped_image = image[y-10:y+h+10, x-10:x+w+10]
+
+    return cropped_image
 
 
 def load_dic(filename):
@@ -61,23 +62,27 @@ if __name__ == '__main__':
         image = Image.open(upload).convert('RGB')
         streamlit.image(image)
         image = np.asarray(image)
-        image = cv2.bitwise_not(image)
-        image = findPositions(image)
+        # image = findPositions(image)
+
         h, w, c = image.shape
-        aspect = h / w
+        ratio = int(w / h)
+        if ratio == 0:
+            ratio = 1
+        if ratio > MAX_RATIO:
+            ratio = MAX_RATIO
 
         # Thresholding
-        if w > 400:
-            ret, image = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
+        #if w > 400:
+            #ret, image = cv2.threshold(image, 127, 255, cv2.THRESH_BINARY)
 
-        # Downscaling big images
-        if w > 1200:
-            new_w = 1000
-            new_h = int(new_w * aspect)
+        new_h = 128
+        new_w = int(new_h * ratio)
+        if h > 128:
             image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
+        else:
+            image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_CUBIC)
 
-
-        image_tensor = Image_Transforms.test_transform_with_padding_medium(image=np.array(image))['image'][:1]
+        image_tensor = Image_Transforms.test_transform_with_padding(image=np.array(image))['image'][:1]
 
     # Initiate model and predict image
     if streamlit.button('Convert'):
