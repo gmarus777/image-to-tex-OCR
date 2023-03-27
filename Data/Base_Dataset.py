@@ -96,12 +96,12 @@ class Base_Dataset(Dataset):
         #right = positions[1].max()
         #image = cv2.rectangle(image, (left - 3, top - 3), (right + 3, bottom + 3), (0, 0, 0), 0)
 
-        h, w, c = image.shape
-        ratio =int(w / h)
-        if ratio == 0:
-            ratio = 1
-        if ratio > MAX_RATIO:
-            ratio = MAX_RATIO
+        #h, w, c = image.shape
+        #ratio =int(w / h)
+        #if ratio == 0:
+            #ratio = 1
+        #if ratio > MAX_RATIO:
+            #ratio = MAX_RATIO
 
 
         #new_h = 128

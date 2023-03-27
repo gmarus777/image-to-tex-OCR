@@ -239,7 +239,8 @@ def collate_function( batch):
         y, x = random.randint(0, max_H - H), random.randint(0, max_W - W)
         padded_images[i, :, y : y + H, x : x + W] = images[i]
         #indices = self.tokenizer.encode(formulas[i])
-        #batched_indices[i, : len(indices)] = torch.tensor(indices, dtype=torch.long)
-    return padded_images, formulas
+        indices = formulas[i]
+        batched_indices[i, : len(indices)] = torch.tensor(indices, dtype=torch.long)
+    return padded_images, batched_indices
 
 
