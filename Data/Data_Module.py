@@ -240,7 +240,8 @@ def collate_function( batch):
         padded_images[i, :, y : y + H, x : x + W] = images[i]
         #indices = self.tokenizer.encode(formulas[i])
         indices = formulas[i]
-        batched_indices[i, : len(indices)] = torch.tensor(indices, dtype=torch.long)
+        #batched_indices[i, : len(indices)] = torch.tensor(indices, dtype=torch.long)
+        batched_indices[i, : len(indices)] = indices.clone().detach()
     return padded_images, batched_indices
 
 
