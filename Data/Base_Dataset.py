@@ -104,12 +104,12 @@ class Base_Dataset(Dataset):
             ratio = MAX_RATIO
 
 
-        new_h = 128
-        new_w = int(new_h * ratio)
-        if h >128:
-            image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
-        else:
-            image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_CUBIC)
+        #new_h = 128
+        #new_w = int(new_h * ratio)
+        #if h >128:
+            #image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
+        #else:
+            #image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_CUBIC)
 
 
 
