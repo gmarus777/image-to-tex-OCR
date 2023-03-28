@@ -13,6 +13,7 @@ from PIL import Image
 import torch
 from Data.image_transforms import Image_Transforms
 import torch.nn.functional as F
+import random
 
 MAX_RATIO = 15
 MAX_WIDTH= 1920
@@ -96,7 +97,8 @@ class Base_Dataset(Dataset):
             ratio = 1
         if ratio>MAX_RATIO:
             ratio =MAX_RATIO
-        h_new = h*2
+        new_scale = random.randint(1,2)*random.random()
+        h_new = int(h*new_scale)
         w_new = int(h_new * ratio)
         image = cv2.resize(image, (w_new, h_new), interpolation=cv2.INTER_LINEAR)
 
