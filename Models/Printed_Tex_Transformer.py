@@ -80,7 +80,7 @@ class ResNetTransformer(nn.Module):
             resnet.layer3,
             resnet.layer4,
         )
-        self.bottleneck = nn.Conv2d(RESNET_DIM, self.embedding_dim, 1) # in channels, out channels, stride
+        self.bottleneck = nn.Conv2d(RESNET_DIM, self.embedding_dim,  kernel_size=1) # in channels, out channels, stride
         self.image_positional_encoder = PositionalEncoding2D(self.embedding_dim)
 
         ### Decoder ###
@@ -93,8 +93,9 @@ class ResNetTransformer(nn.Module):
 
 
         # It is empirically important to initialize weights properly
-        if self.training:
-            self._init_weights()
+        #if self.training:
+            #self._init_weights()
+        self._init_weights()
 
 
     def _init_weights(self) -> None:
@@ -145,6 +146,8 @@ class ResNetTransformer(nn.Module):
             x = x.repeat(1, 3, 1, 1)
         x = self.backbone(x.float())  # (B, RESNET_DIM, H, W); H = _H // 32, W = _W // 32
         x = self.bottleneck(x)  # (B, E, H, W)
+
+        # x = x * math.sqrt(self.embedding_dim)  # (B, E, _H // 32, _W // 32)  # This prevented any learning
         x = self.image_positional_encoder(x)  # (B, E, H, W)
         x = x.flatten(start_dim=2)  # (B, E, H * W)
         x = x.permute(2, 0, 1)  # (Sx, B, E); Sx = H * W

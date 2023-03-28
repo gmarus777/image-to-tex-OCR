@@ -75,8 +75,8 @@ class Base_Dataset(Dataset):
         image = Image.open('generated_png_images/' + image_filename).convert('RGB')
         # image = pil_loader('generated_png_images/' + image_filename, mode="L")
         #image = ImageProcessor.read_image_pil('generated_png_images/' + image_filename, grayscale=True)
-        image = np.asarray(image)
-        h, w, c = image.shape
+        #image = np.asarray(image)
+        #h, w, c = image.shape
         #image = cv2.imread('generated_png_images/' + image_filename)
         #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         #image = cv2.bitwise_not(image)
@@ -90,7 +90,7 @@ class Base_Dataset(Dataset):
         # added inversion
         # image = PIL.ImageOps.invert(image)
         #h, w = image.shape
-
+        w,h = image.size
 
         #ratio = int((w / h))
         #if ratio == 0:
@@ -103,7 +103,9 @@ class Base_Dataset(Dataset):
         h_new = h*factor
 
         if w_new<1024 and h_new<1024:
-            image = cv2.resize(image, (w_new, h_new), interpolation=cv2.INTER_LINEAR)
+            #image = cv2.resize(image, (w_new, h_new), resample=Image.BILINEAR)
+            image = image.resize((w_new, h_new), resample=Image.BILINEAR)
+
 
 
         if self.stage.lower() =="fit":
