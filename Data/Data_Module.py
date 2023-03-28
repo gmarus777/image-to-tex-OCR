@@ -185,7 +185,7 @@ class Data_Module(pl.LightningDataModule):
         """
         return DataLoader(
             self.data_train,
-            shuffle=self.shuffle_train,
+            shuffle=True,
             batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=self.on_gpu,
@@ -225,7 +225,7 @@ class Data_Module(pl.LightningDataModule):
         )
 
 
-def collate_function_old( batch):
+def collate_function_new( batch):
     images, formulas = zip(*batch)
     B = len(images)
     max_H = max(image.shape[1] for image in images)
@@ -242,7 +242,7 @@ def collate_function_old( batch):
         batched_indices[i, : len(indices)] = indices.clone().detach()
     return padded_images, batched_indices
 
-def collate_function( batch):
+def collate_function_old( batch):
     images, formulas = zip(*batch)
     B = len(images)
     max_H = max(image.shape[1] for image in images)
@@ -266,7 +266,7 @@ def collate_function( batch):
 
 
 
-def collate_function_test(batch):
+def collate_function(batch):
     # Get the maximum height of images in the batch
     images, formulas = zip(*batch)
     B = len(images)
@@ -285,9 +285,9 @@ def collate_function_test(batch):
         #padding = transforms.Pad((0, padding_height, 0, padding_width), fill=1)
         padded_image = F.pad(images[i], (0, max_W - W, 0, max_H - H), value=1)
         #padded_image = padding(images[i])
-        padded_images.append(padded_images)
+        padded_images.append(padded_image)
 
     # Stack the padded images and labels into a batch tensor
-    images = torch.stack(images)
+    images = torch.stack(padded_images)
     labels =torch.stack(labels)
     return images, labels
