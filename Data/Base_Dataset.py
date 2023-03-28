@@ -90,7 +90,7 @@ class Base_Dataset(Dataset):
         # added inversion
         # image = PIL.ImageOps.invert(image)
         #h, w = image.shape
-        w,h = image.size
+        #w,h = image.size
 
         #ratio = int((w / h))
         #if ratio == 0:
@@ -102,9 +102,19 @@ class Base_Dataset(Dataset):
         #w_new = w*factor
         #h_new = h*factor
 
-        #if w_new<1024 and h_new<1024:
-            #image = cv2.resize(image, (w_new, h_new), resample=Image.BILINEAR)
-            #image = image.resize((w_new, h_new), resample=Image.BILINEAR)
+
+
+
+        # NEW
+        #image = cv2.imread('generated_png_images/' + image_filename)
+        #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        #h, w, c = image.shape
+        #if w<128 and h<30:
+            #image = cv2.resize(image, (0, 0), fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
+        #elif w<300:
+            #image = cv2.resize(image, (0, 0), fx=2, fy=2,  interpolation=cv2.INTER_CUBIC)
+        #elif w<500:
+            #image = cv2.resize(image, (0, 0), fx=1+random.random(), fy=1+random.random(),  interpolation=cv2.INTER_CUBIC)
 
 
 
