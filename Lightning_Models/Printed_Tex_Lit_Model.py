@@ -106,5 +106,5 @@ class LitResNetTransformer(pl.LightningModule):
     def configure_optimizers(self):
         optimizer = torch.optim.AdamW(self.model.parameters(), lr=self.lr, weight_decay=self.weight_decay)
         scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=self.milestones, gamma=self.gamma)
-        scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer=optimizer, max_lr=None, total_steps=100)
+        scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer=optimizer, max_lr=0.001, total_steps=100)
         return [optimizer], [scheduler]
