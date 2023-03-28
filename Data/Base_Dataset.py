@@ -98,13 +98,13 @@ class Base_Dataset(Dataset):
         #if ratio>MAX_RATIO:
             #ratio =MAX_RATIO
         #new_scale = random.randint(0,2)*random.random()+1
-        factor = random.randint(1,3)
-        w_new = w*factor
-        h_new = h*factor
+        #factor = random.randint(1,3)
+        #w_new = w*factor
+        #h_new = h*factor
 
-        if w_new<1024 and h_new<1024:
+        #if w_new<1024 and h_new<1024:
             #image = cv2.resize(image, (w_new, h_new), resample=Image.BILINEAR)
-            image = image.resize((w_new, h_new), resample=Image.BILINEAR)
+            #image = image.resize((w_new, h_new), resample=Image.BILINEAR)
 
 
 
