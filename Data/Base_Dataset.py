@@ -96,7 +96,7 @@ class Base_Dataset(Dataset):
             ratio = 1
         if ratio>MAX_RATIO:
             ratio =MAX_RATIO
-        h_new = h*3
+        h_new = h*2
         w_new = int(h_new * ratio)
         image = cv2.resize(image, (w_new, h_new), interpolation=cv2.INTER_LINEAR)
 
