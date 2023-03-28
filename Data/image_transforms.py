@@ -30,7 +30,7 @@ class Image_Transforms:
             # alb.GaussianBlur(blur_limit=(1, 1), p=0.2),
             alb.RandomBrightnessContrast(.05, (-.2, 0), True, p=0.2),
             # alb.ImageCompression(95, p=.3),
-            alb.ToGray(always_apply=True),
+            #alb.ToGray(always_apply=True),
             # Mean:  tensor([71.5338])
             # Std: tensor([101.7121])
             # [0.485,0.456,0.406], [0.229,0.224,0.225]
@@ -54,7 +54,7 @@ class Image_Transforms:
 
             # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
             # alb.ImageCompression(95, p=.3),
-            alb.ToGray(always_apply=True),
+            #alb.ToGray(always_apply=True),
             alb.Normalize(),
             #alb.Sharpen(always_apply=True  ),
             ToTensorV2(),

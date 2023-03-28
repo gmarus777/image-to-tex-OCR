@@ -259,9 +259,9 @@ def collate_function(batch):
         padding_width = max_W-W
         padding_height = max_H - H
         #padding = transforms.Pad((0, padding_height, 0, padding_width), fill=1)
-        images = F.pad(images, (0, self.max_dimensions[0] - w, 0, self.max_dimensions[1] - h), value=1)
+        padded_image = F.pad(images[i], (0, max_W - W, 0, max_H - H), value=1)
         #padded_image = padding(images[i])
-        #padded_images.append(padded_image)
+        padded_images.append(padded_images)
 
     # Stack the padded images and labels into a batch tensor
     images = torch.stack(images)
