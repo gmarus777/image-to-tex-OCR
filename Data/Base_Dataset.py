@@ -108,14 +108,14 @@ class Base_Dataset(Dataset):
         # NEW
         #image = cv2.imread('generated_png_images/' + image_filename)
         #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        image = np.asarray(image)
-        h, w, c = image.shape
-        if w<128 and h<30:
-            image = cv2.resize(image, (0, 0), fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
-        elif w<300:
-            image = cv2.resize(image, (0, 0), fx=2, fy=2,  interpolation=cv2.INTER_CUBIC)
-        elif w<510:
-            image = cv2.resize(image, (0, 0), fx=1+random.random(), fy=1+random.random(),  interpolation=cv2.INTER_CUBIC)
+        #image = np.asarray(image)
+        #h, w, c = image.shape
+        #if w<128 and h<30:
+            #image = cv2.resize(image, (0, 0), fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
+        #elif w<300:
+            #image = cv2.resize(image, (0, 0), fx=2, fy=2,  interpolation=cv2.INTER_CUBIC)
+        #elif w<510:
+            #image = cv2.resize(image, (0, 0), fx=1+random.random(), fy=1+random.random(),  interpolation=cv2.INTER_CUBIC)
 
 
 
