@@ -71,9 +71,9 @@ class Base_Dataset(Dataset):
         # Change path to the image folder
         oldcwd = os.getcwd()
         os.chdir(PrintedLatexDataConfig.DATA_BANK_DIRNAME)  # "Data/Data_Bank"
-
+        image = Image.open('generated_png_images/' + image_filename).convert('RGB')
         # image = pil_loader('generated_png_images/' + image_filename, mode="L")
-        image = ImageProcessor.read_image_pil('generated_png_images/' + image_filename, grayscale=True)
+        #image = ImageProcessor.read_image_pil('generated_png_images/' + image_filename, grayscale=True)
         image = np.asarray(image)
         h, w, c = image.shape
         #image = cv2.imread('generated_png_images/' + image_filename)
@@ -90,7 +90,7 @@ class Base_Dataset(Dataset):
         # image = PIL.ImageOps.invert(image)
         #h, w = image.shape
 
-        #image = Image.open('generated_png_images/' + image_filename).convert('RGB')
+
         ratio = int(w / h)
         if ratio>MAX_RATIO:
             ratio =MAX_RATIO
