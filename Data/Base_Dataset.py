@@ -75,7 +75,7 @@ class Base_Dataset(Dataset):
         image = Image.open('generated_png_images/' + image_filename).convert('RGB')
         # image = pil_loader('generated_png_images/' + image_filename, mode="L")
         #image = ImageProcessor.read_image_pil('generated_png_images/' + image_filename, grayscale=True)
-        #image = np.asarray(image)
+        image = np.asarray(image)
         #h, w, c = image.shape
         #image = cv2.imread('generated_png_images/' + image_filename)
         #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
