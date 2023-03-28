@@ -11,6 +11,7 @@ from Data.image_transforms import Image_Transforms
 from Data.Data_Server import Data_Server
 from Data.Base_Dataset import Base_Dataset, split_dataset
 from Data.vocabulary_utils import load_dic, invert_vocabulary
+from torchvision import transforms
 
 
 
@@ -223,7 +224,7 @@ class Data_Module(pl.LightningDataModule):
         )
 
 
-def collate_function( batch):
+def collate_function_old( batch):
     images, formulas = zip(*batch)
     B = len(images)
     max_H = max(image.shape[1] for image in images)
@@ -240,20 +241,28 @@ def collate_function( batch):
         batched_indices[i, : len(indices)] = indices.clone().detach()
     return padded_images, batched_indices
 
-def collate_function_test( batch):
+
+def collate_function(batch):
+    # Get the maximum height of images in the batch
     images, formulas = zip(*batch)
     B = len(images)
     max_H = max(image.shape[1] for image in images)
     max_W = max(image.shape[2] for image in images)
-    max_length = max(len(formula) for formula in formulas)
-    padded_images = torch.zeros((B, 1, max_H, max_W))
-    batched_indices = torch.zeros((B, max_length ), dtype=torch.long)
+
+
+    # Pad images to the maximum height using zero-padding
+    padded_images = []
+    labels = formulas
+
     for i in range(B):
         H, W = images[i].shape[1], images[i].shape[2]
-        y, x = random.randint(0, max_H - H), random.randint(0, max_W - W)
-        padded_images[i, :, y : y + H, x : x + W] = images[i]
-        indices = formulas[i]
-        #batched_indices[i, : len(indices)] = torch.tensor(indices, dtype=torch.long)
-        batched_indices[i, : len(indices)] = indices.clone().detach()
-    return padded_images, batched_indices
+        padding_width = max_W-W
+        padding_height = max_H - H
+        padding = transforms.Pad((0, padding_height, 0, padding_width), fill=1)
+        padded_image = padding(images[i])
+        padded_images.append(padded_image)
 
+    # Stack the padded images and labels into a batch tensor
+    images = torch.stack(padded_images)
+    labels =torch.stack(labels)
+    return images, labels

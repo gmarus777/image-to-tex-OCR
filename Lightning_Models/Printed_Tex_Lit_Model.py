@@ -20,7 +20,7 @@ class LitResNetTransformer(pl.LightningModule):
         WandB = True,
         lr: float = 0.001,
         weight_decay: float = 0.0001,
-        milestones: List[int] = [10],
+        milestones: List[int] = [10, 17, 30],
         gamma: float = 0.5,
     ):
         super().__init__()
@@ -98,12 +98,12 @@ class LitResNetTransformer(pl.LightningModule):
                     decoded_str = " ".join(decoded)
                     f.write(decoded_str)
 
-    def configure_optimizers_old(self):
+    def configure_optimizers(self):
         optimizer = torch.optim.AdamW(self.model.parameters(), lr=self.lr, weight_decay=self.weight_decay)
         scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=self.milestones, gamma=self.gamma)
         return [optimizer], [scheduler]
 
-    def configure_optimizers(self):
+    def configure_optimizers_new(self):
         optimizer = torch.optim.AdamW(self.model.parameters(), lr=self.lr, weight_decay=self.weight_decay)
         scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=self.milestones, gamma=self.gamma)
         scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer=optimizer, max_lr=0.001, total_steps=100)
