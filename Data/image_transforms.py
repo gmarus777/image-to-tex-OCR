@@ -9,31 +9,6 @@ IMAGE_WIDTH = 512
 
 
 
-train_transform =alb.Compose(
-                    [   alb.augmentations.geometric.resize.Resize(height=IMAGE_HEIGHT, width= IMAGE_WIDTH, p=1),
-                        alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.15, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[255, 255, 255], p=1),
-                        alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=255, p=0.5),
-                        alb.GridDistortion(distort_limit=0.1, border_mode=0, interpolation=3, value=[255, 255, 255], p=.5),
-                        alb.GaussNoise(var_limit=(10.0, 50.0), p=0.5),
-                        alb.GaussianBlur(blur_limit=(1, 1), p=0.5),
-                        alb.RandomBrightnessContrast(.5, (-.5, .5), True, p=0.3),
-                        alb.ImageCompression(95, p=.3),
-
-                        ToTensorV2(),
-                    ]
-    )
-
-
-
-
-
-test_transform = alb.Compose(
-    [   alb.augmentations.geometric.resize.Resize(height=IMAGE_HEIGHT, width= IMAGE_WIDTH, p=1),
-        alb.ToGray(always_apply=True),
-        # alb.Sharpen(),
-        ToTensorV2(),
-    ]
-)
 
 class Image_Transforms:
     train_transform_with_padding = alb.Compose(
@@ -45,16 +20,16 @@ class Image_Transforms:
             # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
             # alb.PadIfNeeded(always_apply=True, min_height=128, min_width=1920, border_mode=cv2.BORDER_CONSTANT, position= alb.PadIfNeeded.PositionType.TOP_LEFT, value=0),
 
-            alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.10, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[255, 255, 255], p=.15),
-            # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
+            alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.15, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[255, 255, 255], p=.15),
+            # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=255, p=0.5),
             # alb.InvertImg(p=.15),
-            alb.GridDistortion(distort_limit=0.1, border_mode=0, interpolation=3, value=[255, 255, 255], p=.15,normalized=True),
+            alb.GridDistortion(distort_limit=0.1, border_mode=0, interpolation=3, value=[255, 255, 255], p=.15),
             # alb.RGBShift(r_shift_limit=15, g_shift_limit=15, b_shift_limit=15, p=0.3),
             alb.GaussNoise(10, p=0.2),
             # alb.GaussianBlur(blur_limit=(1, 1), p=0.2),
             alb.RandomBrightnessContrast(.05, (-.2, 0), True, p=0.2),
             # alb.ImageCompression(95, p=.3),
-            alb.ToGray(always_apply=True),
+            #alb.ToGray(always_apply=True),
             # Mean:  tensor([71.5338])
             # Std: tensor([101.7121])
             # [0.485,0.456,0.406], [0.229,0.224,0.225]
@@ -77,7 +52,7 @@ class Image_Transforms:
 
             # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
             # alb.ImageCompression(95, p=.3),
-            alb.ToGray(always_apply=True),
+            #alb.ToGray(always_apply=True),
             #alb.Normalize((0.7931, 0.7931, 0.7931), (0.1738, 0.1738, 0.1738)),
             # alb.Sharpen(always_apply=True  ),
             ToTensorV2(),
@@ -184,14 +159,6 @@ class Image_Transforms:
 
 
 
-
-    test_transform = alb.Compose(
-        [   alb.augmentations.geometric.resize.Resize(height=IMAGE_HEIGHT, width= IMAGE_WIDTH, p=1),
-            alb.ToGray(always_apply=True),
-            # alb.Sharpen(),
-            ToTensorV2(),
-        ]
-    )
         # keep the similar ration for all images  and then pad
         # rescale all photos by to a common ratio aspect
     # if size is small, then upscale to around

@@ -7,7 +7,7 @@ import random
 from torch.utils.data import ConcatDataset, DataLoader
 import pytorch_lightning as pl
 from Data.label_transforms import Label_Transforms
-from Data.image_transforms import train_transform, test_transform, Image_Transforms
+from Data.image_transforms import Image_Transforms
 from Data.Data_Server import Data_Server
 from Data.Base_Dataset import Base_Dataset, split_dataset
 from Data.vocabulary_utils import load_dic, invert_vocabulary
@@ -88,22 +88,19 @@ class Data_Module(pl.LightningDataModule):
         self.image_transform_name = image_transform_name
 
         self.image_padding = image_padding
-        if self.image_padding:
-            self.image_transform_alb = Image_Transforms.train_transform_with_padding
-            self.image_transform_alb_small = Image_Transforms.train_transform_with_padding_small
-            self.image_transform_alb_xs = Image_Transforms.train_transform_with_padding_xs
+
+        self.image_transform_alb = Image_Transforms.train_transform_with_padding
+        self.image_transform_alb_small = Image_Transforms.train_transform_with_padding_small
+        self.image_transform_alb_xs = Image_Transforms.train_transform_with_padding_xs
 
 
 
-            self.image_transform_test = Image_Transforms.test_transform_with_padding
-            self.image_transform_test_small = Image_Transforms.test_transform_with_padding_small
-            self.image_transform_test_medium = Image_Transforms.test_transform_with_padding_medium
-            self.image_transform_test_xl = Image_Transforms.test_transform_with_padding_xl
-            self.image_transform_test_xs =Image_Transforms.test_transform_with_padding_xs
+        self.image_transform_test = Image_Transforms.test_transform_with_padding
+        self.image_transform_test_small = Image_Transforms.test_transform_with_padding_small
+        self.image_transform_test_medium = Image_Transforms.test_transform_with_padding_medium
+        self.image_transform_test_xl = Image_Transforms.test_transform_with_padding_xl
+        self.image_transform_test_xs =Image_Transforms.test_transform_with_padding_xs
 
-        else:
-            self.image_transform_alb = Image_Transforms.train_transform
-            self.image_transform_test = Image_Transforms.test_transform
 
 
 
@@ -238,7 +235,6 @@ def collate_function( batch):
         H, W = images[i].shape[1], images[i].shape[2]
         y, x = random.randint(0, max_H - H), random.randint(0, max_W - W)
         padded_images[i, :, y : y + H, x : x + W] = images[i]
-        #indices = self.tokenizer.encode(formulas[i])
         indices = formulas[i]
         #batched_indices[i, : len(indices)] = torch.tensor(indices, dtype=torch.long)
         batched_indices[i, : len(indices)] = indices.clone().detach()
