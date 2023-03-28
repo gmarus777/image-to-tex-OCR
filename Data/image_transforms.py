@@ -35,7 +35,7 @@ class Image_Transforms:
             # Std: tensor([101.7121])
             # [0.485,0.456,0.406], [0.229,0.224,0.225]
             #alb.Normalize((0.7931, 0.7931, 0.7931), (0.1738, 0.1738, 0.1738)),
-            #alb.Sharpen(always_apply=True),
+            alb.Sharpen(always_apply=True),
             # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
 
             ToTensorV2(),
