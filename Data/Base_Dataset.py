@@ -92,6 +92,8 @@ class Base_Dataset(Dataset):
 
 
         ratio = int(w / h)
+        if ratio == 0:
+            ratio = 1
         if ratio>MAX_RATIO:
             ratio =MAX_RATIO
         h_new = 128
