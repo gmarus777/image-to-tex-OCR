@@ -97,7 +97,7 @@ class Base_Dataset(Dataset):
             ratio = 1
         if ratio>MAX_RATIO:
             ratio =MAX_RATIO
-        new_scale = random.randint(1,2)*random.random()
+        new_scale = random.randint(1,3)*random.random()
         h_new = int(h*new_scale)
         w_new = int(h_new * ratio)
         image = cv2.resize(image, (w_new, h_new), interpolation=cv2.INTER_LINEAR)
