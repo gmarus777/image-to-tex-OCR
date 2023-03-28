@@ -91,14 +91,18 @@ class Base_Dataset(Dataset):
         #h, w = image.shape
 
 
+        ratio = int((w / h)*3)
+        if ratio == 0:
+            ratio = 1
+        if ratio>MAX_RATIO:
+            ratio =MAX_RATIO
+        h_new = h*3
+        w_new = int(h_new * ratio)
+        image = cv2.resize(image, (w_new, h_new), interpolation=cv2.INTER_LINEAR)
 
         if self.stage.lower() =="fit":
-            if w>h:
-                image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
-            else:
-                image = Image_Transforms.train_transform_with_padding_old(image=np.array(image))['image'][:1]
+            image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
             formula = self.labels_transform_function(formula)
-
 
 
 
