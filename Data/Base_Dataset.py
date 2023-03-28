@@ -92,15 +92,19 @@ class Base_Dataset(Dataset):
         #h, w = image.shape
 
 
-        ratio = int((w / h))
-        if ratio == 0:
-            ratio = 1
-        if ratio>MAX_RATIO:
-            ratio =MAX_RATIO
-        new_scale = random.randint(0,2)*random.random()+1
-        h_new = int(h*new_scale)
-        w_new = int(h_new * ratio)
-        image = cv2.resize(image, (w_new, h_new), interpolation=cv2.INTER_LINEAR)
+        #ratio = int((w / h))
+        #if ratio == 0:
+            #ratio = 1
+        #if ratio>MAX_RATIO:
+            #ratio =MAX_RATIO
+        #new_scale = random.randint(0,2)*random.random()+1
+        factor = random.randint(1,3)
+        w_new = w*factor
+        h_new = h*factor
+
+        if w_new<1024 and h_new<1024:
+            image = cv2.resize(image, (w_new, h_new), interpolation=cv2.INTER_LINEAR)
+
 
         if self.stage.lower() =="fit":
             image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
