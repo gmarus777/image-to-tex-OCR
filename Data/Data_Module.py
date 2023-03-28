@@ -12,6 +12,7 @@ from Data.Data_Server import Data_Server
 from Data.Base_Dataset import Base_Dataset, split_dataset
 from Data.vocabulary_utils import load_dic, invert_vocabulary
 from torchvision import transforms
+import torch.nn.functional as F
 
 
 
