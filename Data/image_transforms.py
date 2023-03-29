@@ -54,7 +54,7 @@ class Image_Transforms:
             # alb.augmentations.crops.transforms.CenterCrop(350, 600, always_apply=True, p=1.0),
 
             # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
-            alb.ImageCompression(95, p=1),
+            #alb.ImageCompression(95, p=1),
             alb.ToGray(always_apply=True),
             #alb.Normalize(),
             alb.Sharpen(always_apply=True  ),
