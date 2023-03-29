@@ -112,7 +112,7 @@ class Base_Dataset(Dataset):
         #image = np.asarray(image)
 
 
-        #h, w, c = image.shape
+        h, w, c = image.shape
         #if w<128 and h<30:
             #image = cv2.resize(image, (0, 0), fx=2+random.random(), fy=2++random.random(), interpolation=cv2.INTER_CUBIC)
         #elif w<300:
@@ -122,7 +122,10 @@ class Base_Dataset(Dataset):
 
         #image = imutils.resize(image, height=96)
         if self.stage.lower() =="fit":
-            image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
+            if h>30:
+                image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
+            else:
+                image = Image_Transforms.train_transform_with_padding_SMALL(image=np.array(image))['image'][:1]
             formula = self.labels_transform_function(formula)
 
 
