@@ -259,7 +259,7 @@ class Data_Module(pl.LightningDataModule):
 
         # Pad images to the maximum height using zero-padding
         padded_images = []
-        labels = []
+        labels = formulas
 
         for i in range(B):
             H, W = images[i].shape[1], images[i].shape[2]
@@ -274,5 +274,5 @@ class Data_Module(pl.LightningDataModule):
 
         # Stack the padded images and labels into a batch tensor
         images = torch.stack(padded_images)
-        #labels =torch.stack(labels)
-        return images, formulas
+        labels =torch.stack(formulas)
+        return images, labels
