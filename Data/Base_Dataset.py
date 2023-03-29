@@ -122,11 +122,12 @@ class Base_Dataset(Dataset):
 
         #image = imutils.resize(image, height=96)
         if self.stage.lower() =="fit":
-            if h>30:
-                image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
-            else:
+            if h<30:
                 image = Image_Transforms.train_transform_with_padding_SMALL(image=np.array(image))['image'][:1]
-            formula = self.labels_transform_function(formula)
+            else:
+                image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
+
+            #formula = self.labels_transform_function(formula)
 
 
 

@@ -189,7 +189,7 @@ class Data_Module(pl.LightningDataModule):
             batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=self.on_gpu,
-            collate_fn=collate_function,
+            collate_fn=self.collate_function,
         )
 
     def val_dataloader(self, *args, **kwargs):
@@ -205,7 +205,7 @@ class Data_Module(pl.LightningDataModule):
             batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=self.on_gpu,
-            collate_fn=collate_function
+            collate_fn=self.collate_function
         )
 
     def test_dataloader(self, *args, **kwargs):
@@ -221,26 +221,26 @@ class Data_Module(pl.LightningDataModule):
             batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=self.on_gpu,
-            collate_fn=collate_function,
+            collate_fn=self.collate_function,
         )
 
 
-def collate_function_old( batch):
-    images, formulas = zip(*batch)
-    B = len(images)
-    max_H = max(image.shape[1] for image in images)
-    max_W = max(image.shape[2] for image in images)
-    max_length = max(len(formula) for formula in formulas)
-    padded_images = torch.zeros((B, 1, max_H, max_W))
-    batched_indices = torch.zeros((B, max_length ), dtype=torch.long)
-    for i in range(B):
-        H, W = images[i].shape[1], images[i].shape[2]
-        y, x = random.randint(0, max_H - H), random.randint(0, max_W - W)
-        padded_images[i, :, y : y + H, x : x + W] = images[i]
-        indices = formulas[i]
-        #batched_indices[i, : len(indices)] = torch.tensor(indices, dtype=torch.long)
-        batched_indices[i, : len(indices)] = indices.clone().detach()
-    return padded_images, batched_indices
+    def collate_function_old(self, batch):
+        images, formulas = zip(*batch)
+        B = len(images)
+        max_H = max(image.shape[1] for image in images)
+        max_W = max(image.shape[2] for image in images)
+        max_length = max(len(formula) for formula in formulas)
+        padded_images = torch.zeros((B, 1, max_H, max_W))
+        batched_indices = torch.zeros((B, max_length ), dtype=torch.long)
+        for i in range(B):
+            H, W = images[i].shape[1], images[i].shape[2]
+            y, x = random.randint(0, max_H - H), random.randint(0, max_W - W)
+            padded_images[i, :, y : y + H, x : x + W] = images[i]
+            indices = formulas[i]
+            #batched_indices[i, : len(indices)] = torch.tensor(indices, dtype=torch.long)
+            batched_indices[i, : len(indices)] = indices.clone().detach()
+        return padded_images, batched_indices
 
 
 
@@ -248,28 +248,31 @@ def collate_function_old( batch):
 
 
 
-def collate_function(batch):
-    # Get the maximum height of images in the batch
-    images, formulas = zip(*batch)
-    B = len(images)
-    max_H = max(image.shape[1] for image in images)
-    max_W = max(image.shape[2] for image in images)
+    def collate_function(self,batch):
+        # Get the maximum height of images in the batch
+        images, formulas = zip(*batch)
+        B = len(images)
+        max_H = max(image.shape[1] for image in images)
+        max_W = max(image.shape[2] for image in images)
+        max_L =  max(len(formula) for formula in formulas)
 
 
-    # Pad images to the maximum height using zero-padding
-    padded_images = []
-    labels = formulas
+        # Pad images to the maximum height using zero-padding
+        padded_images = []
+        labels = []
 
-    for i in range(B):
-        H, W = images[i].shape[1], images[i].shape[2]
-        padding_width = max_W-W
-        padding_height = max_H - H
-        #padding = transforms.Pad((0, padding_height, 0, padding_width), fill=1)
-        padded_image = F.pad(images[i], (0, max_W - W, 0, max_H - H), value=0)
-        #padded_image = padding(images[i])
-        padded_images.append(padded_image)
+        for i in range(B):
+            H, W = images[i].shape[1], images[i].shape[2]
+            padding_width = max_W-W
+            padding_height = max_H - H
+            #padding = transforms.Pad((0, padding_height, 0, padding_width), fill=1)
+            padded_image = F.pad(images[i], (0, max_W - W, 0, max_H - H), value=0)
+            #padded_image = padding(images[i])
+            padded_images.append(padded_image)
+            padded_formula =  self.labels_transform_function(string=formulas[i], length=max_L+2)
+            labels.append(padded_formula)
 
-    # Stack the padded images and labels into a batch tensor
-    images = torch.stack(padded_images)
-    labels =torch.stack(labels)
-    return images, labels
+        # Stack the padded images and labels into a batch tensor
+        images = torch.stack(padded_images)
+        labels =torch.stack(labels)
+        return images, labels
