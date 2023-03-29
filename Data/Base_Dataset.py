@@ -120,7 +120,7 @@ class Base_Dataset(Dataset):
         #elif w<510:
             #image = cv2.resize(image, (0, 0), fx=1+random.random(), fy=1+random.random(),  interpolation=cv2.INTER_CUBIC)
 
-        image = imutils.resize(image, height=96)
+        #image = imutils.resize(image, height=96)
         if self.stage.lower() =="fit":
             image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
             formula = self.labels_transform_function(formula)
