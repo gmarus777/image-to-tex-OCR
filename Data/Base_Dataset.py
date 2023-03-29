@@ -127,7 +127,7 @@ class Base_Dataset(Dataset):
             else:
                 image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
 
-            #formula = self.labels_transform_function(formula)
+            formula = self.labels_transform_function(formula)
 
 
 
