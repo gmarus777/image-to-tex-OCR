@@ -265,7 +265,7 @@ def collate_function(batch):
         padding_width = max_W-W
         padding_height = max_H - H
         #padding = transforms.Pad((0, padding_height, 0, padding_width), fill=1)
-        padded_image = F.pad(images[i], (0, max_W - W, 0, max_H - H), value=1)
+        padded_image = F.pad(images[i], (0, max_W - W, 0, max_H - H), value=0)
         #padded_image = padding(images[i])
         padded_images.append(padded_image)
 
