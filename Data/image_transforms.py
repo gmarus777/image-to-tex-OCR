@@ -26,6 +26,7 @@ class Image_Transforms:
             # alb.InvertImg(p=.15),
             #alb.GridDistortion(distort_limit=0.1, border_mode=0, interpolation=3, value=[0, 0, 0], p=.15),
             # alb.RGBShift(r_shift_limit=15, g_shift_limit=15, b_shift_limit=15, p=0.3),
+            alb.Affine(scale=(0.6, 1.0), rotate=(-1, 1), cval=0, p=0.5),
             alb.GaussNoise(10, p=0.2),
             # alb.GaussianBlur(blur_limit=(1, 1), p=0.2),
             alb.RandomBrightnessContrast(.05, (-.2, 0), True, p=0.2),
@@ -53,10 +54,10 @@ class Image_Transforms:
             # alb.augmentations.crops.transforms.CenterCrop(350, 600, always_apply=True, p=1.0),
 
             # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
-            # alb.ImageCompression(95, p=.3),
-            #alb.ToGray(always_apply=True),
-            alb.Normalize(),
-            #alb.Sharpen(always_apply=True  ),
+            alb.ImageCompression(95, p=1),
+            alb.ToGray(always_apply=True),
+            #alb.Normalize(),
+            alb.Sharpen(always_apply=True  ),
             ToTensorV2(),
         ]
     )
