@@ -269,10 +269,10 @@ class Data_Module(pl.LightningDataModule):
             padded_image = F.pad(images[i], (0, max_W - W, 0, max_H - H), value=0)
             #padded_image = padding(images[i])
             padded_images.append(padded_image)
-            padded_formula =  self.labels_transform_function(string=formulas[i], length=max_L+2)
-            labels.append(padded_formula)
+            #padded_formula =  self.labels_transform_function(string=formulas[i], length=max_L+2)
+            #labels.append(padded_formula)
 
         # Stack the padded images and labels into a batch tensor
         images = torch.stack(padded_images)
-        labels =torch.stack(labels)
-        return images, labels
+        #labels =torch.stack(labels)
+        return images, formulas
