@@ -37,7 +37,7 @@ class Image_Transforms:
             # [0.485,0.456,0.406], [0.229,0.224,0.225]
             #alb.Normalize((0.7931, 0.7931, 0.7931), (0.1738, 0.1738, 0.1738)),
             #alb.Normalize(),
-            alb.Sharpen(always_apply=True),
+            #alb.Sharpen(always_apply=True),
             # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
 
             ToTensorV2(),
@@ -70,7 +70,7 @@ class Image_Transforms:
          # [0.485,0.456,0.406], [0.229,0.224,0.225]
          # alb.Normalize((0.7931, 0.7931, 0.7931), (0.1738, 0.1738, 0.1738)),
          # alb.Normalize(),
-         alb.Sharpen(always_apply=True),
+         #alb.Sharpen(always_apply=True),
          # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
 
          ToTensorV2(),
@@ -81,7 +81,7 @@ class Image_Transforms:
 
         [
             # alb.augmentations.geometric.resize.LongestMaxSize (max_size=450, interpolation= cv2.INTER_CUBIC, always_apply=True, p=1),
-            alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation= cv2.INTER_AREA ,always_apply=True, p=1),
+            alb.augmentations.geometric.resize.SmallestMaxSize(max_size=96, interpolation= cv2.INTER_LINEAR ,always_apply=True, p=1),
             # alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
             # alb.PadIfNeeded(always_apply=True, min_height=128, min_width=1920, border_mode=cv2.BORDER_CONSTANT, position=alb.PadIfNeeded.PositionType.TOP_LEFT, value=0),
             # alb.augmentations.crops.transforms.CenterCrop(350, 600, always_apply=True, p=1.0),
@@ -90,7 +90,7 @@ class Image_Transforms:
             #alb.ImageCompression(95, p=1),
             alb.ToGray(always_apply=True),
             #alb.Normalize(),
-            alb.Sharpen(always_apply=True  ),
+            #alb.Sharpen(always_apply=True  ),
             ToTensorV2(),
         ]
     )
@@ -99,7 +99,7 @@ class Image_Transforms:
 
         [
             # alb.augmentations.geometric.resize.LongestMaxSize (max_size=450, interpolation= cv2.INTER_CUBIC, always_apply=True, p=1),
-            alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC,always_apply=True, p=1),
+            alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_LINEAR,always_apply=True, p=1),
             # alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
             # alb.PadIfNeeded(always_apply=True, min_height=128, min_width=1920, border_mode=cv2.BORDER_CONSTANT, position=alb.PadIfNeeded.PositionType.TOP_LEFT, value=0),
             # alb.augmentations.crops.transforms.CenterCrop(350, 600, always_apply=True, p=1.0),
@@ -108,7 +108,7 @@ class Image_Transforms:
             # alb.ImageCompression(95, p=1),
             alb.ToGray(always_apply=True),
             # alb.Normalize(),
-            alb.Sharpen(always_apply=True),
+            #alb.Sharpen(always_apply=True),
             ToTensorV2(),
         ]
     )

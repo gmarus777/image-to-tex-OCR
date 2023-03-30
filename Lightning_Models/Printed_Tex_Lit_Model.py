@@ -37,6 +37,8 @@ class LitResNetTransformer(pl.LightningModule):
         self.weight_decay = weight_decay
         self.milestones = milestones
         self.gamma = gamma
+        self.vocabulary = model.vocabulary
+        self.tokens_to_string = model.token_to_strings
 
 
         self.model = model
