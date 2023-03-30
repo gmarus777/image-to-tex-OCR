@@ -13,7 +13,7 @@ IMAGE_WIDTH = 512
 class Image_Transforms:
     train_transform_with_padding = alb.Compose(
 
-        [   alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation= cv2.INTER_LINEAR ,always_apply=True, p=1),
+        [   alb.augmentations.geometric.resize.SmallestMaxSize(max_size=96, interpolation= cv2.INTER_LINEAR ,always_apply=True, p=1),
 
             # alb.augmentations.geometric.resize.LongestMaxSize(max_size=608, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
             # alb.PadIfNeeded(always_apply=True, min_height=640, min_width=640, border_mode=cv2.BORDER_CONSTANT, value=0),
@@ -46,7 +46,7 @@ class Image_Transforms:
 
     train_transform_with_padding_SMALL = alb.Compose(
 
-        [alb.augmentations.geometric.resize.SmallestMaxSize(max_size=48, interpolation=cv2.INTER_LINEAR, always_apply=True, p=1),
+        [alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_LINEAR, always_apply=True, p=1),
 
          # alb.augmentations.geometric.resize.LongestMaxSize(max_size=608, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
          # alb.PadIfNeeded(always_apply=True, min_height=640, min_width=640, border_mode=cv2.BORDER_CONSTANT, value=0),
@@ -99,7 +99,7 @@ class Image_Transforms:
 
         [
             # alb.augmentations.geometric.resize.LongestMaxSize (max_size=450, interpolation= cv2.INTER_CUBIC, always_apply=True, p=1),
-            alb.augmentations.geometric.resize.SmallestMaxSize(max_size=48, interpolation=cv2.INTER_CUBIC,always_apply=True, p=1),
+            alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC,always_apply=True, p=1),
             # alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
             # alb.PadIfNeeded(always_apply=True, min_height=128, min_width=1920, border_mode=cv2.BORDER_CONSTANT, position=alb.PadIfNeeded.PositionType.TOP_LEFT, value=0),
             # alb.augmentations.crops.transforms.CenterCrop(350, 600, always_apply=True, p=1.0),
