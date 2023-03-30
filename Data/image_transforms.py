@@ -54,7 +54,7 @@ class Image_Transforms:
          # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
          # alb.PadIfNeeded(always_apply=True, min_height=128, min_width=1920, border_mode=cv2.BORDER_CONSTANT, position= alb.PadIfNeeded.PositionType.TOP_LEFT, value=0),
 
-         alb.ShiftScaleRotate(shift_limit=0.05, scale_limit=(-.15, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[0, 0, 0], p=.15),
+         alb.ShiftScaleRotate(shift_limit=0.05, scale_limit=(-.15, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[255, 255, 255], p=.15),
          # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=255, p=0.5),
          # alb.InvertImg(p=.15),
          # alb.GridDistortion(distort_limit=0.1, border_mode=0, interpolation=3, value=[0, 0, 0], p=.15),
