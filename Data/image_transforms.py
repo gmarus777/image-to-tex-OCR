@@ -81,7 +81,7 @@ class Image_Transforms:
 
         [
             # alb.augmentations.geometric.resize.LongestMaxSize (max_size=450, interpolation= cv2.INTER_CUBIC, always_apply=True, p=1),
-            alb.augmentations.geometric.resize.SmallestMaxSize(max_size=96, interpolation= cv2.INTER_AREA ,always_apply=False, p=1),
+            alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation= cv2.INTER_AREA ,always_apply=True, p=1),
             # alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
             # alb.PadIfNeeded(always_apply=True, min_height=128, min_width=1920, border_mode=cv2.BORDER_CONSTANT, position=alb.PadIfNeeded.PositionType.TOP_LEFT, value=0),
             # alb.augmentations.crops.transforms.CenterCrop(350, 600, always_apply=True, p=1.0),
@@ -91,6 +91,24 @@ class Image_Transforms:
             alb.ToGray(always_apply=True),
             #alb.Normalize(),
             alb.Sharpen(always_apply=True  ),
+            ToTensorV2(),
+        ]
+    )
+
+    test_transform_with_padding_SMALL = alb.Compose(
+
+        [
+            # alb.augmentations.geometric.resize.LongestMaxSize (max_size=450, interpolation= cv2.INTER_CUBIC, always_apply=True, p=1),
+            alb.augmentations.geometric.resize.SmallestMaxSize(max_size=48, interpolation=cv2.INTER_CUBIC,always_apply=True, p=1),
+            # alb.augmentations.geometric.resize.Resize(interpolation= cv2.INTER_CUBIC, height=30, width= 217, p=1),
+            # alb.PadIfNeeded(always_apply=True, min_height=128, min_width=1920, border_mode=cv2.BORDER_CONSTANT, position=alb.PadIfNeeded.PositionType.TOP_LEFT, value=0),
+            # alb.augmentations.crops.transforms.CenterCrop(350, 600, always_apply=True, p=1.0),
+
+            # alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=0, p=0.5),
+            # alb.ImageCompression(95, p=1),
+            alb.ToGray(always_apply=True),
+            # alb.Normalize(),
+            alb.Sharpen(always_apply=True),
             ToTensorV2(),
         ]
     )
