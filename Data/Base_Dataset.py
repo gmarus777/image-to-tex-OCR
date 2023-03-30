@@ -76,7 +76,7 @@ class Base_Dataset(Dataset):
         image = Image.open('generated_png_images/' + image_filename).convert('RGB')
         # image = pil_loader('generated_png_images/' + image_filename, mode="L")
         #image = ImageProcessor.read_image_pil('generated_png_images/' + image_filename, grayscale=True)
-        image = np.asarray(image)
+        #image = np.asarray(image)
         #h, w, c = image.shape
         #image = cv2.imread('generated_png_images/' + image_filename)
         #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -112,7 +112,7 @@ class Base_Dataset(Dataset):
         #image = np.asarray(image)
 
 
-        h, w, c = image.shape
+        #h, w, c = image.shape
         #if w<128 and h<30:
             #image = cv2.resize(image, (0, 0), fx=2+random.random(), fy=2++random.random(), interpolation=cv2.INTER_CUBIC)
         #elif w<300:
@@ -122,10 +122,8 @@ class Base_Dataset(Dataset):
 
         #image = imutils.resize(image, height=96)
         if self.stage.lower() =="fit":
-            if h<30:
-                image = Image_Transforms.train_transform_with_padding_SMALL(image=np.array(image))['image'][:1]
-            else:
-                image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
+
+            image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
 
             formula = self.labels_transform_function(formula)
 

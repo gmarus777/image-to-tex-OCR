@@ -13,7 +13,7 @@ IMAGE_WIDTH = 512
 class Image_Transforms:
     train_transform_with_padding = alb.Compose(
 
-        [   alb.augmentations.geometric.resize.SmallestMaxSize(max_size=96, interpolation= cv2.INTER_LINEAR ,always_apply=True, p=1),
+        [   alb.augmentations.geometric.resize.SmallestMaxSize(max_size=128, interpolation= cv2.INTER_LINEAR ,always_apply=True, p=1),
 
             # alb.augmentations.geometric.resize.LongestMaxSize(max_size=608, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
             # alb.PadIfNeeded(always_apply=True, min_height=640, min_width=640, border_mode=cv2.BORDER_CONSTANT, value=0),
@@ -37,7 +37,7 @@ class Image_Transforms:
             # [0.485,0.456,0.406], [0.229,0.224,0.225]
             #alb.Normalize((0.7931, 0.7931, 0.7931), (0.1738, 0.1738, 0.1738)),
             #alb.Normalize(),
-            #alb.Sharpen(always_apply=True),
+            alb.Sharpen(p=.05),
             # alb.augmentations.geometric.resize.SmallestMaxSize(max_size=64, interpolation=cv2.INTER_CUBIC, always_apply=True, p=1),
 
             ToTensorV2(),

@@ -4,13 +4,18 @@ from PIL import Image
 import cv2
 import streamlit
 import numpy as np
-from Data.image_transforms import Image_Transforms
-from Models.Printed_Tex_Transformer import ResNetTransformer
-from Lightning_Models.Printed_Tex_Lit_Model import LitResNetTransformer
+from pathlib import Path
+import sys
 from torchvision import transforms
 import torch
 import json
-from Stream_app.Tokenizer import token_to_strings
+from Tokenizer import token_to_strings
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from Data.image_transforms import Image_Transforms
+from Models.Printed_Tex_Transformer import ResNetTransformer
+from Lightning_Models.Printed_Tex_Lit_Model import LitResNetTransformer
+
 
 
 
