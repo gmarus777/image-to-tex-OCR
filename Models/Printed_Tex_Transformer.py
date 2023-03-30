@@ -61,7 +61,7 @@ class ResNetTransformer(nn.Module):
         self.sos_index = int(0) # int(dataset.vocabulary['<S>'])
         self.eos_index =  int(1) # int(dataset.vocabulary['<E>'])
         self.pad_index =  int(2) # int(dataset.vocabulary['<P>'])
-        self.vocabulary = self.invert_vocabulary(self.load_dic('Models_Parameters_Log/230k.json'))
+
         if dataset:
             self.num_classes =int(len(dataset.vocabulary))
         else:
@@ -214,31 +214,6 @@ class ResNetTransformer(nn.Module):
             output_indices[i, j:] = self.pad_index
 
         return output_indices
-
-    def load_dic(self,filename):
-        with open(filename) as f:
-            dic = json.loads(f.read())
-            dic_new = dict((k, int(v)) for k, v in dic.items())
-        return dic_new
-
-    def token_to_strings(self,tokens):
-        skipTokens = {'<S>', '<E>', '<P>'}
-
-        inverse_mapping = self.vocabulary
-        s = ''
-        if tokens.shape[0] == 1:
-            tokens = tokens[0]
-        for number in tokens:
-            letter = inverse_mapping[number.item()]
-            if letter not in skipTokens:
-                s = s + " " + str(letter)
-        return s
-
-    def invert_vocabulary(self,vocabulary):
-        inverse_vocabulary = {}
-        for letter, idx in vocabulary.items():
-            inverse_vocabulary[idx] = letter
-        return inverse_vocabulary
 
 
 
