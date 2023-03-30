@@ -16,9 +16,7 @@ import torch.nn.functional as F
 import random
 import imutils
 
-MAX_RATIO = 15
-MAX_WIDTH= 1920
-MAX_HEIGHT = 128
+MAX_RATIO = 25
 
 
 
@@ -76,8 +74,8 @@ class Base_Dataset(Dataset):
         image = Image.open('generated_png_images/' + image_filename).convert('RGB')
         # image = pil_loader('generated_png_images/' + image_filename, mode="L")
         #image = ImageProcessor.read_image_pil('generated_png_images/' + image_filename, grayscale=True)
-        #image = np.asarray(image)
-        #h, w, c = image.shape
+        image = np.asarray(image)
+        h, w, c = image.shape
         #image = cv2.imread('generated_png_images/' + image_filename)
         #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         #image = cv2.bitwise_not(image)
@@ -93,15 +91,15 @@ class Base_Dataset(Dataset):
         #h, w = image.shape
         #w,h = image.size
 
-        #ratio = int((w / h))
-        #if ratio == 0:
-            #ratio = 1
-        #if ratio>MAX_RATIO:
-            #ratio =MAX_RATIO
-        #new_scale = random.randint(0,2)*random.random()+1
-        #factor = random.randint(1,3)
-        #w_new = w*factor
-        #h_new = h*factor
+        ratio = int((w / h))
+        if ratio == 0:
+            ratio = 1
+        if ratio>MAX_RATIO:
+            ratio = MAX_RATIO
+
+        new_h = 128
+        new_w = int(new_h * ratio)
+        image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
 
 
 
