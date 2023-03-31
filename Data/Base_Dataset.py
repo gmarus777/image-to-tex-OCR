@@ -16,7 +16,7 @@ import torch.nn.functional as F
 import random
 import imutils
 
-MAX_RATIO = 25
+MAX_RATIO = 20
 
 
 
@@ -92,14 +92,12 @@ class Base_Dataset(Dataset):
         #w,h = image.size
 
         ratio = int((w / h))
-        if ratio == 0:
-            ratio = 1
+
         if ratio>MAX_RATIO:
             ratio = MAX_RATIO
-
-        new_h = 128
-        new_w = int(new_h * ratio)
-        image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_LINEAR)
+            new_h = 128
+            new_w = int(new_h * ratio)
+            image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_LINEAR)
 
 
 
