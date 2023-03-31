@@ -99,7 +99,7 @@ class Base_Dataset(Dataset):
 
         new_h = 128
         new_w = int(new_h * ratio)
-        image = cv2.resize(image, (new_w, new_h), interpolation=cv2.LINEAR)
+        image = cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_LINEAR)
 
 
 
