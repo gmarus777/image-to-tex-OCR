@@ -91,9 +91,9 @@ class Base_Dataset(Dataset):
         #h, w = image.shape
         #w,h = image.size
 
-        ratio = int((w / h))
+        ratio = int((w / h)+.5)
 
-        if ratio> MAX_RATIO-10:
+        if ratio > MAX_RATIO:
             ratio = MAX_RATIO
             new_h = 96
             new_w = int(new_h * ratio)
