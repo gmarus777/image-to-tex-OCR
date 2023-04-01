@@ -12,11 +12,11 @@ import smart_open
 from PIL import Image
 import torch
 from Data.image_transforms import Image_Transforms
-import torch.nn.functional as F
-import random
-import imutils
+i
+import albumentations
+from albumentations.augmentations.geometric.resize import Resize
 
-MAX_RATIO = 20
+MAX_RATIO = 15
 
 
 
@@ -72,53 +72,28 @@ class Base_Dataset(Dataset):
         oldcwd = os.getcwd()
         os.chdir(PrintedLatexDataConfig.DATA_BANK_DIRNAME)  # "Data/Data_Bank"
         image = Image.open('generated_png_images/' + image_filename).convert('RGB')
-        # image = pil_loader('generated_png_images/' + image_filename, mode="L")
-        #image = ImageProcessor.read_image_pil('generated_png_images/' + image_filename, grayscale=True)
-        #image = np.asarray(image)
-        #h, w, c = image.shape
-        #image = cv2.imread('generated_png_images/' + image_filename)
-        #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        #image = cv2.bitwise_not(image)
+        image = np.asarray(image)
+        h, w, c = image.shape
+        ratio = int(w / h)
+        if ratio == 0:
+            ratio = 1
+        if ratio > MAX_RATIO:
+            ratio = MAX_RATIO
 
-        #image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        #image = cv2.threshold(image, 0, 255,cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-        #dist = cv2.distanceTransform(image, cv2.DIST_L2, 5)
-        #dist = cv2.normalize(dist, dist, 0, 1.0, cv2.NORM_MINMAX)
-        #dist = (dist * 255).astype("uint8")
-        #image = cv2.threshold(dist, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
-        # added inversion
-        # image = PIL.ImageOps.invert(image)
-        #h, w = image.shape
-        #w,h = image.size
+        new_h = 128
+        new_w = int(new_h * ratio)
+        image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
 
-
-
-
-        # NEW
-        #image = cv2.imread('generated_png_images/' + image_filename)
-        #image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        #image = np.asarray(image)
-
-
-        #h, w, c = image.shape
-        #if w<128 and h<30:
-            #image = cv2.resize(image, (0, 0), fx=2+random.random(), fy=2++random.random(), interpolation=cv2.INTER_CUBIC)
-        #elif w<300:
-            #image = cv2.resize(image, (0, 0), fx=1.5+random.random(), fy=1.5+random.random(),  interpolation=cv2.INTER_CUBIC)
-        #elif w<510:
-            #image = cv2.resize(image, (0, 0), fx=1+random.random(), fy=1+random.random(),  interpolation=cv2.INTER_CUBIC)
-
-        #image = imutils.resize(image, height=96)
         if self.stage.lower() =="fit":
 
-            image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
+            image = Image_Transforms.train_transform_with_padding(image=image)['image'][:1]
 
             formula = self.labels_transform_function(formula)
 
 
 
         if self.stage == 'test':
-            image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
+            image = Image_Transforms.train_transform_with_padding(image=image)['image'][:1]
             formula = self.labels_transform_function(formula)
 
         # try PADDING on the right?

@@ -79,6 +79,7 @@ def _get_stats(datasetDF):
     widths = []
     heights = []
     formula_lens = []
+    ratios = []
 
     dataset = datasetDF
     for _, row in datasetDF.iterrows():
@@ -87,12 +88,14 @@ def _get_stats(datasetDF):
         im = Image.open(os.path.join(PrintedLatexDataConfig.GENERATED_PNG_DIR_NAME, image_name))
         widths.append(im.size[0])
         heights.append(im.size[1])
+        ratios.append(int(im.size[0]/im.size[1]))
         formula_lens.append(len(row.formula))
 
     # datasetDF = datasetDF.assign(width=widths, height=heights, formula_len=formula_lens)
     dataset['height'] = heights
     dataset['width'] = widths
     dataset['formula_length'] = formula_lens
+    dataset['aspect_ratio']= ratios
 
     return dataset
 
