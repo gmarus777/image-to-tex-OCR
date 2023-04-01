@@ -12,7 +12,6 @@ import smart_open
 from PIL import Image
 import torch
 from Data.image_transforms import Image_Transforms
-i
 import albumentations
 from albumentations.augmentations.geometric.resize import Resize
 
