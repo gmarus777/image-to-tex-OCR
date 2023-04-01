@@ -73,13 +73,13 @@ class Base_Dataset(Dataset):
         image = Image.open('generated_png_images/' + image_filename).convert('RGB')
         image = np.asarray(image)
         h, w, c = image.shape
-        ratio = int(w / h)
+        ratio = w / h
         if ratio == 0:
             ratio = 1
         if ratio > MAX_RATIO:
             ratio = MAX_RATIO
 
-        new_h = 96
+        new_h = 64
         new_w = int(new_h * ratio)
         image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
 
