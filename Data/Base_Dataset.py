@@ -88,14 +88,14 @@ class Base_Dataset(Dataset):
 
         if self.stage.lower() =="fit":
 
-            image = Image_Transforms.train_transform_with_padding(image=image)['image']#[:1]
+            image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image']#[:1]
 
             formula = self.labels_transform_function(formula)
 
 
 
         if self.stage == 'test':
-            image = Image_Transforms.train_transform_with_padding(image=image)['image'][:1]
+            image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
             formula = self.labels_transform_function(formula)
 
         # try PADDING on the right?
