@@ -70,22 +70,25 @@ class Base_Dataset(Dataset):
         # Change path to the image folder
         oldcwd = os.getcwd()
         os.chdir(PrintedLatexDataConfig.DATA_BANK_DIRNAME)  # "Data/Data_Bank"
-        image = Image.open('generated_png_images/' + image_filename).convert('RGB')
-        image = np.asarray(image)
-        h, w, c = image.shape
-        ratio = w / h
-        if ratio == 0:
-            ratio = 1
-        if ratio > MAX_RATIO:
-            ratio = MAX_RATIO
 
-        new_h = 96
-        new_w = int(new_h * ratio)
-        image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
+        #image = Image.open('generated_png_images/' + image_filename).convert('RGB')
+        #image = np.asarray(image)
+        #h, w, c = image.shape
+        #ratio = w / h
+        #if ratio == 0:
+           # ratio = 1
+        #if ratio > MAX_RATIO:
+            #ratio = MAX_RATIO
+
+        #new_h = 96
+        #new_w = int(new_h * ratio)
+        #image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
+
+        image = Image.open('generated_png_images/' + image_filename).convert('L')
 
         if self.stage.lower() =="fit":
 
-            image = Image_Transforms.train_transform_with_padding(image=image)['image'][:1]
+            image = Image_Transforms.train_transform_with_padding(image=image)['image']#[:1]
 
             formula = self.labels_transform_function(formula)
 
