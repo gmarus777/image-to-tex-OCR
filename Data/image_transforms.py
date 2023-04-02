@@ -22,7 +22,7 @@ class Image_Transforms:
             # alb.PadIfNeeded(always_apply=True, min_height=128, min_width=1920, border_mode=cv2.BORDER_CONSTANT, position= alb.PadIfNeeded.PositionType.TOP_LEFT, value=0),
 
             #alb.ShiftScaleRotate(shift_limit=0.05, scale_limit=(-.15, 0), rotate_limit=1, border_mode=0, interpolation=3, value=[255, 255, 255], p=.2),
-            #alb.Affine(scale=(1, 1), rotate=(-.5,.5 ), cval=255, p=1, keep_ratio=True),
+            alb.Affine(scale=(.4, 1), rotate=(-.5,.5 ), cval=255, p=.35, keep_ratio=True),
             # alb.InvertImg(p=.15),
             #alb.GridDistortion(distort_limit=0.1, border_mode=0, interpolation=3, value=[255, 255, 255], p=.15),
             #alb.RGBShift(r_shift_limit=15, g_shift_limit=15, b_shift_limit=15, p=0.3),
