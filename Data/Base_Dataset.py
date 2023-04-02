@@ -84,7 +84,7 @@ class Base_Dataset(Dataset):
         #new_w = int(new_h * ratio)
         #image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
 
-        image = Image.open('generated_png_images/' + image_filename).convert('L')
+        image = Image.open('generated_png_images/' + image_filename).convert('RGB')
 
         if self.stage.lower() =="fit":
 

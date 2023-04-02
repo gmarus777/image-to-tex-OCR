@@ -12,7 +12,7 @@ IMAGE_WIDTH = 512
 
 class Image_Transforms:
     train_transform_with_padding = alb.Compose(
-        [alb.augmentations.geometric.resize.Resize(height=128, width=1280, p=1),
+        [#alb.augmentations.geometric.resize.Resize(height=128, width=1280, p=1),
          alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.15, 0), rotate_limit=1, border_mode=0, interpolation=3,value=[255, 255, 255], p=1),
          alb.Affine(scale=(0.6, 1.0), rotate=(-2, 2), cval=255, p=0.5),
          alb.GridDistortion(distort_limit=0.1, border_mode=0, interpolation=3, value=[255, 255, 255], p=.5),
@@ -20,13 +20,14 @@ class Image_Transforms:
          alb.GaussianBlur(blur_limit=(1, 1), p=0.5),
          alb.RandomBrightnessContrast(.5, (-.5, .5), True, p=0.3),
          alb.ImageCompression(95, p=.3),
+        alb.ToGray(always_apply=True),
 
          ToTensorV2(),
          ]
     )
 
     test_transform_with_padding = alb.Compose(
-        [alb.augmentations.geometric.resize.Resize(height=64, width=512, p=1),
+        [#alb.augmentations.geometric.resize.Resize(height=128, width=1280, p=1),
          alb.ToGray(always_apply=True),
          # alb.Sharpen(),
          ToTensorV2(),
