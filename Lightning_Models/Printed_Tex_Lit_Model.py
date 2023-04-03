@@ -18,7 +18,7 @@ class LitResNetTransformer(pl.LightningModule):
         self,
         model,
         WandB = True,
-        lr: float = 0.001,
+        lr: float = 0.01,
         weight_decay: float = 0.0001,
         milestones: List[int] = [15,28,50],
         gamma: float = 0.5,
