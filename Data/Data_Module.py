@@ -133,16 +133,14 @@ class Data_Module(pl.LightningDataModule):
     def prepare_data(self, *args, **kwargs):
         self.data_server = Data_Server(data_module=self)
         self.df = self.data_server.tokenized_dataframe
-        self.vocabulary = self.data_server.vocabulary
-        self.inverse_vocabulary = self.data_server.inverse_vocabulary
+        #self.vocabulary = self.data_server.vocabulary
+        #self.inverse_vocabulary = self.data_server.inverse_vocabulary
         self.max_label_length = self.data_server.max_label_length
-        self.vocab_size = len(self.vocabulary)
-        self.tokenizer = Label_Transforms(vocabulary=self.vocabulary,
-                                          labels_transform_name=self.labels_transform,
-                                          max_label_length=self.max_label_length)
+        #self.vocab_size = len(self.vocabulary)
+        #self.tokenizer = Label_Transforms(vocabulary=self.vocabulary,labels_transform_name=self.labels_transform, max_label_length=self.max_label_length)
 
         # funciton to turn strings into labels via a tokenizer
-        self.labels_transform_function = self.tokenizer.convert_strings_to_labels
+        #self.labels_transform_function = self.tokenizer.convert_strings_to_labels
 
 
 

@@ -9,7 +9,7 @@ import re
 import cv2
 from Data.configs import PrintedLatexDataConfig
 from Data.vocabulary_utils import create_vocabulary_dictionary_from_dataframe, make_vocabulary, invert_vocabulary
-import imutils
+
 
 
 
