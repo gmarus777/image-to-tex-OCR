@@ -79,9 +79,9 @@ class ResNetTransformer(nn.Module):
             resnet.layer1,
             resnet.layer2,
             resnet.layer3,
-            #resnet.layer4,
+            resnet.layer4,
         )
-        self.bottleneck = nn.Conv2d(LAYER3_RESNTET_DIM, self.embedding_dim, 1) # in channels, out channels, stride
+        self.bottleneck = nn.Conv2d(RESNET_DIM, self.embedding_dim, 1) # in channels, out channels, stride
         self.image_positional_encoder = PositionalEncoding2D(self.embedding_dim)
 
         ### Decoder ###
