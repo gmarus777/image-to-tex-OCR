@@ -1,29 +1,13 @@
 
 import requests
 from PIL import Image
-import cv2
 import streamlit
 import numpy as np
-from pathlib import Path
-import sys
-from torchvision import transforms
-import torch
-import json
-
-
 
 from pathlib import Path
 import sys
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from Data.image_transforms import Image_Transforms
-from Tokenizer.Tokenizer import token_to_strings
-from Models.Printed_Tex_Transformer import ResNetTransformer
-from Lightning_Models.Printed_Tex_Lit_Model import LitResNetTransformer
-
-
-
-
-
 
 if __name__ == '__main__':
     streamlit.set_page_config(page_title='LaTeX OCR Model')

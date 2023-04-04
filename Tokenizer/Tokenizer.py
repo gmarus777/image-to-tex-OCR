@@ -3,7 +3,7 @@ import os
 
 class Tokenizer:
     def __init__(self):
-        self.vocabulary = self.invert_vocabulary(self.load_dic('streamlit_app/230k.json'))
+        self.vocabulary = self.invert_vocabulary(self.load_dic('230k.json'))
 
 
 
