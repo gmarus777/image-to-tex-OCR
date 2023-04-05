@@ -15,7 +15,7 @@ from Data.image_transforms import Image_Transforms
 import albumentations
 from albumentations.augmentations.geometric.resize import Resize
 
-MAX_RATIO = 10
+MAX_RATIO = 8
 
 
 
@@ -82,7 +82,7 @@ class Base_Dataset(Dataset):
         if ratio > MAX_RATIO:
             ratio = MAX_RATIO
 
-        new_h = 64
+        new_h = 128
         new_w = int(new_h * ratio)
         image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
 

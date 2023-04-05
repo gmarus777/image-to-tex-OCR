@@ -18,9 +18,9 @@ class LitResNetTransformer(pl.LightningModule):
         self,
         model,
         WandB = True,
-        lr: float = 0.0001,
-        weight_decay: float = 0.0004,
-        milestones: List[int] = [7,15,20],
+        lr: float = 0.0004,
+        weight_decay: float = 0.0005,
+        milestones: List[int] = [5,7,12,15,20,25],
         gamma: float = 0.75,
     ):
         super().__init__()
