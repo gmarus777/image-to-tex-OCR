@@ -18,7 +18,7 @@ from Tokenizer.Tokenizer import token_to_strings
 
 
 app = FastAPI(
-    title="Image to Latex Convert",
+    title="Convert Image to Latex ",
     desription="Convert an image of math equation into LaTex code.",
 )
 
