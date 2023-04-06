@@ -16,6 +16,7 @@ import albumentations
 from albumentations.augmentations.geometric.resize import Resize
 
 MAX_RATIO = 8
+GOAL_HEIGHT =160
 
 
 
@@ -75,6 +76,7 @@ class Base_Dataset(Dataset):
         image = Image.open('generated_png_images/' + image_filename).convert('RGB')
 
         image = np.asarray(image)
+        image = cv2.bitwise_not(image)
         h, w, c = image.shape
         ratio = w / h
         if ratio == 0:
@@ -82,7 +84,7 @@ class Base_Dataset(Dataset):
         if ratio > MAX_RATIO:
             ratio = MAX_RATIO
 
-        new_h = 128
+        new_h = GOAL_HEIGHT
         new_w = int(new_h * ratio)
         image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
 
@@ -95,7 +97,7 @@ class Base_Dataset(Dataset):
 
 
         if self.stage == 'test':
-            image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image'][:1]
+            image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image']#[:1]
             formula = self.labels_transform_function(formula)
 
         # try PADDING on the right?
