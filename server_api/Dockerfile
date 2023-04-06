@@ -1,15 +1,24 @@
-# Starting from an official AWS image
-# Keep any dependencies and versions in this file aligned with the environment.yml and Makefile
-FROM public.ecr.aws/lambda/python:3.9
+
+FROM python:3.9-buster
+
+
+
+RUN set -ex && mkdir /repo
+WORKDIR /repo
 
 # Install Python dependencies
-COPY requirements/prod.txt ./requirements.txt
+COPY production_reqs.txt ./requirements.txt
 RUN pip install --upgrade pip==22.0.4
-RUN pip install -r production_reqs.txt
+RUN pip install -r requirements.txt
 
 # Copy only the relevant directories and files
 #   note that we use a .dockerignore file to avoid copying logs etc.
-COPY text_recognizer/ ./text_recognizer
-COPY api_serverless/api.py ./api.py
+COPY Tokenizer/ ./Tokenizer
+COPY server_api/ ./server_api
+COPY streamlit_app/ ./streamlit_app
+COPY Models_Parameters_Log/scripted_model1.pt ./Models_Parameters_Log/scripted_model1.pt
 
-CMD ["api.handler"]
+# Run the web server
+EXPOSE 8000
+ENV PYTHONPATH /repo
+CMD python3 /repo/server_api/app.py

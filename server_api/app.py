@@ -4,7 +4,6 @@ import numpy as np
 from fastapi import FastAPI, File, UploadFile
 from PIL import Image
 import torch
-import albumentations
 from albumentations.augmentations.geometric.resize import Resize
 import torch.nn.functional as F
 
@@ -12,7 +11,7 @@ import torch.nn.functional as F
 from pathlib import Path
 import sys
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-from Data.image_transforms import Image_Transforms
+from server_api.transform import Image_Transforms
 from Tokenizer.Tokenizer import token_to_strings
 
 
