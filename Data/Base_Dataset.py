@@ -76,7 +76,7 @@ class Base_Dataset(Dataset):
         image = Image.open('generated_png_images/' + image_filename).convert('RGB')
 
         image = np.asarray(image)
-        image = cv2.bitwise_not(image)
+        #image = cv2.bitwise_not(image)
         h, w, c = image.shape
         ratio = w / h
         if ratio == 0:
