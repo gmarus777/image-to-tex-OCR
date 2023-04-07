@@ -62,7 +62,7 @@ def predict(file: UploadFile = File(...)):
     new_w = int(new_h * ratio)
     image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
 
-    image_tensor = transform(image=np.array(image))['image'][:1]
+    image_tensor = transform(image=np.array(image))['image']#[:1]
 
 
     image_tensor = F.pad(image_tensor, (0, max_W - new_w, 0, max_H - new_h), value=0)
