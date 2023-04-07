@@ -16,7 +16,7 @@ class Image_Transforms:
             alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.65, 0), rotate_limit=2.5, border_mode=0, interpolation=3, value=[255, 255, 255], p=.6),
             alb.GridDistortion(distort_limit=0.2, border_mode=0, interpolation=3, value=[255, 255, 255], p=.3),
             alb.GaussNoise(var_limit=(10.0, 99.0), p=.35),
-            alb.GaussianBlur(blur_limit=(1, 27), p=.4),
+            alb.GaussianBlur(blur_limit=(1, 19), p=.4),
             alb.RandomBrightnessContrast(.5, (-.5, .5), True, p=0.3),
             alb.ImageCompression(95, p=.3),
             alb.InvertImg(p=1),
