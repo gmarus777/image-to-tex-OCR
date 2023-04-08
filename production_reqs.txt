@@ -4,22 +4,14 @@
 #
 #    pip-compile production_reqs.in
 #
-aiohttp==3.8.4
-    # via fsspec
-aiosignal==1.3.1
-    # via aiohttp
 albumentations==1.3.0
     # via -r production_reqs.in
 altair==4.2.2
     # via streamlit
 anyio==3.6.2
     # via starlette
-async-timeout==4.0.2
-    # via aiohttp
 attrs==22.2.0
-    # via
-    #   aiohttp
-    #   jsonschema
+    # via jsonschema
 blinker==1.6
     # via streamlit
 cachetools==5.3.0
@@ -27,42 +19,29 @@ cachetools==5.3.0
 certifi==2022.12.7
     # via requests
 charset-normalizer==3.1.0
-    # via
-    #   aiohttp
-    #   requests
+    # via requests
 click==8.1.3
     # via
     #   streamlit
     #   uvicorn
 decorator==5.1.1
     # via validators
-editdistance==0.6.2
-    # via -r production_reqs.in
 entrypoints==0.4
     # via altair
 fastapi==0.95.0
     # via -r production_reqs.in
 filelock==3.11.0
     # via torch
-frozenlist==1.3.3
-    # via
-    #   aiohttp
-    #   aiosignal
-fsspec[http]==2023.4.0
-    # via pytorch-lightning
 gitdb==4.0.10
     # via gitpython
 gitpython==3.1.31
     # via streamlit
 h11==0.14.0
     # via uvicorn
-h5py==3.8.0
-    # via -r production_reqs.in
 idna==3.4
     # via
     #   anyio
     #   requests
-    #   yarl
 imageio==2.27.0
     # via scikit-image
 importlib-metadata==6.2.0
@@ -78,8 +57,6 @@ jsonschema==4.17.3
     # via altair
 lazy-loader==0.2
     # via scikit-image
-lightning-utilities==0.8.0
-    # via pytorch-lightning
 markdown-it-py==2.2.0
     # via rich
 markupsafe==2.1.2
@@ -88,10 +65,6 @@ mdurl==0.1.2
     # via markdown-it-py
 mpmath==1.3.0
     # via sympy
-multidict==6.0.4
-    # via
-    #   aiohttp
-    #   yarl
 networkx==3.1
     # via
     #   scikit-image
@@ -101,13 +74,11 @@ numpy==1.24.2
     #   -r production_reqs.in
     #   albumentations
     #   altair
-    #   h5py
     #   imageio
     #   opencv-python-headless
     #   pandas
     #   pyarrow
     #   pydeck
-    #   pytorch-lightning
     #   pywavelets
     #   qudida
     #   scikit-image
@@ -115,7 +86,6 @@ numpy==1.24.2
     #   scipy
     #   streamlit
     #   tifffile
-    #   torchmetrics
     #   torchvision
 opencv-python-headless==4.7.0.72
     # via
@@ -124,17 +94,12 @@ opencv-python-headless==4.7.0.72
     #   qudida
 packaging==23.0
     # via
-    #   lightning-utilities
-    #   pytorch-lightning
     #   scikit-image
     #   streamlit
-    #   torchmetrics
 pandas==1.5.3
     # via
     #   altair
     #   streamlit
-pathtools==0.1.2
-    # via -r production_reqs.in
 pillow==9.5.0
     # via
     #   imageio
@@ -161,8 +126,6 @@ python-dateutil==2.8.2
     #   streamlit
 python-multipart==0.0.6
     # via -r production_reqs.in
-pytorch-lightning==2.0.1
-    # via -r production_reqs.in
 pytz==2023.3
     # via pandas
 pytz-deprecation-shim==0.1.0.post0
@@ -170,15 +133,11 @@ pytz-deprecation-shim==0.1.0.post0
 pywavelets==1.4.1
     # via scikit-image
 pyyaml==6.0
-    # via
-    #   albumentations
-    #   pytorch-lightning
+    # via albumentations
 qudida==0.0.4
     # via albumentations
 requests==2.28.2
     # via
-    #   -r production_reqs.in
-    #   fsspec
     #   streamlit
     #   torchvision
 rich==13.3.3
@@ -194,8 +153,6 @@ scipy==1.9.1
     #   scikit-learn
 six==1.16.0
     # via python-dateutil
-smart-open==6.3.0
-    # via -r production_reqs.in
 smmap==5.0.0
     # via gitdb
 sniffio==1.3.0
@@ -211,33 +168,21 @@ threadpoolctl==3.1.0
 tifffile==2023.3.21
     # via scikit-image
 toml==0.10.2
-    # via
-    #   -r production_reqs.in
-    #   streamlit
+    # via streamlit
 toolz==0.12.0
     # via altair
 torch==2.0.0
     # via
     #   -r production_reqs.in
-    #   pytorch-lightning
-    #   torchmetrics
     #   torchvision
-torchmetrics==0.11.4
-    # via pytorch-lightning
 torchvision==0.15.1
     # via -r production_reqs.in
 tornado==6.2
     # via streamlit
-tqdm==4.65.0
-    # via
-    #   -r production_reqs.in
-    #   pytorch-lightning
 typing-extensions==4.5.0
     # via
     #   blinker
-    #   lightning-utilities
     #   pydantic
-    #   pytorch-lightning
     #   qudida
     #   starlette
     #   streamlit
@@ -252,7 +197,5 @@ uvicorn==0.21.1
     # via -r production_reqs.in
 validators==0.20.0
     # via streamlit
-yarl==1.8.2
-    # via aiohttp
 zipp==3.15.0
     # via importlib-metadata

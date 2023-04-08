@@ -3,12 +3,9 @@
 #
 #    pip-compile production_reqs.in
 
-editdistance
 fastapi
 albumentations
-h5py
 numpy
-pytorch-lightning
 requests
 smart_open
 toml
@@ -21,5 +18,5 @@ uvicorn
 opencv-python-headless
 requests
 python-multipart
-pathtools
+
 
