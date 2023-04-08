@@ -21,4 +21,4 @@ COPY Models_Parameters_Log/scripted_model1.pt ./Models_Parameters_Log/scripted_m
 # Run the web server
 EXPOSE 8000
 ENV PYTHONPATH /repo
-CMD python3 /repo/server_api/app.py
+CMD ["uvicorn", "server_api.app:app", "--host", "0.0.0.0", "--port", "8000"]

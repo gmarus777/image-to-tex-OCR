@@ -77,3 +77,4 @@ def predict(file: UploadFile = File(...)):
         "data": {"pred": latex_code},
     }
     return response
+

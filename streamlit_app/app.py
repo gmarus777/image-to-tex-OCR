@@ -37,7 +37,9 @@ if __name__ == '__main__':
         if uploaded_image is not None: #and image_tensor is not None:
             files = {"file": uploaded_image.getvalue()}
             with streamlit.spinner('Converting Image to LaTeX'):
-                response = requests.post('http://127.0.0.1:8000/predict/', files={'file': uploaded_image.getvalue()})
+
+                #Docker image
+                response = requests.post('http://0.0.0.0:8000/predict/', files={'file': uploaded_image.getvalue()})
 
             latex_code = response.json()["data"]["pred"]
             streamlit.code(latex_code, language='latex')
@@ -49,37 +51,6 @@ if __name__ == '__main__':
 
 
 
-    # Method without server
-    #if streamlit.button('Convert'):
-        #if upload is not None and image_tensor is not None:
-            #with streamlit.spinner('Computing'):
-               # scripted = torch.jit.load("Models_Parameters_Log/scripted_model1.pt")
-               # my_prediction = scripted(image_tensor.unsqueeze(0))
-               # latex_code = token_to_strings(tokens = my_prediction)
 
-               # streamlit.title('Result')
-                #streamlit.markdown('LaTeX Code:')
-                #streamlit.code(latex_code, language='latex')
-                #streamlit.markdown('Rendered LaTeX:')
-                #streamlit.markdown(f'$\\displaystyle {latex_code}$')
-
-        #else:
-            #streamlit.error('Please upload an image.')
-
-        # show images
-        #transform = transforms.ToPILImage()
-        #streamlit.image(image)
-        #streamlit.image(transform(image_tensor))
-
-
-
-    #else:
-        #streamlit.text('\n')
-
-
-
-
-
-   #
 
 
