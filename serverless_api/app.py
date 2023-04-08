@@ -8,11 +8,11 @@ from PIL import Image
 import torch
 from albumentations.augmentations.geometric.resize import Resize
 import torch.nn.functional as F
-#from pathlib import Path
+from pathlib import Path
 import sys
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-from server_api.transform import Image_Transforms
+from serverless_api.transform import Image_Transforms
 from Tokenizer.Tokenizer import token_to_strings
 
 MAX_RATIO =8
