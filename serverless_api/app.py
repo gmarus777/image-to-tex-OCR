@@ -10,6 +10,7 @@ from albumentations.augmentations.geometric.resize import Resize
 import torch.nn.functional as F
 from pathlib import Path
 import sys
+import requests
 
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from serverless_api.transform import Image_Transforms
