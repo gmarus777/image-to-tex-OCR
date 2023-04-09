@@ -22,3 +22,4 @@ COPY Models_Parameters_Log/scripted_model1.pt ./Models_Parameters_Log/scripted_m
 EXPOSE 8000
 ENV PYTHONPATH /repo
 CMD ["uvicorn", "server_api.app:app", "--host", "0.0.0.0", "--port", "8000"]
+#CMD ["streamlit", "run", "streamlit_app/app.py" ]
