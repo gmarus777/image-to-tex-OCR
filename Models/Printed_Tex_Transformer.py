@@ -71,7 +71,7 @@ class ResNetTransformer(nn.Module):
 
 
         ### Encoder ###
-        resnet = torchvision.models.resnet18(pretrained=False)
+        resnet = torchvision.models.resnet34(pretrained=False)
         self.backbone = nn.Sequential(
             resnet.conv1,
             resnet.bn1,
