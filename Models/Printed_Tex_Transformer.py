@@ -16,7 +16,7 @@ TF_LAYERS = 4   # decoder_layers
 TF_NHEAD = 8    # decoder_heads
 RESNET_DIM = 512  # hard-coded
 LAYER3_RESNTET_DIM = 256
-RESNET50 = 2048
+RESNET50 = 1024
 
 
 
@@ -71,7 +71,7 @@ class ResNetTransformer(nn.Module):
 
 
         ### Encoder ###
-        resnet = torchvision.models.resnet34(pretrained=False)
+        resnet = torchvision.models.resnet50(pretrained=False)
         self.backbone = nn.Sequential(
             resnet.conv1,
             resnet.bn1,
@@ -80,9 +80,9 @@ class ResNetTransformer(nn.Module):
             resnet.layer1,
             resnet.layer2,
             resnet.layer3,
-            resnet.layer4,
+            #resnet.layer4,
         )
-        self.bottleneck = nn.Conv2d(RESNET_DIM, self.embedding_dim, 1) # in channels, out channels, stride
+        self.bottleneck = nn.Conv2d(RESNET50, self.embedding_dim, 1) # in channels, out channels, stride
         self.image_positional_encoder = PositionalEncoding2D(self.embedding_dim)
 
         ### Decoder ###
