@@ -14,15 +14,15 @@ class Image_Transforms:
     train_transform_with_padding = alb.Compose(
         [#alb.augmentations.geometric.resize.Resize(height=128, width=1280, p=1),
             alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.4, 0), rotate_limit=1.5, border_mode=0, interpolation=3, value=[255, 255, 255], p=.5),
-            alb.GridDistortion(distort_limit=0.12, border_mode=0, interpolation=3, value=[255, 255, 255], p=.22),
+            alb.GridDistortion(distort_limit=0.12, border_mode=0, interpolation=3, value=[255, 255, 255], p=.3),
             #alb.RGBShift(r_shift_limit=10, g_shift_limit=10, b_shift_limit=10, p=.2),
-            alb.GaussNoise(var_limit=(10.0, 40.0), p=.25),
+            alb.GaussNoise(var_limit=(10.0, 40.0), p=.3),
             alb.GaussianBlur(blur_limit=(1, 7), p=.3),
-            alb.RandomBrightnessContrast(.1, (-.3, .1), True, p=0.22),
+            alb.RandomBrightnessContrast(.1, (-.3, .1), True, p=0.25),
             alb.ImageCompression(95, p=.3),
             alb.InvertImg(p=1),
             alb.ToGray(always_apply=True),
-            alb.Sharpen(p=.15),
+            alb.Sharpen(p=.2),
          ToTensorV2(),
          ]
     )
