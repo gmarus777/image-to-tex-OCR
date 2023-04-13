@@ -14,6 +14,7 @@ class Image_Transforms:
     train_transform_with_padding = alb.Compose(
         [#alb.augmentations.geometric.resize.Resize(height=128, width=1280, p=1),
             alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.4, 0), rotate_limit=1.5, border_mode=0, interpolation=3, value=[255, 255, 255], p=.5),
+            alb.Affine(scale=(0.6, 1.0), rotate=(-1, 1), cval=255, p=0.4),
             alb.GridDistortion(distort_limit=0.12, border_mode=0, interpolation=3, value=[255, 255, 255], p=.3),
             #alb.RGBShift(r_shift_limit=10, g_shift_limit=10, b_shift_limit=10, p=.2),
             alb.GaussNoise(var_limit=(10.0, 40.0), p=.3),
