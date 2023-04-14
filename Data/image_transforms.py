@@ -12,9 +12,9 @@ IMAGE_WIDTH = 512
 
 class Image_Transforms:
     train_transform_with_padding = alb.Compose(
-        [#alb.augmentations.geometric.resize.Resize(height=128, width=1280, p=1),
-            alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.4, 0), rotate_limit=1.5, border_mode=0, interpolation=3, value=[255, 255, 255], p=.5),
-            alb.Affine(scale=(0.6, 1.0), rotate=(-1, 1), cval=255, p=0.4),
+        [ alb.augmentations.geometric.resize.Resize(height=128, width=1024, p=1),
+            alb.ShiftScaleRotate(shift_limit=0, scale_limit=(-.4, 0), rotate_limit=1.5, border_mode=0, interpolation=3, value=[255, 255, 255], p=.6),
+            alb.Affine(scale=(0.6, 1.0), rotate=(-1, 1), cval=[255, 255, 255],interpolation=3,mode=0, p=0.4), # was  cval=255
             alb.GridDistortion(distort_limit=0.12, border_mode=0, interpolation=3, value=[255, 255, 255], p=.35),
             #alb.RGBShift(r_shift_limit=10, g_shift_limit=10, b_shift_limit=10, p=.2),
             alb.GaussNoise(var_limit=(10.0, 50.0), p=.33),
@@ -29,7 +29,7 @@ class Image_Transforms:
     )
 
     test_transform_with_padding = alb.Compose(
-        [#alb.augmentations.geometric.resize.Resize(height=128, width=1280, p=1),
+        [alb.augmentations.geometric.resize.Resize(height=128, width=1024, p=1),
         alb.InvertImg(p=1),
          alb.ToGray(always_apply=True),
          #alb.Sharpen(),
