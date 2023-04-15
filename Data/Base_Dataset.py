@@ -16,7 +16,7 @@ import albumentations
 from albumentations.augmentations.geometric.resize import Resize
 
 MAX_RATIO = 8
-GOAL_HEIGHT =128
+GOAL_HEIGHT =192
 
 
 
@@ -77,16 +77,16 @@ class Base_Dataset(Dataset):
 
         image = np.asarray(image)
         #image = cv2.bitwise_not(image)
-        #h, w, c = image.shape
-        #ratio = w / h
-        #if ratio == 0:
-            #ratio = 1
-        #if ratio > MAX_RATIO:
-            #ratio = MAX_RATIO
+        h, w, c = image.shape
+        ratio = int(w / h)
+        if ratio == 0:
+            ratio = 1
+        if ratio > MAX_RATIO:
+            ratio = MAX_RATIO
 
-        #new_h = GOAL_HEIGHT
-        #new_w = int(new_h * ratio)
-        #image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
+        new_h = GOAL_HEIGHT
+        new_w = int(new_h * ratio)
+        image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
 
         if self.stage.lower() =="fit":
 

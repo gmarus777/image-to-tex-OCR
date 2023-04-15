@@ -6,7 +6,7 @@ import torch.nn as nn
 import pytorch_lightning as pl
 
 from Lightning_Models.metrics import CharacterErrorRate
-
+dev = torch.device("cuda") if torch.cuda.is_available() else torch.device("mps")
 
 try:
     import wandb
@@ -56,6 +56,7 @@ class LitResNetTransformer(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         imgs, targets = batch
+        imgs, targets = imgs.to(dev), targets.to(dev)
         # targets = targets.squeeze(1)
         logits = self.model(imgs, targets[:, :-1])
         loss = self.loss_fn(logits, targets[:, 1:])

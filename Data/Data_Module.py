@@ -187,6 +187,7 @@ class Data_Module(pl.LightningDataModule):
             batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=self.on_gpu,
+            multiprocessing_context="fork",
             #collate_fn=self.collate_function,
         )
 
@@ -203,6 +204,7 @@ class Data_Module(pl.LightningDataModule):
             batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=self.on_gpu,
+            multiprocessing_context="fork",
             #collate_fn=self.collate_function
         )
 
