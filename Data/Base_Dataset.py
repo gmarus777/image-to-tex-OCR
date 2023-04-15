@@ -16,7 +16,7 @@ import albumentations
 from albumentations.augmentations.geometric.resize import Resize
 
 MAX_RATIO = 8
-GOAL_HEIGHT =192
+GOAL_HEIGHT =160
 
 
 
