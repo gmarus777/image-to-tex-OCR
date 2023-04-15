@@ -187,8 +187,9 @@ class Data_Module(pl.LightningDataModule):
             batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=self.on_gpu,
-            multiprocessing_context="fork",
-            #collate_fn=self.collate_function,
+            #multiprocessing_context="spawn"
+            #multiprocessing_context="fork",
+            collate_fn=self.collate_function,
         )
 
     def val_dataloader(self, *args, **kwargs):
@@ -204,8 +205,9 @@ class Data_Module(pl.LightningDataModule):
             batch_size=self.batch_size,
             num_workers=self.num_workers,
             pin_memory=self.on_gpu,
-            multiprocessing_context="fork",
-            #collate_fn=self.collate_function
+            #multiprocessing_context="spawn"
+            #multiprocessing_context="fork",
+            collate_fn=self.collate_function
         )
 
     def test_dataloader(self, *args, **kwargs):
@@ -254,7 +256,7 @@ class Data_Module(pl.LightningDataModule):
         B = len(images)
         max_H = max(image.shape[1] for image in images)
         max_W = max(image.shape[2] for image in images)
-        max_L =  max(len(formula) for formula in formulas)
+        #max_L =  max(len(formula) for formula in formulas)
 
 
         # Pad images to the maximum height using zero-padding
