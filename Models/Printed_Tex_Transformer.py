@@ -13,7 +13,7 @@ TF_DIM = 256    # embedding_dim 128
 TF_FC_DIM = 512 # decoder fully connected dim 256
 TF_DROPOUT = 0.4 # decoder_dropout 0.4
 TF_LAYERS = 6   # decoder_layers
-TF_NHEAD = 8    # decoder_heads
+TF_NHEAD = 16    # decoder_heads
 RESNET_DIM = 512  # hard-coded
 LAYER3_RESNTET_DIM = 256
 RESNET50 = 2048
@@ -71,7 +71,7 @@ class ResNetTransformer(nn.Module):
 
 
         ### Encoder ###
-        resnet = torchvision.models.resnet34(pretrained=False)
+        resnet = torchvision.models.resnet18(pretrained=False)
         self.backbone = nn.Sequential(
             resnet.conv1,
             resnet.bn1,

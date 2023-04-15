@@ -28,7 +28,7 @@ class LitResNetTransformer(pl.LightningModule):
 
 
         # TODO: implement saving parameters
-        # self.save_hyperparameters()  # save parameters
+        self.save_hyperparameters()  # save parameters
         self.WandB =WandB
         if self.WandB:
             wandb.init() # initiare wieghts and biases
