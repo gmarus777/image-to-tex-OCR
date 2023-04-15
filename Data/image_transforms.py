@@ -18,9 +18,9 @@ class Image_Transforms:
             alb.Affine(scale=(0.6, 1.0), rotate=(-1, 1), cval=[255, 255, 255],interpolation=3,mode=0, p=0.4), # was  cval=255
             alb.GridDistortion(distort_limit=0.12, border_mode=0, interpolation=3, value=[255, 255, 255], p=.35),
             alb.RGBShift(r_shift_limit=10, g_shift_limit=10, b_shift_limit=10, p=.2),
-            alb.GaussNoise(var_limit=(10.0, 50.0), p=.33),
-            alb.GaussianBlur(blur_limit=(1, 9), p=.33),
-            alb.RandomBrightnessContrast(.1, (-.3, .1), True, p=0.25),
+            alb.GaussNoise(var_limit=(10.0, 60.0), p=.4),
+            alb.GaussianBlur(blur_limit=(1, 9), p=.4),
+            alb.RandomBrightnessContrast(.15, (-.3, .1), True, p=0.3),
             alb.ImageCompression(50, p=.3),
             alb.InvertImg(p=1),
             alb.ToGray(always_apply=True),
