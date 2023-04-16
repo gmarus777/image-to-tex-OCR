@@ -15,7 +15,8 @@ from torchvision import transforms
 import torch.nn.functional as F
 
 
-
+MAX_HEIGHT =160
+MAX_WIDTH =1280
 
 
 
@@ -254,8 +255,10 @@ class Data_Module(pl.LightningDataModule):
         # Get the maximum height of images in the batch
         images, formulas = zip(*batch)
         B = len(images)
-        max_H = max(image.shape[1] for image in images)
-        max_W = max(image.shape[2] for image in images)
+        #max_H = max(image.shape[1] for image in images)
+        #max_W = max(image.shape[2] for image in images)
+        max_H = MAX_HEIGHT
+        max_W = MAX_WIDTH
         #max_L =  max(len(formula) for formula in formulas)
 
 
