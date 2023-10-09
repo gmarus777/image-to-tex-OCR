@@ -7,9 +7,9 @@ import random
 from torch.utils.data import ConcatDataset, DataLoader
 import pytorch_lightning as pl
 from Data.label_transforms import Label_Transforms
-from Data.image_transforms import Image_Transforms
+
 from Data.Data_Server import Data_Server
-from Data.Base_Dataset import Base_Dataset, split_dataset
+
 from Data.Tex_Dataset import Tex_Dataset
 from Data.vocabulary_utils import load_dic, invert_vocabulary
 from torchvision import transforms
@@ -83,13 +83,19 @@ class Data_Module_CFG(pl.LightningDataModule):
 
 
         if self.cfg.stage == "train" or self.cfg.stage is None:
-            data_trainval = Tex_Dataset(data_module=self)
+
+            data_trainval = Tex_Dataset(data_module=self, stage='train', image_transforms=self.train_transform)
+
             self.data_train, self.data_val = split_dataset(base_dataset=data_trainval,
-                                                           fraction=self.train_val_fraction)
+                                                           fraction=self.cfg.train_val_fraction)
+
+
             print('Train/Val Data is ready for Model loading.')
 
+
+
             if self.cfg.stage == 'test':
-                self.data_test = [0]
+                pass
 
     def get_transforms(self, stage):
         if stage.lower() == 'train':
@@ -110,7 +116,7 @@ class Data_Module_CFG(pl.LightningDataModule):
         self.inverse_vocabulary = invert_vocabulary(self.vocabulary)
         self.max_label_length = int(self.cfg.set_max_label_length) + int(2)
         self.tokenizer = Label_Transforms(vocabulary = self.vocabulary,
-                                          labels_transform_name = self.labels_transform,
+                                          labels_transform_name = self.cfg.labels_transform,
                                           max_label_length = int(self.max_label_length))
 
         # funciton to turn strings into labels via a tokenizer
@@ -231,3 +237,15 @@ class Data_Module_CFG(pl.LightningDataModule):
         images = torch.stack(padded_images)
         labels =torch.stack(formulas)
         return images, labels
+
+def split_dataset(base_dataset: Tex_Dataset, fraction: float):
+    """
+    Split input base_dataset into 2 base datasets, the first of size fraction * size of the base_dataset and the
+    other of size (1 - fraction) * size of the base_dataset.
+    """
+    split_a_size = int(fraction * len(base_dataset))
+    split_b_size = len(base_dataset) - split_a_size
+
+
+
+    return torch.utils.data.random_split( base_dataset, [split_a_size, split_b_size])

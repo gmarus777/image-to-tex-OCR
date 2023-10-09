@@ -11,7 +11,7 @@ import PIL
 import smart_open
 from PIL import Image
 import torch
-from Data.image_transforms import Image_Transforms
+
 import albumentations
 from albumentations.augmentations.geometric.resize import Resize
 
@@ -25,28 +25,27 @@ class Tex_Dataset(Dataset):
 
     def __init__(self,
                  data_module,
+                 stage,
+                 image_transforms = None,
                  ):
 
         self.datamodule = data_module
         self.cfg = self.datamodule.cfg
         self.tokenizer = data_module.tokenizer
         self.dataframe = data_module.df
-        self.stage = self.cfg.stage
+        self.stage = stage
+
 
         # image filenames and corresponding tex formulas
         self.image_filenames = self.dataframe['image_name'].tolist()
         self.labels = self.dataframe['latex_tokenized'].tolist()
 
-        self.image_transform_name = data_module.image_transform_name
-        self.image_transform_alb = data_module.image_transform_alb
-        self.image_transform_alb_small = data_module.image_transform_alb_small
-        self.image_transform_alb_xs = data_module.image_transform_alb_xs
 
-        self.image_transform_test = data_module.image_transform_test
-        self.image_transform_test_small = data_module.image_transform_test_small
 
         # funciton to turn strings into labels via a tokenizer
         self.labels_transform_function = data_module.labels_transform_function
+
+        self.image_transforms = image_transforms
 
 
 
@@ -78,27 +77,29 @@ class Tex_Dataset(Dataset):
 
         image = np.asarray(image)
         #image = cv2.bitwise_not(image)
-        h, w, c = image.shape
-        ratio = int(w / h)
-        if ratio == 0:
-            ratio = 1
-        if ratio > MAX_RATIO:
-            ratio = MAX_RATIO
+        #h, w, c = image.shape
+        #ratio = int(w / h)
+        #if ratio == 0:
+        #    ratio = 1
+        #if ratio > MAX_RATIO:
+        #    ratio = MAX_RATIO
 
-        new_h = GOAL_HEIGHT
-        new_w = int(new_h * ratio)
-        image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
+        #new_h = GOAL_HEIGHT
+        #new_w = int(new_h * ratio)
+        #image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
 
-        if self.stage.lower() =="train":
+        if  self.stage == 'train':
 
-            image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image']#[:1]
+            image = self.image_transforms(image=np.array(image))['image']#[:1]
 
             formula = self.labels_transform_function(formula)
 
+        elif self.stage == 'val':
+            image = self.image_transforms(image=np.array(image))['image']#[:1]
+            formula = self.labels_transform_function(formula)
 
-
-        if self.stage == 'test':
-            image = Image_Transforms.train_transform_with_padding(image=np.array(image))['image']#[:1]
+        elif self.stage == 'test':
+            image = self.image_transforms(image=np.array(image))['image']  # [:1]
             formula = self.labels_transform_function(formula)
 
         # try PADDING on the right?
@@ -160,5 +161,3 @@ class ImageProcessor:
                 image = image.convert(mode=image.mode)
 
             return image
-
-
