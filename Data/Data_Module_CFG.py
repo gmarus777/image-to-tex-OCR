@@ -86,8 +86,11 @@ class Data_Module_CFG(pl.LightningDataModule):
 
             data_trainval = Tex_Dataset(data_module=self, stage='train', image_transforms=self.train_transform)
 
-            self.data_train, self.data_val = split_dataset(base_dataset=data_trainval,
+            self.data_train_pre, self.data_val_pre = split_dataset(base_dataset=data_trainval,
                                                            fraction=self.cfg.train_val_fraction)
+
+            self.data_train = Tex_Dataset(data_module=self, stage='train', image_transforms=self.train_transform)
+            self.data_val = Tex_Dataset(data_module=self, stage='val', image_transforms=self.val_transform)
 
 
             print('Train/Val Data is ready for Model loading.')
@@ -161,7 +164,7 @@ class Data_Module_CFG(pl.LightningDataModule):
             batch_size=self.cfg.batch_size,
             num_workers=self.cfg.num_workers,
             pin_memory=self.cfg.on_gpu,
-            #multiprocessing_context="spawn"
+            #multiprocessing_context="spawn",
             #multiprocessing_context="fork",
             collate_fn=self.collate_function,
             #multiprocessing_context='fork' if torch.backends.mps.is_available() else None,
