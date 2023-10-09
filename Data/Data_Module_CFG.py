@@ -158,9 +158,9 @@ class Data_Module_CFG(pl.LightningDataModule):
         return DataLoader(
             self.data_val,
             shuffle=False,
-            batch_size=self.batch_size,
-            num_workers=self.num_workers,
-            pin_memory=self.on_gpu,
+            batch_size=self.cfg.batch_size,
+            num_workers=self.cfg.num_workers,
+            pin_memory=self.cfg.on_gpu,
             #multiprocessing_context="spawn"
             #multiprocessing_context="fork",
             collate_fn=self.collate_function,
@@ -177,9 +177,9 @@ class Data_Module_CFG(pl.LightningDataModule):
         return DataLoader(
             self.data_test,
             shuffle=False,
-            batch_size=self.batch_size,
-            num_workers=self.num_workers,
-            pin_memory=self.on_gpu,
+            batch_size=self.cfg.batch_size,
+            num_workers=self.cfg.num_workers,
+            pin_memory=self.cfg.on_gpu,
             collate_fn=self.collate_function,
         )
 
