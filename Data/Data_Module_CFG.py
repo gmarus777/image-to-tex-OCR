@@ -10,9 +10,11 @@ from Data.label_transforms import Label_Transforms
 from Data.image_transforms import Image_Transforms
 from Data.Data_Server import Data_Server
 from Data.Base_Dataset import Base_Dataset, split_dataset
+from Data.Tex_Dataset import Tex_Dataset
 from Data.vocabulary_utils import load_dic, invert_vocabulary
 from torchvision import transforms
 import torch.nn.functional as F
+import albumentations as A
 
 
 MAX_HEIGHT =160
@@ -29,129 +31,84 @@ IMAGE_HEIGHT and IMAGE_WIDTH are set in image_transforms.py (Note this will just
 
 '''
 
-class Data_Module(pl.LightningDataModule):
+class Data_Module_CFG(pl.LightningDataModule):
 
     def __init__(self,
-                 stage='fit',
-                 path_to_formulas = None,
-                 path_to_image_names = None,
-
-
-                 set_max_label_length=128,
-                 number_png_images_to_use_in_dataset=300*1000,
-                 labels_transform='default',
-                 image_transform_name='alb',  # or 'alb'
-                max_width = 700,
-                 image_padding = False,
-                 load_vocabulary = False,
-                 vocabulary_path = None,
-
-                 train_val_fraction=0.9,
-
-
-                 batch_size=64,
-                 num_workers=10,
-                 data_on_gpu=False,
-
+                cfg,
                  ):
 
 
-        '''
-
-        :param stage:
-        :param max_label_length:
-        :param number_png_images_to_use_in_dataset:
-        :param labels_transform:
-        :param image_transform_name:
-        :param load_vocabulary:
-        :param train_test_fraction:
-        :param train_val_fraction:
-        :param augment_images:
-        :param batch_size:
-        :param num_workers:
-        :param data_on_gpu:
-
-        '''
 
         super().__init__()
+        self.save_hyperparameters()
 
-        # Various input parameters
-        self.stage = stage
-        self.path_to_formulas = path_to_formulas,
-        self.path_to_image_names = path_to_image_names,
+        self.cfg = cfg
 
-        self.set_max_label_length = set_max_label_length
-        self.number_png_images_to_use_in_dataset = number_png_images_to_use_in_dataset
-        self.labels_transform = labels_transform
+        self.labels_transform = 'default'
 
-        self.load_vocabulary = load_vocabulary
-        self.vocabulary_path = vocabulary_path
-
-
-        self.image_transform_name = image_transform_name
-
-        self.image_padding = image_padding
-
-        self.image_transform_alb = Image_Transforms.train_transform_with_padding
-        self.image_transform_alb_small = Image_Transforms.train_transform_with_padding_small
-        self.image_transform_alb_xs = Image_Transforms.train_transform_with_padding_xs
-
-
-
-        self.image_transform_test = Image_Transforms.test_transform_with_padding
-        self.image_transform_test_small = Image_Transforms.test_transform_with_padding_small
-        self.image_transform_test_medium = Image_Transforms.test_transform_with_padding_medium
-        self.image_transform_test_xl = Image_Transforms.test_transform_with_padding_xl
-        self.image_transform_test_xs =Image_Transforms.test_transform_with_padding_xs
+        # Get transforms
+        self.train_transform = self.get_transforms('train')
+        self.val_transform = self.get_transforms('val')
+        self.test_transform = self.get_transforms('test')
 
 
 
 
-        self.max_width = max_width
 
-        self.batch_size = batch_size
-        self.num_workers = num_workers
-        self.train_val_fraction = train_val_fraction
-        self.on_gpu = data_on_gpu
-        self.shuffle_train = True
-
-
-        if load_vocabulary == True:
+        if  self.cfg.load_vocabulary == True:
             self.load_tokenizer()
 
 
         # Data Loaders will load model-feeding data here
-        self.data_train: Union[Base_Dataset, ConcatDataset]
-        self.data_val: Union[Base_Dataset, ConcatDataset]
-        self.data_test: Union[Base_Dataset, ConcatDataset]
+        self.data_train: Union[Tex_Dataset, ConcatDataset]
+        self.data_val: Union[Tex_Dataset, ConcatDataset]
+        self.data_test: Union[Tex_Dataset, ConcatDataset]
+
+        # Uses images 'Data/generated_png_images/', formulas 'Data/final_png_formulas.txt'
+        # and image filenames 'Data/corresponding_png_images.txt'
+        # to generate a pandas tokenized dataframe
 
 
-
-
-    # Uses images 'Data/generated_png_images/', formulas 'Data/final_png_formulas.txt'
-    # and image filenames 'Data/corresponding_png_images.txt'
-    # to generate a pandas tokenized dataframe
-
-    #def prepare_data(self, *args, **kwargs):
         self.data_server = Data_Server(data_module=self)
         self.df = self.data_server.tokenized_dataframe
-        #self.vocabulary = self.data_server.vocabulary
-        #self.inverse_vocabulary = self.data_server.inverse_vocabulary
+        # self.vocabulary = self.data_server.vocabulary
+        # self.inverse_vocabulary = self.data_server.inverse_vocabulary
         self.max_label_length = self.data_server.max_label_length
-        #self.vocab_size = len(self.vocabulary)
-        #self.tokenizer = Label_Transforms(vocabulary=self.vocabulary,labels_transform_name=self.labels_transform, max_label_length=self.max_label_length)
+        # self.vocab_size = len(self.vocabulary)
+        # self.tokenizer = Label_Transforms(vocabulary=self.vocabulary,labels_transform_name=self.labels_transform, max_label_length=self.max_label_length)
 
         # funciton to turn strings into labels via a tokenizer
-        #self.labels_transform_function = self.tokenizer.convert_strings_to_labels
+        # self.labels_transform_function = self.tokenizer.convert_strings_to_labels
+
+
+
+        if self.cfg.stage == "train" or self.cfg.stage is None:
+            data_trainval = Tex_Dataset(data_module=self)
+            self.data_train, self.data_val = split_dataset(base_dataset=data_trainval,
+                                                           fraction=self.train_val_fraction)
+            print('Train/Val Data is ready for Model loading.')
+
+            if self.cfg.stage == 'test':
+                self.data_test = [0]
+
+    def get_transforms(self, stage):
+        if stage.lower() == 'train':
+            transforms = A.Compose(self.cfg.train_transforms)
+        elif stage.lower() == 'val':
+            transforms = A.Compose(self.cfg.val_transforms)
+        elif stage.lower() == 'test':
+            transforms = A.Compose(self.cfg.test_transforms)
+        return transforms
+
 
 
 
 
     def load_tokenizer(self, *args, **kwargs):
-        self.vocabulary = load_dic(self.vocabulary_path)
+        self.vocabulary = load_dic(self.cfg.vocabulary_path)
         self.vocab_size = len(self.vocabulary)
         self.inverse_vocabulary = invert_vocabulary(self.vocabulary)
-        self.max_label_length = int(self.set_max_label_length) + int(2)
+        self.max_label_length = int(self.cfg.set_max_label_length) + int(2)
         self.tokenizer = Label_Transforms(vocabulary = self.vocabulary,
                                           labels_transform_name = self.labels_transform,
                                           max_label_length = int(self.max_label_length))
@@ -163,15 +120,6 @@ class Data_Module(pl.LightningDataModule):
 
 
 
-    def setup(self, stage = None):
-
-        if stage == "fit" or stage is None:
-            data_trainval = Base_Dataset(data_module = self)
-            self.data_train, self.data_val = split_dataset(base_dataset = data_trainval, fraction = self.train_val_fraction)
-            print('Train/Val Data is ready for Model loading.')
-
-        if stage == 'test':
-            self.data_test = [0]
 
 
 
@@ -186,9 +134,9 @@ class Data_Module(pl.LightningDataModule):
         return DataLoader(
             self.data_train,
             shuffle=True,
-            batch_size=self.batch_size,
-            num_workers=self.num_workers,
-            pin_memory=self.on_gpu,
+            batch_size=self.cfg.batch_size,
+            num_workers=self.cfg.num_workers,
+            pin_memory=self.cfg.on_gpu,
             #multiprocessing_context="spawn"
             #multiprocessing_context="fork",
             collate_fn=self.collate_function,
@@ -210,7 +158,7 @@ class Data_Module(pl.LightningDataModule):
             #multiprocessing_context="spawn"
             #multiprocessing_context="fork",
             collate_fn=self.collate_function,
-            multiprocessing_context='fork' if torch.backends.mps.is_available() else None,
+            #multiprocessing_context='fork' if torch.backends.mps.is_available() else None,
         )
 
     def test_dataloader(self, *args, **kwargs):
