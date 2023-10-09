@@ -208,7 +208,8 @@ class Data_Module(pl.LightningDataModule):
             pin_memory=self.on_gpu,
             #multiprocessing_context="spawn"
             #multiprocessing_context="fork",
-            collate_fn=self.collate_function
+            collate_fn=self.collate_function,
+            #multiprocessing_context='fork' if torch.backends.mps.is_available() else None,
         )
 
     def test_dataloader(self, *args, **kwargs):
