@@ -90,10 +90,10 @@ class Tex_Dataset(Dataset):
         os.chdir(PrintedLatexDataConfig.DATA_BANK_DIRNAME)  # "Data/Data_Bank"
 
 
-        image = Image.open('generated_png_images/' + image_filename).convert('RGB')
+        #image = Image.open('generated_png_images/' + image_filename).convert('RGB')
 
-        image = np.asarray(image)
-        image = cv2.bitwise_not(image)
+        #image = np.asarray(image)
+        #image = cv2.bitwise_not(image)
         #h, w, c = image.shape
         #ratio = int(w / h)
         #if ratio == 0:
@@ -105,6 +105,9 @@ class Tex_Dataset(Dataset):
         #new_w = int(new_h * ratio)
         #image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
 
+        image = cv2.imread('generated_png_images/' + image_filename)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = cv2.bitwise_not(image)
         if  self.stage == 'val':
             image = self.image_transform_val(image=np.array(image))['image']  # [:1]
             formula = self.labels_transform_function(formula)

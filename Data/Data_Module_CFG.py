@@ -83,10 +83,11 @@ class Data_Module_CFG(pl.LightningDataModule):
 
 
         if self.cfg.stage == "train" or self.cfg.stage is None:
+            split_a_size = int(self.cfg.train_val_fraction * len(self.df))
+            split_b_size = len(self.df) - split_a_size
 
 
-            self.train_indices, self.val_indices = torch.utils.data.random_split(self.df,
-                                                                                 [self.cfg.train_val_fraction, 1-self.cfg.train_val_fraction])
+            self.train_indices, self.val_indices = torch.utils.data.random_split(self.df, [split_a_size, split_b_size])
 
 
             #print(self.val_indices)
