@@ -85,6 +85,7 @@ class Data_Module_CFG(pl.LightningDataModule):
         if self.cfg.stage == "train" or self.cfg.stage is None:
             split_a_size = int(self.cfg.train_val_fraction * len(self.df))
             split_b_size = len(self.df) - split_a_size
+            #print(split_a_size, split_b_size)
 
 
             self.train_indices, self.val_indices = torch.utils.data.random_split(self.df, [split_a_size, split_b_size])
@@ -96,7 +97,7 @@ class Data_Module_CFG(pl.LightningDataModule):
 
             self.data_val = Tex_Dataset(data_module=self ,remove_indices=self.train_indices.indices, stage='val',
                                           image_transform_train=None, image_transform_val=self.val_transform)
-
+            #print(self.data_val.dataframe)
 
             print('Train/Val Data is ready for Model loading.')
 
