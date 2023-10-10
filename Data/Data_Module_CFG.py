@@ -84,13 +84,17 @@ class Data_Module_CFG(pl.LightningDataModule):
 
         if self.cfg.stage == "train" or self.cfg.stage is None:
 
-            data_trainval = Tex_Dataset(data_module=self, stage='train', image_transforms=self.train_transform)
 
-            self.data_train_pre, self.data_val_pre = split_dataset(base_dataset=data_trainval,
-                                                           fraction=self.cfg.train_val_fraction)
+            self.train_indices, self.val_indices = torch.utils.data.random_split(self.df,
+                                                                                 [self.cfg.train_val_fraction, 1-self.cfg.train_val_fraction])
 
-            self.data_train = Tex_Dataset(data_module=self, stage='train', image_transforms=self.train_transform)
-            self.data_val = Tex_Dataset(data_module=self, stage='val', image_transforms=self.val_transform)
+
+            #print(self.val_indices)
+            self.data_train = Tex_Dataset(data_module=self ,remove_indices=self.val_indices.indices, stage='train',
+                                          image_transform_train=self.train_transform, image_transform_val=None)
+
+            self.data_val = Tex_Dataset(data_module=self ,remove_indices=self.train_indices.indices, stage='val',
+                                          image_transform_train=None, image_transform_val=self.val_transform)
 
 
             print('Train/Val Data is ready for Model loading.')
@@ -148,7 +152,7 @@ class Data_Module_CFG(pl.LightningDataModule):
             pin_memory=self.cfg.on_gpu,
             #multiprocessing_context="spawn"
             #multiprocessing_context="fork",
-            collate_fn=self.collate_function,
+            #collate_fn=self.collate_function,
         )
 
     def val_dataloader(self, *args, **kwargs):
@@ -166,7 +170,7 @@ class Data_Module_CFG(pl.LightningDataModule):
             pin_memory=self.cfg.on_gpu,
             #multiprocessing_context="spawn",
             #multiprocessing_context="fork",
-            collate_fn=self.collate_function,
+            #collate_fn=self.collate_function,
             #multiprocessing_context='fork' if torch.backends.mps.is_available() else None,
         )
 

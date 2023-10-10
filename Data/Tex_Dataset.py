@@ -26,26 +26,42 @@ class Tex_Dataset(Dataset):
     def __init__(self,
                  data_module,
                  stage,
-                 image_transforms = None,
+                 remove_indices =None,
+                 #val_indices = None,
+                 image_transform_train = None,
+                 image_transform_val=None,
                  ):
 
-        self.datamodule = data_module
-        self.cfg = self.datamodule.cfg
+        #self.datamodule = data_module
+        self.cfg = data_module.cfg
         self.tokenizer = data_module.tokenizer
-        self.dataframe = data_module.df
         self.stage = stage
+
+        # funciton to turn strings into labels via a tokenizer
+        self.labels_transform_function = data_module.labels_transform_function
+        self.image_transform_train = image_transform_train
+        self.image_transform_val = image_transform_val
+
+        self.remove_indices = remove_indices
+
+
+
 
 
         # image filenames and corresponding tex formulas
+        self.dataframe = data_module.df.drop(self.remove_indices, errors='ignore')
+
+
+
+
+
         self.image_filenames = self.dataframe['image_name'].tolist()
         self.labels = self.dataframe['latex_tokenized'].tolist()
 
 
 
-        # funciton to turn strings into labels via a tokenizer
-        self.labels_transform_function = data_module.labels_transform_function
 
-        self.image_transforms = image_transforms
+
 
 
 
@@ -57,6 +73,7 @@ class Tex_Dataset(Dataset):
 
 
     def __len__(self):
+
         return len(self.dataframe)
 
     def __getitem__(self, index: int):
@@ -76,7 +93,7 @@ class Tex_Dataset(Dataset):
         image = Image.open('generated_png_images/' + image_filename).convert('RGB')
 
         image = np.asarray(image)
-        #image = cv2.bitwise_not(image)
+        image = cv2.bitwise_not(image)
         #h, w, c = image.shape
         #ratio = int(w / h)
         #if ratio == 0:
@@ -88,19 +105,14 @@ class Tex_Dataset(Dataset):
         #new_w = int(new_h * ratio)
         #image = Resize(interpolation=cv2.INTER_LINEAR, height=new_h, width=new_w, always_apply=True)(image=image)['image']
 
-        if  self.stage == 'train':
-
-            image = self.image_transforms(image=np.array(image))['image']#[:1]
-
+        if  self.stage == 'val':
+            image = self.image_transform_val(image=np.array(image))['image']  # [:1]
             formula = self.labels_transform_function(formula)
 
-        elif self.stage == 'val':
-            image = self.image_transforms(image=np.array(image))['image']#[:1]
+        if self.stage == 'train':
+            image = self.image_transform_train(image=np.array(image))['image']  # [:1]
             formula = self.labels_transform_function(formula)
 
-        elif self.stage == 'test':
-            image = self.image_transforms(image=np.array(image))['image']  # [:1]
-            formula = self.labels_transform_function(formula)
 
         # try PADDING on the right?
         #image = F.pad(image, (0, MAX_WIDTH - new_w, 0, MAX_HEIGHT - new_h), value=1)

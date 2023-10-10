@@ -16,7 +16,7 @@ class PositionalEncoding2D(nn.Module):
     # original  max_h: int = 2000, max_w: int = 2000
     # int = 96, max_w: int = 2400
     # inverted int = 256, max_w: int = 1280
-    def __init__(self, d_model: int, max_h: int = 160, max_w: int = 1280) -> None:
+    def __init__(self, d_model: int, max_h: int = 128, max_w: int = 256) -> None:
         super().__init__()
         self.d_model = d_model
         assert d_model % 2 == 0, f"Embedding depth {d_model} is not even"
