@@ -17,8 +17,8 @@ import torch.nn.functional as F
 import albumentations as A
 
 
-MAX_HEIGHT =160
-MAX_WIDTH =1280
+MAX_HEIGHT =180
+MAX_WIDTH =512
 
 
 
@@ -154,7 +154,7 @@ class Data_Module_CFG(pl.LightningDataModule):
             pin_memory=self.cfg.on_gpu,
             #multiprocessing_context="spawn"
             #multiprocessing_context="fork",
-            #collate_fn=self.collate_function,
+            collate_fn=self.collate_function,
         )
 
     def val_dataloader(self, *args, **kwargs):
@@ -172,7 +172,7 @@ class Data_Module_CFG(pl.LightningDataModule):
             pin_memory=self.cfg.on_gpu,
             #multiprocessing_context="spawn",
             #multiprocessing_context="fork",
-            #collate_fn=self.collate_function,
+            collate_fn=self.collate_function,
             #multiprocessing_context='fork' if torch.backends.mps.is_available() else None,
         )
 
