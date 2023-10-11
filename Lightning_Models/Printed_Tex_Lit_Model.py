@@ -17,7 +17,6 @@ class LitResNetTransformer(pl.LightningModule):
     def __init__(
         self,
         model,
-        cfg ,
         WandB = True,
         lr: float = 0.0005,
         weight_decay: float = 0.0005,
@@ -25,16 +24,14 @@ class LitResNetTransformer(pl.LightningModule):
         gamma: float = 0.85,
     ):
         super().__init__()
-        self.save_hyperparameters()
-        self.cfg = cfg
-
-        # WANDB
-        if self.cfg.use_wandb:
-            wandb.init()
 
 
 
-
+        # TODO: implement saving parameters
+        #self.save_hyperparameters()  # save parameters
+        self.WandB =WandB
+        if self.WandB:
+            wandb.init() # initiare wieghts and biases
         self.lr = lr
         self.learning_rate = lr
         self.weight_decay = weight_decay
