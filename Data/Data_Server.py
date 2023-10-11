@@ -20,6 +20,7 @@ class Data_Server:
                  ):
 
         self.data_module = data_module
+        self.cfg = self.data_module.cfg
 
         # Non-tokenized dataframe
         self.raw_dataframe = self.get_statistics()
@@ -28,14 +29,14 @@ class Data_Server:
         self.vocabulary_dataframe, tokenized_dataframe_no_max_label_length = self.run_tokenizer()
 
         # pass the max_label_length
-        self.pretokenized_dataframe = tokenized_dataframe_no_max_label_length[tokenized_dataframe_no_max_label_length['tokenized_len'] < self.data_module.set_max_label_length]
-        self.tokenized_dataframe = self.pretokenized_dataframe[0:data_module.number_png_images_to_use_in_dataset]
+        self.pretokenized_dataframe = tokenized_dataframe_no_max_label_length[tokenized_dataframe_no_max_label_length['tokenized_len'] < self.cfg.set_max_label_length].reset_index()
+        self.tokenized_dataframe = self.pretokenized_dataframe[0:self.cfg.number_png_images_to_use_in_dataset]
 
         # pass the max width:
-        self.tokenized_dataframe = self.tokenized_dataframe[self.tokenized_dataframe['width'] <= self.data_module.max_width]
+        self.tokenized_dataframe = self.tokenized_dataframe[self.tokenized_dataframe['width'] <= self.cfg.max_width].reset_index()
         #self.tokenized_dataframe = self.tokenized_dataframe[(self.tokenized_dataframe['width'] >0 ) & (self.tokenized_dataframe['height'] >0 )]
 
-        self.max_label_length =  data_module.set_max_label_length + 2 # accounting for the Start and End Tokens
+        self.max_label_length =  self.cfg.set_max_label_length + 2 # accounting for the Start and End Tokens
         self.vocabulary = create_vocabulary_dictionary_from_dataframe(self.vocabulary_dataframe)
 
         self.inverse_vocabulary = invert_vocabulary(self.vocabulary)
