@@ -35,6 +35,7 @@ Resnet18 encoder with the first three layers and Transformer Decoder.
 class ResNetTransformer(nn.Module):
     def __init__(
         self,
+        cfg,
         dataset = None,
         max_label_length = None,
         num_classes = None,
