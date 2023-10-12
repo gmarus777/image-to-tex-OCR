@@ -17,8 +17,8 @@ import torch.nn.functional as F
 import albumentations as A
 
 
-MAX_HEIGHT =180
-MAX_WIDTH =512
+MAX_HEIGHT =128
+MAX_WIDTH =1024
 
 
 

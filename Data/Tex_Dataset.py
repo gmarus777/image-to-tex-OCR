@@ -16,7 +16,7 @@ import albumentations
 from albumentations.augmentations.geometric.resize import Resize
 
 MAX_RATIO = 8
-GOAL_HEIGHT =160
+GOAL_HEIGHT =128
 
 
 
@@ -108,6 +108,13 @@ class Tex_Dataset(Dataset):
         image = cv2.imread('generated_png_images/' + image_filename)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = cv2.bitwise_not(image)
+
+        # Adjusting Images to proper height
+        #h, w, c = image.shape
+
+
+
+
         if  self.stage == 'val':
             image = self.image_transform_val(image=np.array(image))['image']  # [:1]
             formula = self.labels_transform_function(formula)
