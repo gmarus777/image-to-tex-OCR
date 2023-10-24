@@ -24,6 +24,7 @@ class LitResNetTransformer(pl.LightningModule):
         gamma: float = 0.85,
     ):
         super().__init__()
+        self.save_hyperparameters()
 
 
 

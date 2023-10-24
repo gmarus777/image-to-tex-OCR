@@ -36,7 +36,7 @@ class Data_Server:
         self.tokenized_dataframe = self.tokenized_dataframe[self.tokenized_dataframe['width'] <= self.cfg.max_width].reset_index()
         #self.tokenized_dataframe = self.tokenized_dataframe[(self.tokenized_dataframe['width'] >0 ) & (self.tokenized_dataframe['height'] >0 )]
 
-        self.max_label_length =  self.cfg.set_max_label_length + 2 # accounting for the Start and End Tokens
+        #self.max_label_length =  self.cfg.set_max_label_length + 2 # accounting for the Start and End Tokens
         self.vocabulary = create_vocabulary_dictionary_from_dataframe(self.vocabulary_dataframe)
 
         self.inverse_vocabulary = invert_vocabulary(self.vocabulary)

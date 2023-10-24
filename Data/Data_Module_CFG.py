@@ -51,9 +51,7 @@ class Data_Module_CFG(pl.LightningDataModule):
         self.val_transform = self.get_transforms('val')
         self.test_transform = self.get_transforms('test')
 
-
-
-
+        self.max_label_length = int(self.cfg.set_max_label_length) + int(2)
 
         if  self.cfg.load_vocabulary == True:
             self.load_tokenizer()
@@ -73,7 +71,7 @@ class Data_Module_CFG(pl.LightningDataModule):
         self.df = self.data_server.tokenized_dataframe
         # self.vocabulary = self.data_server.vocabulary
         # self.inverse_vocabulary = self.data_server.inverse_vocabulary
-        self.max_label_length = self.data_server.max_label_length
+        #self.max_label_length = self.data_server.max_label_length
         # self.vocab_size = len(self.vocabulary)
         # self.tokenizer = Label_Transforms(vocabulary=self.vocabulary,labels_transform_name=self.labels_transform, max_label_length=self.max_label_length)
 
@@ -123,7 +121,7 @@ class Data_Module_CFG(pl.LightningDataModule):
         self.vocabulary = load_dic(self.cfg.vocabulary_path)
         self.vocab_size = len(self.vocabulary)
         self.inverse_vocabulary = invert_vocabulary(self.vocabulary)
-        self.max_label_length = int(self.cfg.set_max_label_length) + int(2)
+        #self.max_label_length = int(self.cfg.set_max_label_length) + int(2)
         self.tokenizer = Label_Transforms(vocabulary = self.vocabulary,
                                           labels_transform_name = self.cfg.labels_transform,
                                           max_label_length = int(self.max_label_length))
